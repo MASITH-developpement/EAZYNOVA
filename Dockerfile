@@ -5,7 +5,7 @@ USER root
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN sudo apt-get update && \
-    sudo apt-get install -y python3-pip python3-dev build-essential curl git wget && \
+    sudo apt-get install -y python3-pip python3-dev curl git wget && \
     rm -rf /var/lib/apt/lists/*
 
 # === HEALTHCHECK (pour Railway) ===
