@@ -4,8 +4,8 @@ USER root
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && \
-    apt-get install -y python3-pip python3-dev build-essential libpq-dev curl git wget && \
+RUN sudo apt-get update && \
+    sudo apt-get install -y python3-pip python3-dev build-essential libpq-dev curl git wget && \
     rm -rf /var/lib/apt/lists/*
 
 # === HEALTHCHECK (pour Railway) ===
