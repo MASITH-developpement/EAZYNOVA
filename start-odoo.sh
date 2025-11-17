@@ -1,6 +1,9 @@
 #!/bin/bash
 # Script de démarrage Odoo avec affichage de l'IP publique et choix du nom de base
 
+# Attendre que PostgreSQL soit prêt
+echo "Attente de 20 secondes pour le démarrage de PostgreSQL..."
+sleep 20
 
 IP=$(curl -s ifconfig.me)
 echo "Accédez à Odoo sur : http://$IP:8069"
