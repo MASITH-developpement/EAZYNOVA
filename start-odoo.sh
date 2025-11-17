@@ -1,3 +1,5 @@
+# Remplacement dynamique du host dans la config Odoo
+sed -i "s|db_host = .*|db_host = ${RAILWAY_PRIVATE_DOMAIN}|" /etc/odoo/odoo.conf
 #!/bin/bash
 # Script de démarrage Odoo avec affichage de l'IP publique et choix du nom de base
 
