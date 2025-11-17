@@ -33,7 +33,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8069/web/health || exit 1
 
 # Exposer le port Railway
-EXPOSE 8069
+EXPOSE 80
 
 
 # Message d'information à l'ouverture du conteneur
