@@ -5,10 +5,10 @@ USER root
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y libpq5=16.10-0ubuntu0.24.04.1 && \
+    apt-get install -y --allow-downgrades libpq5=16.10-0ubuntu0.24.04.1 && \
     apt-get install -y python3-pip python3-dev build-essential libpq-dev curl git wget && \
     rm -rf /var/lib/apt/lists/*
-
+    
 # === HEALTHCHECK (pour Railway) ===
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:${PORT:-8069}/web/health || exit 1
