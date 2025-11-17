@@ -11,26 +11,38 @@ RUN apt-get update && \
 
 
 
+
+RUN apt-get update && \
+    apt-get install -y python3-lxml python3-ldap postgresql && \
+    pip3 install lxml-html-clean
+
 # Installation de wheel
 RUN pip3 install wheel
 
-# Ajout du dépôt Odoo 19.0 nightly et installation
-RUN wget -q -O - https://nightly.odoo.com/odoo.key | gpg --dearmor -o /usr/share/keyrings/odoo-archive-keyring.gpg \
-    && echo 'deb [signed-by=/usr/share/keyrings/odoo-archive-keyring.gpg] https://nightly.odoo.com/19.0/nightly/deb/ ./' > /etc/apt/sources.list.d/odoo.list \
-    && apt-get update \
-    && apt-get install -y odoo \
-    && rm -rf /var/lib/apt/lists/*
+RUN git clone --depth 1 --branch 19.0 https://github.com/odoo/odoo.git /opt/odoo \
+    && pip3 install -e /opt/odoo \
+    && pip3 install gevent zope.interface zope.event
 
 # Création d'un fichier de configuration minimal
 RUN mkdir -p /etc/odoo
 COPY odoo.conf /etc/odoo/odoo.conf
+RUN sed -i "s/__import__('pkg_resources').require('odoo==19.0')/# __import__('pkg_resources').require('odoo==19.0')/" /usr/local/bin/odoo
 
 # HEALTHCHECK Railway
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:${PORT:-8069}/web/health || exit 1
+    CMD curl -f http://localhost:8069/web/health || exit 1
 
 # Exposer le port Railway
 EXPOSE 8069
 
+
+# Message d'information à l'ouverture du conteneur
+RUN echo "Pour accéder à Odoo, ouvrez : http://<IP_PUBLIQUE>:8069 dans votre navigateur."
+
+
+# Copie et permission du script de démarrage
+COPY start-odoo.sh /start-odoo.sh
+RUN chmod +x /start-odoo.sh
+
 # Point d'entrée
-CMD ["odoo", "--config=/etc/odoo/odoo.conf"]
+CMD ["/start-odoo.sh"]
