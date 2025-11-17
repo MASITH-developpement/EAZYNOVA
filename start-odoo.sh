@@ -31,17 +31,19 @@ echo "Base de données: $DB_NAME"
 echo "URL publique: https://eazynova.up.railway.app"
 echo "=========================================="
 
-# Lancer Odoo avec paramètres en ligne de commande (pas de fichier config)
+# Lancer Odoo avec paramètres en ligne de commande
 exec /usr/local/bin/odoo \
   --db_host=${PGHOST} \
   --db_port=${PGPORT} \
   --db_user=${PGUSER} \
   --db_password=${PGPASSWORD} \
   --database=${DB_NAME} \
+  --http-interface=0.0.0.0 \
   --http-port=${PORT:-8069} \
   --workers=2 \
   --max-cron-threads=1 \
   --proxy-mode \
+  --no-database-list \
   --addons-path=/opt/odoo/odoo/addons,/opt/odoo/addons \
   --data-dir=/var/lib/odoo \
   --log-level=info \
