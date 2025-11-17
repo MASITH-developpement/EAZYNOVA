@@ -1,9 +1,14 @@
 #!/bin/bash
 # Script de démarrage Odoo avec affichage de l'IP publique et choix du nom de base
 
+
 # Attendre que PostgreSQL soit prêt
-echo "Attente de 20 secondes pour le démarrage de PostgreSQL..."
-sleep 20
+echo "Attente de PostgreSQL..."
+for i in {1..30}; do
+	nc -z eazynova.railway.internal 5432 && break
+	echo "PostgreSQL non prêt, tentative $i/30..."
+	sleep 2
+done
 
 IP=$(curl -s ifconfig.me)
 echo "Accédez à Odoo sur : http://$IP:8069"
