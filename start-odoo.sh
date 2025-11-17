@@ -1,32 +1,48 @@
-
 #!/bin/bash
-# Script de démarrage Odoo avec affichage de l'IP publique et choix du nom de base
+set -e
 
-# Vérification et log de la variable DB_HOST
-echo "DB_HOST = $DB_HOST"
-if [ -z "$DB_HOST" ]; then
-  echo "ERREUR : DB_HOST n'est pas défini !"
-  exit 1
-fi
-# Remplacement dynamique du host dans la config Odoo
-sed -i "s|db_host = .*|db_host = $DB_HOST|" /etc/odoo/odoo.conf
+# Affichage des informations de connexion
+echo "=========================================="
+echo "Démarrage Odoo 19 - EAZYNOVA"
+echo "=========================================="
+echo "PostgreSQL Host: ${PGHOST}"
+echo "PostgreSQL Port: ${PGPORT}"
+echo "PostgreSQL User: ${PGUSER}"
+echo "PostgreSQL Database: ${PGDATABASE}"
+echo "HTTP Port: ${PORT:-8069}"
+echo "=========================================="
 
-# Attendre que PostgreSQL soit prêt
-echo "Attente de PostgreSQL..."
+# Attendre que PostgreSQL soit prêt (avec timeout)
+echo "Vérification de PostgreSQL..."
 for i in {1..30}; do
-  nc -z $DB_HOST 5432 && break
+  if timeout 2 bash -c "echo > /dev/tcp/${PGHOST}/${PGPORT}" 2>/dev/null; then
+    echo "✓ PostgreSQL est prêt !"
+    break
+  fi
   echo "PostgreSQL non prêt, tentative $i/30..."
   sleep 2
 done
 
-IP=$(curl -s ifconfig.me)
-echo "Accédez à Odoo sur : http://$IP:80"
+# Nom de la base de données
+DB_NAME=${ODOO_DB_NAME:-railway}
+echo "Base de données: $DB_NAME"
 
-# Affiche la valeur réelle de la variable d'environnement
-echo "ODOO_DB_NAME = $ODOO_DB_NAME"
+# URL publique
+echo "URL publique: https://eazynova.up.railway.app"
+echo "=========================================="
 
-# Nom de la base de données (par défaut 'odoo', peut être surchargé par ODOO_DB_NAME)
-DB_NAME=${ODOO_DB_NAME:-odoo}
-echo "Nom de la base utilisée : $DB_NAME"
-
-exec odoo --config=/etc/odoo/odoo.conf -d "$DB_NAME" -i base
+# Lancer Odoo avec paramètres en ligne de commande (pas de fichier config)
+exec /usr/local/bin/odoo \
+  --db_host=${PGHOST} \
+  --db_port=${PGPORT} \
+  --db_user=${PGUSER} \
+  --db_password=${PGPASSWORD} \
+  --database=${DB_NAME} \
+  --http-port=${PORT:-8069} \
+  --workers=2 \
+  --max-cron-threads=1 \
+  --proxy-mode \
+  --addons-path=/opt/odoo/odoo/addons,/opt/odoo/addons \
+  --data-dir=/var/lib/odoo \
+  --log-level=info \
+  --without-demo=all
