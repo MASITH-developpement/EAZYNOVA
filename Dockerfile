@@ -48,8 +48,11 @@ print("✅ Patch Odoo appliqué avec succès")
 EOF
 
 # Créer dossier config et copier fichier minimal
-RUN mkdir -p /etc/odoo
-COPY odoo.conf /etc/odoo/odoo.conf
+#RUN mkdir -p /etc/odoo
+#COPY odoo.conf /etc/odoo/odoo.conf
+
+# Créer dossier pour les données Odoo
+RUN mkdir -p /var/lib/odoo
 
 # HEALTHCHECK Railway
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
