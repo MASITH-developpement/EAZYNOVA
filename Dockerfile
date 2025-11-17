@@ -24,6 +24,10 @@ RUN git clone --depth 1 --branch 19.0 https://github.com/odoo/odoo.git /opt/odoo
 # Fix du script odoo
 RUN sed -i "s/__import__('pkg_resources').require('odoo==19.0')/# __import__('pkg_resources').require('odoo==19.0')/" /usr/local/bin/odoo
 
+# Créer dossier config et copier fichier minimal
+RUN mkdir -p /etc/odoo
+COPY odoo.conf /etc/odoo/odoo.conf
+
 # HEALTHCHECK Railway
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
     CMD curl -f http://localhost:${PORT:-8069}/web/health || exit 1
