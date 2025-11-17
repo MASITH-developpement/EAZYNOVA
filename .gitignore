@@ -1,0 +1,43 @@
+# === ODOO ===
+*.pyc
+*.pyo
+__pycache__/
+*.log
+*.pot
+filestore/
+sessions/
+.odoo_history
+
+# === DOCKER ===
+**/postgres-data/
+**/odoo-data/
+**/pgadmin-data/
+
+# === ENVIRONNEMENT ===
+.env
+.env.local
+*.env.backup
+
+# Local uniquement
+odoo.conf
+docker-compose.override.yml
+
+# NE PAS IGNORER
+!odoo.conf.production
+!railway.toml
+
+# === MACOS ===
+.DS_Store
+.AppleDouble
+._*
+
+# === IDE ===
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# === DIVERS ===
+*.backup
+*.dump
+tmp/
+temp/

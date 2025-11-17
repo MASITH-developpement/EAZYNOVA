@@ -1,0 +1,18 @@
+# ==========================================
+# Configuration Railway pour Odoo 19 SaaS
+# ==========================================
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "odoo --config=/etc/odoo/odoo.conf"
+healthcheckPath = "/web/health"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+# === VARIABLES DE BUILD ===
+[build.env]
+PYTHONUNBUFFERED = "1"

@@ -1,0 +1,88 @@
+version: "3.8"
+
+services:
+    # Base de données PostgreSQL
+    db:
+        image: postgres:15-alpine
+        container_name: odoo_saas_db
+        restart: always
+        environment:
+            POSTGRES_DB: postgres
+            POSTGRES_USER: odoo
+            POSTGRES_PASSWORD: odoo_password_2024
+            PGDATA: /var/lib/postgresql/data/pgdata
+        volumes:
+            - odoo-db-data:/var/lib/postgresql/data/pgdata
+        ports:
+            - "5432:5432"
+        networks:
+            - odoo-network
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U odoo"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    # Application Odoo 19
+    odoo:
+        image: odoo:19
+        container_name: odoo_saas_app
+        restart: always
+        depends_on:
+            db:
+                condition: service_healthy
+        ports:
+            - "8069:8069"
+            - "8072:8072"
+        environment:
+            - HOST=db
+            - PORT=5432
+            - USER=odoo
+            - PASSWORD=odoo_password_2024
+        volumes:
+            # Votre module personnalisé
+            - ./addons:/mnt/extra-addons
+            # Configuration Odoo
+            - ./odoo.conf:/etc/odoo/odoo.conf
+            # Données Odoo (filestore)
+            - odoo-data:/var/lib/odoo
+        networks:
+            - odoo-network
+        command: odoo --config=/etc/odoo/odoo.conf
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8069/web/health"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+
+    # PgAdmin (Interface pour gérer PostgreSQL)
+    pgadmin:
+        image: dpage/pgadmin4:latest
+        container_name: odoo_saas_pgadmin
+        restart: always
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@odoo.local
+            PGADMIN_DEFAULT_PASSWORD: admin
+            PGADMIN_CONFIG_SERVER_MODE: "False"
+        ports:
+            - "5050:80"
+        volumes:
+            - pgadmin-data:/var/lib/pgadmin
+        networks:
+            - odoo-network
+        depends_on:
+            - db
+
+# Volumes persistants
+volumes:
+    odoo-db-data:
+        driver: local
+    odoo-data:
+        driver: local
+    pgadmin-data:
+        driver: local
+
+# Réseau interne
+networks:
+    odoo-network:
+        driver: bridge

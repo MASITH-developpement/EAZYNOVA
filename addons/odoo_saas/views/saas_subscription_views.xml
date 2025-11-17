@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Vue Liste des Abonnements -->
+  <record id="view_saas_subscription_tree" model="ir.ui.view">
+    <field name="name">saas.subscription.tree</field>
+    <field name="model">saas.subscription</field>
+    <field name="arch" type="xml">
+      <tree string="Abonnements" decoration-success="state=='active'"
+        decoration-muted="state in ('expired', 'cancelled')">
+        <field name="name" />
+        <field name="client_id" />
+        <field name="plan_id" />
+        <field name="duration" />
+        <field name="start_date" />
+        <field name="end_date" />
+        <field name="days_remaining" decoration-danger="days_remaining &lt; 7"
+          decoration-warning="days_remaining &lt; 30" />
+        <field name="price" widget="monetary" />
+        <field name="state" widget="badge" decoration-success="state=='active'"
+          decoration-warning="state=='draft'" decoration-danger="state in ('expired', 'cancelled')" />
+        <field name="auto_renew" widget="boolean_toggle" />
+      </tree>
+    </field>
+  </record>
+  <!-- Vue Formulaire des Abonnements -->
+  <record id="view_saas_subscription_form" model="ir.ui.view">
+    <field name="name">saas.subscription.form</field>
+    <field name="model">saas.subscription</field>
+    <field name="arch" type="xml">
+      <form string="Abonnement">
+        <header>
+          <button name="action_activate" string="Activer" type="object" class="btn-primary"
+            invisible="state == 'active'"
+            confirm="Activer cet abonnement ?" />
+          <button name="action_renew" string="Renouveler" type="object" class="btn-success"
+            invisible="state != 'active'"
+            confirm="Renouveler cet abonnement ?" />
+          <button name="action_cancel" string="Annuler" type="object" class="btn-danger"
+            invisible="state in ('cancelled', 'draft')"
+            confirm="Annuler cet abonnement ?" />
+          <field name="state" widget="statusbar" statusbar_visible="draft,active" />
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1>
+              <field name="name" readonly="1" />
+            </h1>
+          </div>
+          <group>
+            <group string="Client et Plan">
+              <field name="client_id" options="{'no_create': True}" />
+              <field name="plan_id" options="{'no_create': True}" />
+              <field name="duration" />
+            </group>
+            <group string="Période">
+              <field name="start_date" />
+              <field name="end_date" />
+              <field name="days_remaining" decoration-danger="days_remaining &lt; 7" />
+            </group>
+          </group>
+          <group>
+            <group string="Tarification">
+              <field name="price" widget="monetary" />
+            </group>
+            <group string="Options">
+              <field name="auto_renew" />
+            </group>
+          </group>
+          <notebook>
+            <page string="Notes" name="notes">
+              <field name="notes" placeholder="Notes sur l'abonnement..." />
+            </page>
+          </notebook>
+        </sheet>
+        <div class="oe_chatter">
+          <field name="message_follower_ids" />
+          <field name="activity_ids" />
+          <field name="message_ids" />
+        </div>
+      </form>
+    </field>
+  </record>
+  <!-- Vue Calendar des Abonnements -->
+  <record id="view_saas_subscription_calendar" model="ir.ui.view">
+    <field name="name">saas.subscription.calendar</field>
+    <field name="model">saas.subscription</field>
+    <field name="arch" type="xml">
+      <calendar string="Abonnements" date_start="start_date" date_stop="end_date" color="state"
+        mode="month">
+        <field name="name" />
+        <field name="client_id" />
+        <field name="plan_id" />
+      </calendar>
+    </field>
+  </record>
+  <!-- Vue Recherche des Abonnements -->
+  <record id="view_saas_subscription_search" model="ir.ui.view">
+    <field name="name">saas.subscription.search</field>
+    <field name="model">saas.subscription</field>
+    <field name="arch" type="xml">
+      <search string="Rechercher Abonnements">
+        <field name="name" />
+        <field name="client_id" />
+        <field name="plan_id" />
+        <separator />
+        <filter string="Actifs" name="active" domain="[('state', '=', 'active')]" />
+        <filter string="Brouillons" name="draft" domain="[('state', '=', 'draft')]" />
+        <filter string="Expirés" name="expired" domain="[('state', '=', 'expired')]" />
+        <filter string="Expiration Proche" name="expiring_soon"
+          domain="[('days_remaining', '<', 30), ('state', '=', 'active')]" />
+        <separator />
+        <filter string="Renouvellement Auto" name="auto_renew" domain="[('auto_renew', '=', True)]" />
+        <group expand="0" string="Grouper Par">
+          <filter string="Client" name="group_client" context="{'group_by': 'client_id'}" />
+          <filter string="Plan" name="group_plan" context="{'group_by': 'plan_id'}" />
+          <filter string="État" name="group_state" context="{'group_by': 'state'}" />
+          <filter string="Date de début" name="group_start_date"
+            context="{'group_by': 'start_date'}" />
+        </group>
+      </search>
+    </field>
+  </record>
+  <!-- Action pour ouvrir les abonnements -->
+  <record id="action_saas_subscription" model="ir.actions.act_window">
+    <field name="name">Abonnements</field>
+    <field name="res_model">saas.subscription</field>
+    <field name="view_mode">tree,form,calendar</field>
+    <field name="context">{'search_default_active': 1}</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Créer un nouvel abonnement
+      </p>
+      <p>
+        Gérez les abonnements de vos clients SaaS.
+      </p>
+    </field>
+  </record>
+</odoo>

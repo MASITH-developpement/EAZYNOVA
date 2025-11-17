@@ -1,0 +1,63 @@
+# ==========================================
+# Configuration Odoo pour Railway Production
+# ==========================================
+
+# === BASE DE DONNÉES ===
+# Railway fournit DATABASE_URL, les variables sont injectées automatiquement
+db_host = ${DB_HOST}
+db_port = ${DB_PORT}
+db_user = ${DB_USER}
+db_password = ${DB_PASSWORD}
+db_name = False
+db_template = template0
+db_maxconn = 64
+db_filter = .*
+
+# === CHEMINS ===
+addons_path = /mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+data_dir = /var/lib/odoo
+
+# === SERVEUR ===
+http_interface = 0.0.0.0
+http_port = ${PORT}
+longpolling_port = ${PORT}
+
+# === WORKERS (Production) ===
+workers = 2
+max_cron_threads = 2
+
+# === LIMITES MÉMOIRE ===
+limit_memory_hard = 2147483648
+limit_memory_soft = 1717986918
+limit_request = 8192
+limit_time_cpu = 600
+limit_time_real = 1200
+limit_time_real_cron = 3600
+
+# === LOGS ===
+log_level = info
+log_handler = :INFO
+logfile = False
+syslog = False
+
+# === SÉCURITÉ ===
+admin_passwd = ${ODOO_ADMIN_PASSWORD}
+list_db = True
+
+# === PROXY (Railway utilise un proxy) ===
+proxy_mode = True
+
+# === SESSION ===
+session_gc = True
+
+# === PERFORMANCE ===
+osv_memory_age_limit = 1.0
+osv_memory_count_limit = False
+
+# === EMAIL (optionnel, à configurer plus tard) ===
+# email_from = noreply@votredomaine.com
+# smtp_server = smtp.gmail.com
+# smtp_port = 587
+# smtp_user = votre-email@gmail.com
+# smtp_password = votre-mot-de-passe
+# smtp_ssl = False
