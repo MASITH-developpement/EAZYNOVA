@@ -9,9 +9,17 @@ RUN apt-get update && \
     apt-get install -y python3-pip python3-dev build-essential libpq-dev curl git wget && \
     rm -rf /var/lib/apt/lists/*
 
-# Installation de wheel et d'Odoo
+
+
+# Installation de wheel
 RUN pip3 install wheel
-RUN pip3 install odoo==19.0
+
+# Ajout du dépôt Odoo 19.0 nightly et installation
+RUN wget -q -O - https://nightly.odoo.com/odoo.key | gpg --dearmor -o /usr/share/keyrings/odoo-archive-keyring.gpg \
+    && echo 'deb [signed-by=/usr/share/keyrings/odoo-archive-keyring.gpg] https://nightly.odoo.com/19.0/nightly/deb/ ./' > /etc/apt/sources.list.d/odoo.list \
+    && apt-get update \
+    && apt-get install -y odoo \
+    && rm -rf /var/lib/apt/lists/*
 
 # Création d'un fichier de configuration minimal
 RUN mkdir -p /etc/odoo
