@@ -37,7 +37,7 @@ EXPOSE 80
 
 
 # Message d'information à l'ouverture du conteneur
-RUN echo "Pour accéder à Odoo, ouvrez : http://<IP_PUBLIQUE>:8069 dans votre navigateur."
+RUN echo "Pour accéder à Odoo, ouvrez : http://<IP_PUBLIQUE>:80 dans votre navigateur."
 
 
 # Copie et permission du script de démarrage
