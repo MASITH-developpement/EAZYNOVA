@@ -28,9 +28,10 @@ RUN mkdir -p /etc/odoo
 COPY odoo.conf /etc/odoo/odoo.conf
 RUN sed -i "s/__import__('pkg_resources').require('odoo==19.0')/# __import__('pkg_resources').require('odoo==19.0')/" /usr/local/bin/odoo
 
-# HEALTHCHECK Railway
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8069/web/health || exit 1
+
+# HEALTHCHECK Railway (sur /web/login, délai augmenté)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
+    CMD curl -f http://localhost:80/web/login || exit 1
 
 # Exposer le port Railway
 EXPOSE 80
