@@ -9,9 +9,6 @@ RUN apt-get update && \
     apt-get install -y python3-pip python3-dev build-essential libpq-dev curl git wget && \
     rm -rf /var/lib/apt/lists/*
 
-
-
-
 RUN apt-get update && \
     apt-get install -y python3-lxml python3-ldap postgresql && \
     pip3 install lxml-html-clean
@@ -19,27 +16,20 @@ RUN apt-get update && \
 # Installation de wheel
 RUN pip3 install wheel
 
+# Clonage et installation d'Odoo 19
 RUN git clone --depth 1 --branch 19.0 https://github.com/odoo/odoo.git /opt/odoo \
     && pip3 install -e /opt/odoo \
     && pip3 install gevent zope.interface zope.event
 
-# Création d'un fichier de configuration minimal
-RUN mkdir -p /etc/odoo
-COPY odoo.conf /etc/odoo/odoo.conf
+# Fix du script odoo
 RUN sed -i "s/__import__('pkg_resources').require('odoo==19.0')/# __import__('pkg_resources').require('odoo==19.0')/" /usr/local/bin/odoo
 
-
-# HEALTHCHECK Railway (sur /web/login, délai augmenté)
+# HEALTHCHECK Railway
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
-    CMD curl -f http://localhost:80/web/login || exit 1
+    CMD curl -f http://localhost:${PORT:-8069}/web/health || exit 1
 
-# Exposer le port Railway
-EXPOSE 80
-
-
-# Message d'information à l'ouverture du conteneur
-RUN echo "Pour accéder à Odoo, ouvrez : http://<IP_PUBLIQUE>:80 dans votre navigateur."
-
+# Exposer le port (dynamique Railway)
+EXPOSE ${PORT:-8069}
 
 # Copie et permission du script de démarrage
 COPY start-odoo.sh /start-odoo.sh
