@@ -1,3 +1,9 @@
+# Vérification et log de la variable Railway
+echo "RAILWAY_PRIVATE_DOMAIN = $RAILWAY_PRIVATE_DOMAIN"
+if [ -z "$RAILWAY_PRIVATE_DOMAIN" ]; then
+	echo "ERREUR : RAILWAY_PRIVATE_DOMAIN n'est pas défini !"
+	exit 1
+fi
 # Remplacement dynamique du host dans la config Odoo
 sed -i "s|db_host = .*|db_host = ${RAILWAY_PRIVATE_DOMAIN}|" /etc/odoo/odoo.conf
 #!/bin/bash
