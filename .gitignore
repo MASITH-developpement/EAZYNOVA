@@ -19,10 +19,10 @@ sessions/
 *.env.backup
 
 # Local uniquement
-odoo.conf
 docker-compose.override.yml
 
 # NE PAS IGNORER
+!odoo.conf
 !odoo.conf.production
 !railway.toml
 
