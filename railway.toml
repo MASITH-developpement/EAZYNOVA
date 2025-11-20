@@ -7,7 +7,7 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "odoo --config=/etc/odoo/odoo.conf"
+startCommand = "python3 /opt/init_odoo_user.py && /start-odoo.sh"
 healthcheckPath = "/web/health"
 healthcheckTimeout = 100
 restartPolicyType = "ON_FAILURE"
