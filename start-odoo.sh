@@ -23,6 +23,10 @@ for i in {1..30}; do
   sleep 2
 done
 
+# Nettoyer les assets orphelins
+echo "Nettoyage des assets..."
+python3 /opt/clean_assets.py
+
 # Nom de la base de données
 DB_NAME=${ODOO_DB_NAME:-railway}
 echo "Base de données: $DB_NAME"
@@ -46,5 +50,5 @@ exec /usr/local/bin/odoo \
   --no-database-list \
   --addons-path=/opt/odoo/odoo/addons,/opt/odoo/addons,/opt/odoo/custom_addons \
   --data-dir=/var/lib/odoo \
-  --log-level=info
-   --dev=all
+  --log-level=info \
+  --dev=all
