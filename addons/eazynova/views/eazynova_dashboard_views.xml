@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue Kanban du tableau de bord -->
+        <record id="view_eazynova_dashboard_kanban" model="ir.ui.view">
+            <field name="name">eazynova.dashboard.kanban</field>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <kanban class="o_eazynova_dashboard" create="false" edit="false">
+                    <field name="name"/>
+                    <field name="eazynova_code"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_eazynova_dashboard_card">
+                                
+                                <!-- En-tête -->
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <h3><field name="name"/></h3>
+                                        <span class="badge badge-info">
+                                            <field name="eazynova_code"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Statistiques principales -->
+                                <div class="container o_kanban_card_content mt16">
+                                    <div class="row">
+                                        
+
+                                        
+                                        <!-- Factures -->
+                                        <div class="col-6 o_kanban_primary_right">
+                                            <button class="btn btn-success" type="object" 
+                                                    name="action_view_factures"
+                                                    groups="eazynova_facture.group_eazynova_facture_user">
+                                                <span class="o_stat_value">
+                                                    <field name="total_factures"/>
+                                                </span>
+                                                <span class="o_stat_text">Factures</span>
+                                            </button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                                <!-- Actions rapides -->
+                                <div class="container o_kanban_card_manage_pane mt16">
+                                    <div class="row">
+                                        <div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                            <h5 role="menuitem" class="o_kanban_card_manage_title">
+                                                <span>Actions Rapides</span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <a role="menuitem" type="object" 
+                                               name="action_open_ai_assistant">
+                                                🤖 Assistant IA
+                                            </a>
+                                        </div>
+                                        <div class="col-12">
+                                                <a role="menuitem" type="action" 
+                                                   name="EAZYNOVA.action_eazynova_settings"
+                                                   groups="group_eazynova_admin">
+                                                ⚙️ Paramètres
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+        <!-- Action du tableau de bord -->
+        <record id="action_eazynova_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableau de Bord EAZYNOVA</field>
+            <field name="res_model">res.company</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="view_id" ref="view_eazynova_dashboard_kanban"/>
+            <field name="domain">[('id', '=', company_id)]</field>
+            <field name="context">{'create': False, 'delete': False}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Bienvenue sur EAZYNOVA !
+                </p>
+                <p>
+                    Votre tableau de bord centralisé pour la gestion d'entreprise.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

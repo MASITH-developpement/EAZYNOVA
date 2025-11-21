@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Formulaire wizard OCR -->
+        <record id="view_document_ocr_wizard_form" model="ir.ui.view">
+            <field name="name">eazynova.document.ocr.wizard.form</field>
+            <field name="model">eazynova.document.ocr.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Assistant OCR">
+                    
+                    <field name="state" invisible="1"/>
+                    
+                    <sheet>
+                        
+                        <!-- En-tête -->
+                        <div class="oe_title">
+                            <h1>
+                                <i class="fa fa-file-text-o"/> Reconnaissance de caractères (OCR)
+                            </h1>
+                        </div>
+                        
+                        <!-- État: Upload -->
+                        <group attrs="{'invisible': [('state', '!=', 'upload')]}">
+                            
+                            <group colspan="2">
+                                <div class="alert alert-info" role="alert">
+                                    <i class="fa fa-info-circle"/> 
+                                    Uploadez un document (image ou PDF) pour extraire automatiquement 
+                                    le texte et les données structurées.
+                                </div>
+                            </group>
+                            
+                            <group string="Document">
+                                <field name="document" 
+                                       widget="binary" 
+                                       filename="document_filename"
+                                       nolabel="1"/>
+                                <field name="document_filename" invisible="1"/>
+                            </group>
+                            
+                            <group string="Configuration">
+                                <field name="document_type"/>
+                                <field name="language"/>
+                                <field name="auto_create_record" 
+                                       attrs="{'invisible': [('document_type', '=', 'generic')]}"/>
+                            </group>
+                            
+                            <group colspan="2" attrs="{'invisible': [('error_message', '=', False)]}">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-exclamation-triangle"/> 
+                                    <field name="error_message" nolabel="1"/>
+                                </div>
+                            </group>
+                            
+                        </group>
+                        
+                        <!-- État: Traitement -->
+                        <group attrs="{'invisible': [('state', '!=', 'processing')]}">
+                            <div class="text-center">
+                                <i class="fa fa-spinner fa-spin fa-3x"/>
+                                <p class="mt16">Traitement OCR en cours...</p>
+                                <p>Cette opération peut prendre quelques secondes.</p>
+                            </div>
+                        </group>
+                        
+                        <!-- État: Terminé -->
+                        <group attrs="{'invisible': [('state', '!=', 'done')]}">
+                            
+                            <group colspan="2">
+                                <div class="alert alert-success" role="alert">
+                                    <i class="fa fa-check-circle"/> 
+                                    Traitement terminé avec un score de confiance de 
+                                    <field name="confidence_score" readonly="1" nolabel="1"/> %
+                                </div>
+                            </group>
+                            
+                            <group string="Texte extrait" colspan="2">
+                                <field name="extracted_text" 
+                                       nolabel="1" 
+                                       widget="text"
+                                       readonly="1"/>
+                            </group>
+                            
+                            <group string="Données structurées" colspan="2"
+                                   attrs="{'invisible': [('extracted_data', '=', False)]}">
+                                <field name="extracted_data" 
+                                       nolabel="1" 
+                                       widget="text"
+                                       readonly="1"/>
+                            </group>
+                            
+                        </group>
+                        
+                    </sheet>
+                    
+                    <footer>
+                        <button string="Traiter" 
+                                name="action_process" 
+                                type="object" 
+                                class="btn-primary"
+                                icon="fa-cogs"
+                                attrs="{'invisible': [('state', '!=', 'upload')]}"/>
+                        <button string="Créer l'enregistrement" 
+                                name="action_create_manual" 
+                                type="object" 
+                                class="btn-primary"
+                                attrs="{'invisible': ['|', ('state', '!=', 'done'), ('document_type', '=', 'generic')]}"/>
+                        <button string="Fermer" 
+                                class="btn-secondary" 
+                                special="cancel"/>
+                    </footer>
+                    
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="action_document_ocr_wizard" model="ir.actions.act_window">
+            <field name="name">OCR Document</field>
+            <field name="res_model">eazynova.document.ocr.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</odoo>

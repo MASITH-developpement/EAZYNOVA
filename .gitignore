@@ -43,3 +43,103 @@ tmp/
 temp/
 
 docker-compose up --build
+# === ODOO ===
+*.pyc
+*.pyo
+__pycache__/
+*.log
+*.pot
+filestore/
+sessions/
+.odoo_history
+
+# === DOCKER ===
+**/postgres-data/
+**/odoo-data/
+**/pgadmin-data/
+
+# === ENVIRONNEMENT ===
+.env
+.env.local
+*.env.backup
+
+# Local uniquement
+docker-compose.override.yml
+
+# NE PAS IGNORER
+!odoo.conf
+!odoo.conf.production
+!railway.toml
+
+# === MACOS ===
+.DS_Store
+.AppleDouble
+._*
+
+# === IDE ===
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# === DIVERS ===
+*.backup
+*.dump
+tmp/
+temp/
+
+# ============================================
+# === EAZYNOVA SPÉCIFIQUE ===
+# ============================================
+
+# Clés API (CRITIQUE - Ne JAMAIS commiter)
+**/api_keys.txt
+**/secrets.py
+**/*_secret*.py
+**/*_private*.py
+
+# Données biométriques (RGPD - Ne JAMAIS commiter)
+**/facial_data/
+**/biometric_cache/
+**/face_encodings/
+
+# Modèles IA téléchargés (trop gros pour Git)
+**/models/ai_models/
+**/models/*.h5
+**/models/*.pkl
+**/models/*.pt
+**/models/*.onnx
+
+# OCR - Fichiers temporaires
+**/ocr_temp/
+**/ocr_cache/
+**/tesseract_temp/
+
+# Documents uploadés pour tests
+**/test_documents/
+**/sample_invoices/
+**/sample_pdfs/
+
+# Traductions compilées
+*.mo
+
+# Tests et coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+coverage.xml
+*.cover
+
+# Sphinx documentation
+docs/_build/
+docs/_static/
+docs/_templates/
+
+# Jupyter Notebooks (si utilisés pour tests IA)
+.ipynb_checkpoints/
+*.ipynb
+
+# Données de développement
+**/dev_data/
+**/fixtures/local_*.json
