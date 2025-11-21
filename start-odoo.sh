@@ -40,7 +40,7 @@ exec /usr/local/bin/odoo \
   --database=${DB_NAME} \
   --http-interface=0.0.0.0 \
   --http-port=${PORT:-8069} \
-  --workers=2 \
+  --workers=0 \
   --max-cron-threads=1 \
   --proxy-mode \
   --no-database-list \
