@@ -47,4 +47,4 @@ exec /usr/local/bin/odoo \
   --addons-path=/opt/odoo/odoo/addons,/opt/odoo/addons \
   --data-dir=/var/lib/odoo \
   --log-level=info \
-  --without-demo=all
+  --init=base
