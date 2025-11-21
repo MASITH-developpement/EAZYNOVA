@@ -66,5 +66,5 @@ COPY start-odoo.sh /start-odoo.sh
 RUN chmod +x /start-odoo.sh
 
 # Point d'entrée
-COPY init_odoo_user.py /opt/init_odoo_user.py
+# COPY init_odoo_user.py /opt/init_odoo_user.py
 CMD ["/start-odoo.sh"]
