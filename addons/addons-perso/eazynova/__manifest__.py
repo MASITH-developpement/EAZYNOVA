@@ -7,14 +7,21 @@
     'description': """
         EAZYNOVA - Module Core
         ======================
-        
+
         Module de base fournissant :
         * Infrastructure commune (IA, OCR, Reconnaissance faciale)
         * Tableau de bord principal
         * Gestion des paramètres globaux
         * Services partagés entre modules
-        * Authentification avancée
-        
+        * Authentification avancée par reconnaissance faciale
+        * Connexion sécurisée via webcam
+
+        Fonctionnalités d'authentification faciale :
+        - Enregistrement de votre visage
+        - Connexion sans mot de passe
+        - Identification automatique par webcam
+        - Score de confiance pour sécurité renforcée
+
         Ce module est requis pour tous les autres modules EAZYNOVA.
     """,
     'author': 'EAZYNOVA',
@@ -47,6 +54,7 @@
         'views/res_company_views.xml',
         'views/res_users_views.xml',
         'views/eazynova_facial_data_views.xml',
+        'views/facial_auth_templates.xml',
         'views/eazynova_menu.xml',
 
         # Wizards
@@ -61,6 +69,10 @@
             'eazynova/static/src/js/facial_recognition.js',
             'eazynova/static/src/xml/dashboard.xml',
             'eazynova/static/src/xml/facial_recognition.xml',
+        ],
+        'web.assets_frontend': [
+            'eazynova/static/src/css/facial_auth.css',
+            'eazynova/static/src/js/facial_auth.js',
         ],
     },
     'images': ['static/description/icon.png'],
