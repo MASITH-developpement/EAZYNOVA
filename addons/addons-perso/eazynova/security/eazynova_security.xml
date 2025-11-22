@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Catégorie de module -->
+    <record id="module_category_eazynova" model="ir.module.category">
+        <field name="name">EAZYNOVA</field>
+        <field name="description">Modules EAZYNOVA - Infrastructure et services</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <!-- Groupe Utilisateur -->
+    <record id="group_eazynova_user" model="res.groups">
+        <field name="name">Utilisateur EAZYNOVA</field>
+        <field name="category_id" ref="module_category_eazynova"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Groupe Manager -->
+    <record id="group_eazynova_manager" model="res.groups">
+        <field name="name">Manager EAZYNOVA</field>
+        <field name="category_id" ref="module_category_eazynova"/>
+        <field name="implied_ids" eval="[(4, ref('group_eazynova_user'))]"/>
+    </record>
+</odoo>
