@@ -1,0 +1,8 @@
+﻿id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_chantier_user,eazynova.chantier.user,model_eazynova_chantier,eazynova.group_eazynova_user,1,0,0,0
+access_chantier_manager,eazynova.chantier.manager,model_eazynova_chantier,eazynova.group_eazynova_manager,1,1,1,0
+access_chantier_admin,eazynova.chantier.admin,model_eazynova_chantier,eazynova.group_eazynova_admin,1,1,1,1
+access_chantier_task_user,eazynova.chantier.task.user,model_eazynova_chantier_task,eazynova.group_eazynova_user,1,1,1,0
+access_chantier_task_manager,eazynova.chantier.task.manager,model_eazynova_chantier_task,eazynova.group_eazynova_manager,1,1,1,1
+access_chantier_document_user,eazynova.chantier.document.user,model_eazynova_chantier_document,eazynova.group_eazynova_user,1,1,1,1
+access_chantier_tag,eazynova.chantier.tag,model_eazynova_chantier_tag,eazynova.group_eazynova_user,1,0,0,0
