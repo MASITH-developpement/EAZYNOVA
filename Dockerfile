@@ -2,6 +2,7 @@ FROM ubuntu:22.04
 
 USER root
 
+# Build date: 2025-11-22 - Force rebuild to include all security files
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Installation des dépendances système
