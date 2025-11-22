@@ -6,7 +6,7 @@
         <menuitem id="menu_eazynova_root"
                   name="EAZYNOVA"
                   sequence="1"
-                  web_icon="eazynova,static/description/icon.png"
+                  web_icon="eazynova_chantier,static/description/icon.png"
                   groups="group_eazynova_user"/>
         
         <!-- Tableau de bord -->
@@ -23,19 +23,20 @@
                   sequence="100"
                   groups="group_eazynova_manager"/>
         
-            <menuitem id="menu_eazynova_settings"
+        <!-- Paramètres - CORRIGÉ -->
+        <menuitem id="menu_eazynova_settings"
                   name="Paramètres"
                   parent="menu_eazynova_configuration"
-                  action="EAZYNOVA.action_eazynova_settings"
+                  action="action_eazynova_settings"
                   sequence="1"
                   groups="group_eazynova_admin"/>
         
-        <!-- Aide IA -->
+        <!-- Assistant IA - CORRIGÉ -->
         <menuitem id="menu_eazynova_ai_assistant"
-              name="Assistant IA"
-              parent="menu_eazynova_root"
-              action="EAZYNOVA.action_eazynova_ai_assistant"
-              sequence="99"/>
+                  name="Assistant IA"
+                  parent="menu_eazynova_root"
+                  action="action_eazynova_ai_assistant"
+                  sequence="99"/>
         
     </data>
 </odoo>

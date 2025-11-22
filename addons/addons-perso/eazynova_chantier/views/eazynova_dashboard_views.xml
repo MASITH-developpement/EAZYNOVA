@@ -27,21 +27,16 @@
                                 <!-- Statistiques principales -->
                                 <div class="container o_kanban_card_content mt16">
                                     <div class="row">
-                                        
-
-                                        
                                         <!-- Factures -->
                                         <div class="col-6 o_kanban_primary_right">
                                             <button class="btn btn-success" type="object" 
-                                                    name="action_view_factures"
-                                                    groups="eazynova_facture.group_eazynova_facture_user">
+                                                    name="action_view_factures">
                                                 <span class="o_stat_value">
                                                     <field name="total_factures"/>
                                                 </span>
                                                 <span class="o_stat_text">Factures</span>
                                             </button>
                                         </div>
-                                        
                                     </div>
                                 </div>
                                 
@@ -62,9 +57,10 @@
                                             </a>
                                         </div>
                                         <div class="col-12">
-                                                <a role="menuitem" type="action" 
-                                                   name="EAZYNOVA.action_eazynova_settings"
-                                                   groups="group_eazynova_admin">
+                                            <!-- CORRIGÉ : utilisation de l'ID relatif -->
+                                            <a role="menuitem" type="action" 
+                                               name="%(action_eazynova_settings)d"
+                                               groups="group_eazynova_admin">
                                                 ⚙️ Paramètres
                                             </a>
                                         </div>

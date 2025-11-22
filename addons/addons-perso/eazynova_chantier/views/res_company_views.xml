@@ -21,7 +21,7 @@
                 <xpath expr="//notebook" position="inside">
                     <page string="Statistiques EAZYNOVA" 
                           name="eazynova_stats"
-                          groups="eazynova.group_eazynova_manager">
+                          groups="group_eazynova_manager">
                         
                         <group>
                             <group string="Activité">
@@ -34,12 +34,13 @@
                             </group>
                             
                             <group string="Configuration">
-                                <button name="%(eazynova.action_eazynova_settings)d" 
+                                <!-- CORRIGÉ : utilisation de l'ID relatif -->
+                                <button name="%(action_eazynova_settings)d" 
                                         string="Paramètres EAZYNOVA"
                                         type="action" 
                                         class="btn-primary"
                                         icon="fa-cog"
-                                        groups="eazynova.group_eazynova_admin"/>
+                                        groups="group_eazynova_admin"/>
                             </group>
                         </group>
                         
