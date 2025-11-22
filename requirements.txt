@@ -3,3 +3,13 @@ qifparse
 numpy
 Pillow
 PyPDF2<3.0.0
+
+# Pour OCR/IA achats
+pytesseract
+pdf2image
+openai
+anthropic
+
+# Pour reconnaissance faciale
+face_recognition
+opencv-python

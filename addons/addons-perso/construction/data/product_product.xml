@@ -33,20 +33,9 @@
     <record id="product_product_8" model="product.product">
         <field name="name">Labor hour with equipment</field>
         <field name="type">service</field>
-        <field name="service_policy">delivered_timesheet</field>
         <field name="uom_id" ref="uom.product_uom_hour"/>
         <field name="list_price">120.0</field>
-        <field name="service_tracking">task_in_project</field>
-        <field name="project_template_id" ref="project_project_3"/>
         <field name="image_1920" type="base64" file="construction/static/src/binary/product_template/8-image_1920"/>
-    </record>
-    <record id="sale_timesheet.time_product" model="product.product" forcecreate="True">
-        <field name="name">Labor hour</field>
-        <field name="list_price">60.0</field>
-        <field name="service_tracking">task_in_project</field>
-        <field name="project_template_id" ref="project_project_3"/>
-        <field name="standard_price">35.0</field>
-        <field name="image_1920" type="base64" file="construction/static/src/binary/product_template/2-image_1920"/>
     </record>
 
     <record id="product_product_54" model="product.product">

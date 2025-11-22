@@ -132,21 +132,21 @@
     <record id="product_template_52" model="product.template" context="{'create_product_product': False}">
         <field name="name">Installation</field>
         <field name="type">service</field>
-        <field name="service_tracking">task_global_project</field>
+        <field name="service_tracking">no</field>
         <field name="list_price">560.0</field>
         <field name="uom_id" ref="uom.product_uom_day"/>
         <field name="purchase_method">purchase</field>
-        <field name="service_type">timesheet</field>
+        <field name="service_type">manual</field>
         <field name="invoice_policy">order</field>
     </record>
     <record id="product_template_33" model="product.template" context="{'create_product_product': False}">
         <field name="name">Installation labor</field>
         <field name="type">service</field>
-        <field name="service_tracking">task_global_project</field>
+        <field name="service_tracking">no</field>
         <field name="list_price">560.0</field>
         <field name="uom_id" ref="uom.product_uom_day"/>
         <field name="purchase_method">purchase</field>
-        <field name="service_type">timesheet</field>
+        <field name="service_type">manual</field>
         <field name="invoice_policy">order</field>
     </record>
     <record id="product_template_36" model="product.template" context="{'create_product_product': False}">
@@ -160,31 +160,31 @@
     <record id="product_template_46" model="product.template" context="{'create_product_product': False}">
         <field name="name">Labor &amp; site management</field>
         <field name="type">service</field>
-        <field name="service_tracking">task_global_project</field>
+        <field name="service_tracking">no</field>
         <field name="list_price">560.0</field>
         <field name="uom_id" ref="uom.product_uom_day"/>
         <field name="purchase_method">purchase</field>
-        <field name="service_type">timesheet</field>
+        <field name="service_type">manual</field>
         <field name="invoice_policy">order</field>
     </record>
     <record id="product_template_41" model="product.template" context="{'create_product_product': False}">
         <field name="name">Labor &amp; supervision</field>
         <field name="type">service</field>
-        <field name="service_tracking">task_global_project</field>
+        <field name="service_tracking">no</field>
         <field name="list_price">450.0</field>
         <field name="uom_id" ref="uom.product_uom_day"/>
         <field name="purchase_method">purchase</field>
-        <field name="service_type">timesheet</field>
+        <field name="service_type">manual</field>
         <field name="invoice_policy">order</field>
     </record>
     <record id="product_template_56" model="product.template" context="{'create_product_product': False}">
         <field name="name">Labour</field>
         <field name="type">service</field>
-        <field name="service_tracking">task_global_project</field>
+        <field name="service_tracking">no</field>
         <field name="list_price">450.0</field>
         <field name="uom_id" ref="uom.product_uom_day"/>
         <field name="purchase_method">purchase</field>
-        <field name="service_type">timesheet</field>
+        <field name="service_type">manual</field>
         <field name="invoice_policy">delivery</field>
     </record>
     <record id="product_template_30" model="product.template" context="{'create_product_product': False}">
@@ -241,22 +241,22 @@
     <record id="product_template_57" model="product.template" context="{'create_product_product': False}">
         <field name="name">Project Management</field>
         <field name="type">service</field>
-        <field name="service_tracking">task_in_project</field>
+        <field name="service_tracking">no</field>
         <field name="list_price">600.0</field>
         <field name="uom_id" ref="uom.product_uom_day"/>
         <field name="purchase_method">purchase</field>
-        <field name="service_type">timesheet</field>
+        <field name="service_type">manual</field>
         <field name="invoice_policy">order</field>
-        <field name="project_template_id" ref="project_project_3"/>
+        <!-- Champ project_template_id supprimé car non supporté en Community -->
     </record>
     <record id="product_template_58" model="product.template" context="{'create_product_product': False}">
         <field name="name">Purchase Management</field>
         <field name="type">service</field>
-        <field name="service_tracking">task_global_project</field>
+        <field name="service_tracking">no</field>
         <field name="list_price">600.0</field>
         <field name="uom_id" ref="uom.product_uom_day"/>
         <field name="purchase_method">purchase</field>
-        <field name="service_type">timesheet</field>
+        <field name="service_type">manual</field>
         <field name="invoice_policy">order</field>
     </record>
     <record id="product_template_15" model="product.template" context="{'create_product_product': False}">

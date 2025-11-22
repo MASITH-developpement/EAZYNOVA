@@ -47,7 +47,7 @@ exec /usr/local/bin/odoo \
   --max-cron-threads=1 \
   --proxy-mode \
   --no-database-list \
-  --addons-path=/opt/odoo/odoo/addons,/opt/odoo/addons,/opt/odoo/custom_addons \
+  --addons-path=/opt/odoo/odoo/addons,/opt/odoo/addons,/opt/odoo/custom_addons,/mnt/extra-addons/addons-perso \
   --data-dir=/var/lib/odoo \
   --log-level=info \
   --dev=all
