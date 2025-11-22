@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Installation des dépendances système
 RUN apt-get update && \
-    apt-get install -y python3-pip python3-dev build-essential libpq-dev curl git wget && \
+    apt-get install -y python3-pip python3-dev build-essential libpq-dev curl git wget cmake && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
