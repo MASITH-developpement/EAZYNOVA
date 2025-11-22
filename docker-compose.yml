@@ -39,6 +39,12 @@ services:
             - DB_USER=odoo
             - DB_PASSWORD=odoo_password_2024
             - DB_NAME=test04
+            - PGHOST=db
+            - PGPORT=5432
+            - PGUSER=odoo
+            - PGPASSWORD=odoo_password_2024
+            - PGDATABASE=test04
+            - PORT=8069
         volumes:
             # Votre module personnalisé
             - ./addons:/mnt/extra-addons

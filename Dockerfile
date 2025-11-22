@@ -14,7 +14,10 @@ RUN apt-get update && \
     pip3 install lxml-html-clean
 
 # Installation de wheel
-RUN pip3 install wheel
+
+# Installation des dépendances Python du projet (reconnaissance faciale, etc.)
+COPY requirements.txt /tmp/requirements.txt
+RUN pip3 install wheel && pip3 install -r /tmp/requirements.txt
 
 # Clonage et installation d'Odoo 19
 RUN git clone --depth 1 --branch 19.0 https://github.com/odoo/odoo.git /opt/odoo \
