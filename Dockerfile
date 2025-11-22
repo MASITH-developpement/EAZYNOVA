@@ -2,6 +2,7 @@ FROM ubuntu:22.04
 
 USER root
 
+# Build date: 2025-11-22 - Force rebuild to include all security files
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Installation des dépendances système
@@ -63,6 +64,10 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
 
 # Exposer le port (dynamique Railway)
 EXPOSE ${PORT:-8069}
+
+# Force rebuild - invalidate cache with build arg
+ARG BUILD_DATE=2025-11-22T22:25:00
+RUN echo "Build date: ${BUILD_DATE}"
 
 # Copie et permission du script de démarrage
 COPY start-odoo.sh /start-odoo.sh
