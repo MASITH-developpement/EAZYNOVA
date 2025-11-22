@@ -11,9 +11,7 @@
         ])]"/>
         <field name="stage_id" ref="project.project_project_stage_0"/>
         <!-- <field name="documents_folder_id" ref="documents_folder_11"/> -->
-        <field name="allow_material" eval="True"/>
-        <field name="allow_quotations" eval="True"/>
-        <field name="allow_task_dependencies" eval="True"/>
+        <!-- Champs Enterprise supprimés : allow_material, allow_quotations, allow_task_dependencies -->
         <field name="user_id" ref="base.user_admin"/>
         <field name="favorite_user_ids" eval="[Command.link(ref('base.user_admin'))]" />
     </record>
@@ -22,36 +20,9 @@
         <field name="action_id" ref="project.act_project_project_2_project_task_all"/>
         <field name="res_model">project.project</field>
         <field name="res_id" ref="project_project_3"/>
-        <field name="embedded_actions_order"
-            eval="','.join([
-                'false',
-                str(ref('hr_timesheet.project_embedded_action_timesheets')),
-                str(ref('project_forecast.project_embedded_action_planning')),
-                str(ref('documents_project.project_embedded_action_documents')),
-                str(ref('sale_project.project_embedded_action_sales_orders')),
-                str(ref('sale_project.project_embedded_action_invoices')),
-                str(ref('project_purchase.project_embedded_action_purchase_orders')),
-                str(ref('sale_project.project_embedded_action_vendor_bills')),
-                str(ref('project_stock.project_embedded_action_from_wh')),
-                str(ref('project_stock.project_embedded_action_to_wh')),
-                str(ref('project.project_embedded_action_project_updates')),
-            ])"
-        />
-        <field name="embedded_actions_visibility"
-            eval="','.join([
-                'false',
-                str(ref('hr_timesheet.project_embedded_action_timesheets')),
-                str(ref('project_forecast.project_embedded_action_planning')),
-                str(ref('documents_project.project_embedded_action_documents')),
-                str(ref('sale_project.project_embedded_action_sales_orders')),
-                str(ref('sale_project.project_embedded_action_invoices')),
-                str(ref('project_purchase.project_embedded_action_purchase_orders')),
-                str(ref('sale_project.project_embedded_action_vendor_bills')),
-                str(ref('project_stock.project_embedded_action_from_wh')),
-                str(ref('project_stock.project_embedded_action_to_wh')),
-                str(ref('project.project_embedded_action_project_updates')),
-            ])"
-        />
+        <!-- embedded_actions_order/visibility simplifiés pour Community : suppression des actions non présentes -->
+        <field name="embedded_actions_order" eval="str(ref('project.project_embedded_action_project_updates'))"/>
+        <field name="embedded_actions_visibility" eval="str(ref('project.project_embedded_action_project_updates'))"/>
         <field name="embedded_visibility">True</field>
     </record>
 </odoo>
