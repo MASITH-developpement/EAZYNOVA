@@ -101,7 +101,7 @@
             <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
             <field name="arch" type="xml">
                 
-                <xpath expr="//sheet/group" position="after">
+                <xpath expr="//sheet" position="inside">
                     <group string="EAZYNOVA" name="eazynova_preferences">
                         <field name="facial_recognition_enabled" 
                                widget="boolean_toggle"
