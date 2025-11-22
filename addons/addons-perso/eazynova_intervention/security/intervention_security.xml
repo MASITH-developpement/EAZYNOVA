@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Catégorie pour les groupes interventions -->
+    <record id="module_category_intervention" model="ir.module.category">
+        <field name="name">Interventions</field>
+        <field name="description">Gestion des droits d'accès pour les interventions</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- Groupe Technicien -->
+    <record id="group_intervention_technicien" model="res.groups">
+        <field name="name">Technicien</field>
+        <field name="category_id" ref="module_category_intervention"/>
+        <field name="comment">Peut voir et modifier ses propres interventions</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Groupe Gestionnaire -->
+    <record id="group_intervention_gestionnaire" model="res.groups">
+        <field name="name">Gestionnaire</field>
+        <field name="category_id" ref="module_category_intervention"/>
+        <field name="comment">Peut créer, modifier et gérer toutes les interventions</field>
+    </record>
+
+    <!-- Groupe Administrateur -->
+    <record id="group_intervention_admin" model="res.groups">
+        <field name="name">Administrateur</field>
+        <field name="category_id" ref="module_category_intervention"/>
+        <field name="comment">Accès complet au module interventions et configuration</field>
+    </record>
+</odoo>
