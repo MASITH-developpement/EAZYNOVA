@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vue formulaire des interventions -->
+    <record id="view_intervention_form" model="ir.ui.view">
+        <field name="name">intervention.intervention.form</field>
+        <field name="model">intervention.intervention</field>
+        <field name="arch" type="xml">
+            <form string="Intervention" class="o_form_plomberie">
+                <header>
+                    <button name="action_commencer" type="object" string="Commencer" 
+                            invisible="statut != 'planifie'" class="oe_highlight"/>
+                    <button name="action_arrivee_site" type="object" string="📍 Arrivée sur site" 
+                            invisible="statut_terrain not in ['planifie', 'en_route']" 
+                            class="btn-info" help="Marquer l'arrivée sur le site d'intervention"/>
+                    <button name="action_demarrer_intervention" type="object" string="🔧 Démarrer intervention" 
+                            invisible="statut_terrain not in ['sur_site']" 
+                            class="oe_highlight" help="Démarrer les travaux"/>
+                    <button name="action_validation_client" type="object" string="✅ Validation client" 
+                            invisible="statut_terrain not in ['en_cours']" 
+                            class="btn-success" help="Faire signer le client"/>
+                    <button name="action_terminer" type="object" string="Terminer" 
+                            invisible="statut != 'en_cours'" class="oe_highlight"/>
+                    <button name="action_replanifier" type="object" string="🔄 Replanifier" 
+                            invisible="statut != 'annule'" 
+                            class="oe_highlight" 
+                            help="Réactiver cette intervention annulée et la remettre au statut planifié"/>
+                    <button name="action_annuler" type="object" string="✖️ Annuler" 
+                            invisible="statut in ['termine', 'annule']" 
+                            class="btn-danger" 
+                            confirm="Êtes-vous sûr de vouloir annuler cette intervention ? Cette action notifiera les parties concernées."
+                            help="Annuler l'intervention (client ou donneur d'ordre a annulé)"/>
+                    <field name="statut" widget="statusbar" statusbar_visible="planifie,en_cours,termine,annule"/>
+                    <field name="statut_terrain" widget="statusbar" 
+                           statusbar_visible="planifie,en_route,sur_site,en_cours,attente_validation,termine"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <!-- Smart button pour les devis/commandes -->
+                        <button class="oe_stat_button" type="object" name="action_view_sale_order" 
+                                icon="fa-shopping-cart" invisible="not sale_order_id">
+                            <field string="Devis" name="sale_order_count" widget="statinfo"/>
+                        </button>
+                        
+                        <!-- Smart button pour les factures -->
+                        <button class="oe_stat_button" type="object" name="action_view_invoices" 
+                                icon="fa-pencil-square-o" invisible="invoice_count == 0">
+                            <field string="Factures" name="invoice_count" widget="statinfo"/>
+                        </button>
+                        
+                        <!-- Smart button pour le calendrier -->
+                        <button class="oe_stat_button" type="object" name="action_view_calendar_event" 
+                                icon="fa-calendar" invisible="not calendar_event_id">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Calendrier</span>
+                            </div>
+                        </button>
+                        
+                        <!-- Bouton création événement calendrier -->
+                        <button class="oe_stat_button" type="object" name="action_create_calendar_event" 
+                                icon="fa-calendar-plus-o" invisible="calendar_event_id" 
+                                string="Créer Événement" help="Créer un événement calendrier pour cette intervention"/>
+                        
+                        <!-- Bouton création devis si pas encore créé -->
+                        <button class="oe_stat_button" type="object" name="action_create_sale_order" 
+                                icon="fa-plus" invisible="sale_order_id" 
+                                string="Créer Devis" help="Créer un devis pour cette intervention"/>
+                        
+                        <!-- Bouton pour calculer la distance -->
+                        <button class="oe_stat_button" type="object" name="action_calculer_distance" 
+                                icon="fa-map-marker" 
+                                string="Calculer Distance" help="Calculer la distance et durée de trajet"/>
+                        
+                        <!-- NOUVEAUX BOUTONS SMART -->
+                        <!-- Bouton génération rapport PDF -->
+                        <button class="oe_stat_button" type="object" name="action_generer_rapport_pdf" 
+                                icon="fa-file-pdf-o" invisible="statut != 'termine'"
+                                string="📄 Générer Rapport" help="Générer le rapport PDF d'intervention"/>
+                        
+                        <!-- Bouton envoi rapport -->
+                        <button class="oe_stat_button" type="object" name="action_envoyer_rapport_donneur_ordre" 
+                                icon="fa-envelope" invisible="not rapport_intervention"
+                                string="📧 Envoyer Rapport" help="Envoyer le rapport au donneur d'ordre"/>
+                        
+                        <!-- Compteur photos avant -->
+                        <button class="oe_stat_button" type="object" name="action_view_photos_avant" 
+                                icon="fa-camera" invisible="not photos_avant_ids">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="photos_avant_count"/></span>
+                                <span class="o_stat_text">Photos Avant</span>
+                            </div>
+                        </button>
+                        
+                        <!-- Compteur photos après -->
+                        <button class="oe_stat_button" type="object" name="action_view_photos_apres" 
+                                icon="fa-camera" invisible="not photos_apres_ids">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="photos_apres_count"/></span>
+                                <span class="o_stat_text">Photos Après</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <!-- Champs invisibles pour les smart buttons -->
+                    <field name="sale_order_count" invisible="1"/>
+                    <field name="invoice_count" invisible="1"/>
+                    <field name="calendar_event_id" invisible="1"/>
+                    <field name="photos_avant_count" invisible="1"/>
+                    <field name="photos_apres_count" invisible="1"/>
+                    <field name="rapport_intervention" invisible="1"/>
+                    <field name="photos_avant_ids" invisible="1"/>
+                    <field name="photos_apres_ids" invisible="1"/>
+                    <field name="statut_terrain" invisible="1"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="numero" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group name="client_info" string="Informations Client">
+                            <field name="donneur_ordre_id"/>
+                            <field name="numero_donneur_ordre" 
+                                   placeholder="Ex: REF-2025-001, CMD-12345..."
+                                   help="Numéro de référence du donneur d'ordre"/>
+                            <field name="client_final_id"/>
+                            <field name="facturer_a" widget="radio" 
+                                   help="Choisissez qui recevra la facture"/>
+                            <field name="partner_to_invoice_id" readonly="1" 
+                                   string="Sera facturé à" 
+                                   options="{'no_create': True, 'no_edit': True}"
+                                   help="Partenaire qui recevra automatiquement la facture"/>
+                            <!-- <button name="action_debug_adresse_intervention"
+                                    type="object"
+                                    string="Forcer debug adresse"
+                                    class="oe_highlight"
+                                    /> -->
+                            <field name="adresse_intervention"/>
+                        </group>
+                        <group name="intervention_info" string="Intervention">
+                            <field name="type_intervention"/>
+                            <field name="date_prevue" readonly="statut in ['termine']"/>
+                            <field name="duree_prevue"/>
+                            <field name="technicien_principal_id" readonly="statut in ['termine']"/>
+                            <field name="date_debut" groups="intervention.group_intervention_admin"/>
+                            <field name="date_debut" readonly="1" groups="!intervention.group_intervention_admin"/>
+                            <field name="date_fin" groups="intervention.group_intervention_admin"/>
+                            <field name="date_fin" readonly="1" groups="!intervention.group_intervention_admin"/>
+                            <field name="duree_reelle" readonly="1"/>
+                            <field name="heure_arrivee" invisible="not heure_arrivee" groups="intervention.group_intervention_admin"/>
+                            <field name="heure_arrivee" readonly="1" invisible="not heure_arrivee" groups="!intervention.group_intervention_admin"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Description &amp; Validation" name="description">
+                            <group>
+                                <group string="Description des travaux">
+                                    <field name="description" placeholder="Décrivez le problème à résoudre..."/>
+                                    <field name="travaux_realises" placeholder="Détaillez les travaux effectués..."/>
+                                    <field name="observations" placeholder="Observations particulières..."/>
+                                </group>
+                                <group string="Validation client">
+                                    <field name="validation_client"/>
+                                    <field name="nom_signataire" invisible="not validation_client"/>
+                                    <field name="date_signature" invisible="not validation_client" groups="intervention.group_intervention_admin"/>
+                                    <field name="date_signature" readonly="1" invisible="not validation_client" groups="!intervention.group_intervention_admin"/>
+                                    <field name="signature_client" widget="image" invisible="not validation_client"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="📸 Photos" name="photos">
+                            <group>
+                                <group string="Photos Avant Intervention">
+                                    <field name="photos_avant_ids" widget="many2many_binary" 
+                                           options="{'accepted_file_extensions': '.jpg,.jpeg,.png'}"
+                                           help="Photos prises avant le début des travaux"
+                                           groups="intervention.group_intervention_admin"/>
+                                    <field name="photos_avant_ids" widget="many2many_binary" 
+                                           options="{'accepted_file_extensions': '.jpg,.jpeg,.png'}"
+                                           help="Photos prises avant le début des travaux"
+                                           readonly="1"
+                                           groups="!intervention.group_intervention_admin"/>
+                                </group>
+                                <group string="Photos Après Intervention">
+                                    <field name="photos_apres_ids" widget="many2many_binary"
+                                           options="{'accepted_file_extensions': '.jpg,.jpeg,.png'}"
+                                           help="Photos prises après la fin des travaux"
+                                           groups="intervention.group_intervention_admin"/>
+                                    <field name="photos_apres_ids" widget="many2many_binary"
+                                           options="{'accepted_file_extensions': '.jpg,.jpeg,.png'}"
+                                           help="Photos prises après la fin des travaux"
+                                           readonly="1"
+                                           groups="!intervention.group_intervention_admin"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="📄 Rapport" name="rapport">
+                            <group>
+                                <field name="rapport_intervention" nolabel="1" 
+                                       placeholder="Le rapport sera généré automatiquement ou peut être saisi manuellement..."/>
+                            </group>
+                        </page>
+                        
+                        <page string="🗺️ Navigation &amp; Position" name="navigation">
+                            <group>
+                                <group string="Localisation Intervention">
+                                    <field name="latitude" digits="[16,6]"/>
+                                    <field name="longitude" digits="[16,6]"/>
+                                    <field name="distance_km"/>
+                                    <field name="duree_trajet_min"/>
+                                    <field name="lien_waze" widget="url"/>
+                                    <field name="lien_google_maps" widget="url"/>
+                                </group>
+                                <group string="Position Technicien" invisible="not position_technicien_lat">
+                                    <field name="position_technicien_lat" digits="[16,6]"/>
+                                    <field name="position_technicien_lng" digits="[16,6]"/>
+                                </group>
+                            </group>
+                            <group string="Navigation rapide">
+                                <button type="action" name="%(open_waze_action)d" string="🗺️ Ouvrir Waze" class="btn-primary" invisible="not lien_waze"/>
+                                <button type="action" name="%(open_google_maps_action)d" string="🌍 Ouvrir Google Maps" class="btn-secondary" invisible="not lien_google_maps"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <!-- Chatter masqué
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                -->
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue liste des interventions -->
+    <record id="intervention_intervention_view_list" model="ir.ui.view">
+        <field name="name">intervention.intervention.view.list</field>
+        <field name="model">intervention.intervention</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list decoration-info="statut=='planifie'" 
+                  decoration-warning="statut=='en_cours'" 
+                  decoration-success="statut=='termine'"
+                  decoration-muted="statut=='annule'">
+                <field name="numero"/>
+                <field name="numero_donneur_ordre" string="N° DO"/>
+                <field name="date_prevue"/>
+                <field name="donneur_ordre_id"/>
+                <field name="client_final_id"/>
+                <field name="partner_to_invoice_id" string="Facturer à"/>
+                <field name="type_intervention"/>
+                <field name="technicien_principal_id"/>
+                <field name="statut"/>
+                <field name="duree_prevue"/>
+                <field name="duree_reelle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue recherche -->
+    <record id="intervention_intervention_view_search" model="ir.ui.view">
+        <field name="name">intervention.intervention.view.search</field>
+        <field name="model">intervention.intervention</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="numero"/>
+                <field name="numero_donneur_ordre"/>
+                <field name="donneur_ordre_id"/>
+                <field name="client_final_id"/>
+                <field name="technicien_principal_id"/>
+                <field name="adresse_intervention"/>
+                
+                <filter name="mes_interventions" string="Mes interventions"
+                        domain="[('technicien_principal_id.user_id', '=', uid)]"/>
+                <filter name="planifiees" string="Planifiées"
+                        domain="[('statut', '=', 'planifie')]"/>
+                <filter name="en_cours" string="En cours"
+                        domain="[('statut', '=', 'en_cours')]"/>
+                <filter name="terminees" string="Terminées"
+                        domain="[('statut', '=', 'termine')]"/>
+                <filter name="annulees" string="Annulées"
+                        domain="[('statut', '=', 'annule')]"/>
+                
+                <separator/>
+                <filter name="plomberie" string="Plomberie"
+                        domain="[('type_intervention', 'in', ['plomberie', 'mixte'])]"/>
+                <filter name="electricite" string="Électricité"
+                        domain="[('type_intervention', 'in', ['electricite', 'mixte'])]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter name="group_statut" string="Statut" 
+                            context="{'group_by': 'statut'}"/>
+                    <filter name="group_type" string="Type" 
+                            context="{'group_by': 'type_intervention'}"/>
+                    <filter name="group_technicien" string="Technicien" 
+                            context="{'group_by': 'technicien_principal_id'}"/>
+                    <filter name="group_date" string="Date" 
+                            context="{'group_by': 'date_prevue:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Vue liste mobile optimisée -->
+    <record id="intervention_intervention_view_list_mobile" model="ir.ui.view">
+        <field name="name">intervention.intervention.view.list.mobile</field>
+        <field name="model">intervention.intervention</field>
+        <field name="type">list</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <list decoration-info="statut=='planifie'" 
+                  decoration-warning="statut=='en_cours'" 
+                  decoration-success="statut=='termine'"
+                  decoration-muted="statut=='annule'"
+                  class="o_list_mobile">
+                <field name="numero"/>
+                <field name="date_prevue" widget="date"/>
+                <field name="donneur_ordre_id"/>
+                <field name="statut"/>
+                <!-- Champs cachés sur mobile mais disponibles pour les filtres -->
+                <field name="client_final_id" column_invisible="1"/>
+                <field name="type_intervention" column_invisible="1"/>
+                <field name="technicien_principal_id" column_invisible="1"/>
+                <field name="duree_prevue" column_invisible="1"/>
+                <field name="duree_reelle" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue kanban mobile pour une meilleure expérience tactile -->
+    <record id="intervention_intervention_view_kanban_mobile" model="ir.ui.view">
+        <field name="name">intervention.intervention.view.kanban.mobile</field>
+        <field name="model">intervention.intervention</field>
+        <field name="type">kanban</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="statut" class="o_kanban_mobile" quick_create="false">
+                <field name="id"/>
+                <field name="numero"/>
+                <field name="date_prevue"/>
+                <field name="donneur_ordre_id"/>
+                <field name="client_final_id"/>
+                <field name="type_intervention"/>
+                <field name="statut"/>
+                <field name="technicien_principal_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="numero"/>
+                                        </strong>
+                                        <small class="o_kanban_record_subtitle text-muted">
+                                            <field name="date_prevue" widget="date"/>
+                                        </small>
+                                    </div>
+                                    <div class="o_kanban_record_top_right">
+                                        <div class="badge" t-attf-class="badge-#{record.statut.raw_value == 'planifie' and 'info' or record.statut.raw_value == 'en_cours' and 'warning' or record.statut.raw_value == 'termine' and 'success' or 'secondary'}">
+                                            <field name="statut"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="donneur_ordre_id"/>
+                                    <t t-if="record.client_final_id.raw_value">
+                                        <br/><small>Client: <field name="client_final_id"/></small>
+                                    </t>
+                                    <br/><small><field name="type_intervention"/></small>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="technicien_principal_id" widget="many2one_avatar_user"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action mobile avec vue kanban en priorité -->
+    <record id="action_intervention_mobile" model="ir.actions.act_window">
+        <field name="name">Interventions Mobile</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">intervention.intervention</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="intervention_intervention_view_search"/>
+        <field name="context">{'default_statut': 'planifie'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première intervention !
+            </p>
+            <p>
+                Interface optimisée mobile :<br/>
+                • Navigation tactile intuitive<br/>
+                • Vue Kanban par statut<br/>
+                • Formulaires adaptés aux écrans tactiles
+            </p>
+        </field>
+    </record>
+
+    <!-- Action pour gérer les clients / donneurs d'ordre -->
+    <record id="action_intervention_clients" model="ir.actions.act_window">
+        <field name="name">Clients / Donneurs d'ordre</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_company', '=', True)]</field>
+        <field name="context">{'default_is_company': True, 'default_customer_rank': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre premier client !
+            </p>
+            <p>
+                Gérez vos clients et donneurs d'ordre :<br/>
+                • Informations de contact complètes<br/>
+                • Historique des interventions<br/>
+                • Facturation et gestion commerciale
+            </p>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <!-- Action principale pour toutes les interventions -->
+    <record id="action_intervention" model="ir.actions.act_window">
+        <field name="name">Interventions</field>
+        <field name="res_model">intervention.intervention</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="intervention_intervention_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première intervention !
+            </p>
+            <p>
+                Gérez vos interventions de plomberie et électricité :<br/>
+                • Planification des techniciens<br/>
+                • Suivi des matériaux<br/>
+                • Facturation automatique
+            </p>
+        </field>
+    </record>
+
+    <!-- Action pour les techniciens (leurs interventions seulement) -->
+    <record id="action_intervention_technicien" model="ir.actions.act_window">
+        <field name="name">Mes Interventions</field>
+        <field name="res_model">intervention.intervention</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('technicien_principal_id.user_id', '=', uid)]</field>
+        <field name="search_view_id" ref="intervention_intervention_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucune intervention assignée !
+            </p>
+            <p>
+                Vos interventions s'afficheront ici une fois qu'elles vous seront assignées.
+            </p>
+        </field>
+    </record>
+
+    <!-- Action pour le planning (vue calendrier) -->
+    <record id="action_intervention_planning" model="ir.actions.act_window">
+        <field name="name">Planning Interventions</field>
+        <field name="res_model">intervention.intervention</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="search_view_id" ref="intervention_intervention_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Planifiez vos interventions !
+            </p>
+            <p>
+                Visualisez et organisez vos interventions dans le temps.
+            </p>
+        </field>
+    </record>
+
+</odoo>
