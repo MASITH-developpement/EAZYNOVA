@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal EAZYNOVA -->
+    <menuitem id="menu_eazynova_root"
+              name="EAZYNOVA"
+              sequence="1"
+              web_icon="eazynova,static/description/icon.png"/>
+
+    <!-- Sous-menu Reconnaissance Faciale -->
+    <menuitem id="menu_eazynova_facial"
+              name="Reconnaissance Faciale"
+              parent="menu_eazynova_root"
+              sequence="10"/>
+
+    <menuitem id="menu_eazynova_facial_data"
+              name="Enregistrements Faciaux"
+              parent="menu_eazynova_facial"
+              action="action_eazynova_facial_data"
+              sequence="10"/>
+
+    <menuitem id="menu_eazynova_facial_register"
+              name="Nouvel Enregistrement"
+              parent="menu_eazynova_facial"
+              action="action_facial_registration_wizard"
+              sequence="20"/>
+
+    <!-- Sous-menu Configuration -->
+    <menuitem id="menu_eazynova_config"
+              name="Configuration"
+              parent="menu_eazynova_root"
+              sequence="100"/>
+</odoo>
