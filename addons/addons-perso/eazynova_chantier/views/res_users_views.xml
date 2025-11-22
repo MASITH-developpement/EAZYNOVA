@@ -21,24 +21,24 @@
                                        widget="boolean_toggle"/>
                                 <field name="facial_consent_date" 
                                        readonly="1"
-                                       attrs="{'invisible': [('facial_recognition_enabled', '=', False)]}"/>
+                                       invisible="not facial_recognition_enabled"/>
                                 <field name="facial_last_update" 
                                        readonly="1"
-                                       attrs="{'invisible': [('facial_recognition_enabled', '=', False)]}"/>
+                                       invisible="not facial_recognition_enabled"/>
                             </group>
                             
                             <group string="Données Biométriques">
                                 <field name="facial_data" 
                                        invisible="1"/>
                                 <div colspan="2" 
-                                     attrs="{'invisible': [('facial_recognition_enabled', '=', True)]}">
+                                     invisible="facial_recognition_enabled">
                                     <div class="alert alert-info" role="alert">
                                         <i class="fa fa-info-circle"/> 
                                         La reconnaissance faciale n'est pas activée pour cet utilisateur.
                                     </div>
                                 </div>
                                 <div colspan="2" 
-                                     attrs="{'invisible': [('facial_recognition_enabled', '=', False)]}">
+                                     invisible="not facial_recognition_enabled">
                                     <div class="alert alert-success" role="alert">
                                         <i class="fa fa-check-circle"/> 
                                         Reconnaissance faciale active
@@ -64,7 +64,7 @@
                                         class="btn-danger"
                                         icon="fa-trash"
                                         confirm="Êtes-vous sûr de vouloir supprimer vos données de reconnaissance faciale ? Cette action est irréversible."
-                                        attrs="{'invisible': [('facial_recognition_enabled', '=', False)]}"/>
+                                        invisible="not facial_recognition_enabled"/>
                             </group>
                         </group>
                         
@@ -111,7 +111,7 @@
                                 type="object" 
                                 class="btn-sm btn-primary"
                                 icon="fa-camera"
-                                attrs="{'invisible': [('facial_recognition_enabled', '=', False)]}"/>
+                                invisible="not facial_recognition_enabled"/>
                     </group>
                 </xpath>
                 
