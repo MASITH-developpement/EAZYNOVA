@@ -6,3 +6,4 @@ from . import eazynova_facial_data
 from . import res_config_settings
 from . import res_company
 from . import res_users
+from . import eazynova_dashboard
