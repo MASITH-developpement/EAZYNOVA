@@ -11,7 +11,6 @@
         'stock',
         'purchase',
         'sale',
-        # Modules avancés retirés : knowledge, sale_margin, sale_project_forecast, sign
     ],
     'data': [
         'data/documents_folder.xml',
