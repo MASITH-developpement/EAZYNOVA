@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal EAZYNOVA -->
+    <menuitem id="menu_eazynova_root"
+              name="EAZYNOVA"
+              sequence="1"
+              web_icon="eazynova,static/description/icon.png"/>
+
+    <!-- Sous-menu Configuration -->
+    <menuitem id="menu_eazynova_config"
+              name="Configuration"
+              parent="menu_eazynova_root"
+              sequence="100"/>
+</odoo>
