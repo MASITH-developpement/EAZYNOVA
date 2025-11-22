@@ -32,10 +32,10 @@
         
         <!-- Aide IA -->
         <menuitem id="menu_eazynova_ai_assistant"
-                  name="Assistant IA"
-                  parent="menu_eazynova_root"
-                  action="action_eazynova_ai_assistant"
-                  sequence="99"/>
+              name="Assistant IA"
+              parent="menu_eazynova_root"
+              action="EAZYNOVA.action_eazynova_ai_assistant"
+              sequence="99"/>
         
     </data>
 </odoo>

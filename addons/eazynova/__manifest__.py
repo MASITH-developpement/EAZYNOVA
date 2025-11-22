@@ -36,10 +36,16 @@
         # Données
         'data/eazynova_data.xml',
         
-        # Vues
+        # Vues principales
         'views/eazynova_dashboard_views.xml',
-            'views/res_config_settings_views.xml',
-            'views/eazynova_menu.xml',
+        'views/res_config_settings_views.xml',
+        'views/eazynova_menu.xml',
+        'views/res_company_views.xml',
+        'views/res_users_views.xml',
+        # Wizards
+        'wizard/ai_assistant_wizard_views.xml',
+        'wizard/document_ocr_wizard_views.xml',
+        'wizard/facial_registration_wizard_views.xml',
     ],
     'assets': {
         'web.assets_backend': [

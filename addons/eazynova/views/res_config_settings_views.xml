@@ -2,119 +2,31 @@
 <odoo>
     <data>
         
-        <!-- Vue formulaire des paramètres EAZYNOVA -->
         <record id="res_config_settings_view_form" model="ir.ui.view">
             <field name="name">res.config.settings.view.form.inherit.eazynova</field>
             <field name="model">res.config.settings</field>
             <field name="inherit_id" ref="base.res_config_settings_view_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//div[hasclass('settings')]" position="inside">
-                    
-                    <!-- Section EAZYNOVA -->
-                    <div class="app_settings_block" data-string="EAZYNOVA" 
-                         string="EAZYNOVA" data-key="eazynova" 
-                         groups="eazynova.group_eazynova_admin">
-                        
-                        <h2>Paramètres EAZYNOVA</h2>
-                        
-                        <!-- Reconnaissance Faciale -->
-                        <div class="row mt16 o_settings_container">
-                            <div class="col-12 col-lg-6 o_setting_box">
-                                <div class="o_setting_left_pane">
-                                    <field name="facial_recognition_enabled"/>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="facial_recognition_enabled"/>
-                                    <div class="text-muted">
-                                        Permet la connexion par reconnaissance faciale
-                                    </div>
-                                    <div class="content-group" 
-                                         attrs="{'invisible': [('facial_recognition_enabled', '=', False)]}">
-                                        <div class="mt16">
-                                            <label for="facial_recognition_tolerance" class="o_light_label"/>
-                                            <field name="facial_recognition_tolerance" 
-                                                   class="oe_inline"/>
-                                        </div>
-                                        <div class="alert alert-warning mt8" role="alert">
-                                            <strong>Attention RGPD :</strong> L'utilisation de données biométriques 
-                                            nécessite le consentement explicite des utilisateurs et des mesures 
-                                            de sécurité renforcées.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Intelligence Artificielle -->
-                        <div class="row mt16 o_settings_container">
-                            <div class="col-12 col-lg-6 o_setting_box">
-                                <div class="o_setting_left_pane">
-                                    <field name="ai_assistance_enabled"/>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="ai_assistance_enabled"/>
-                                    <div class="text-muted">
-                                        Active l'assistant IA dans tous les modules
-                                    </div>
-                                    <div class="content-group" 
-                                         attrs="{'invisible': [('ai_assistance_enabled', '=', False)]}">
-                                        <div class="mt16">
-                                            <label for="ai_provider" string="Fournisseur"/>
-                                            <field name="ai_provider" class="oe_inline"/>
-                                        </div>
-                                        <div class="mt8">
-                                            <label for="ai_api_key" string="Clé API"/>
-                                            <field name="ai_api_key" password="True" 
-                                                   placeholder="sk-..."/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- OCR -->
-                        <div class="row mt16 o_settings_container">
-                            <div class="col-12 col-lg-6 o_setting_box">
-                                <div class="o_setting_left_pane">
-                                    <field name="ocr_enabled"/>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="ocr_enabled"/>
-                                    <div class="text-muted">
-                                        Reconnaissance automatique de caractères pour les documents
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Gestion Documentaire -->
-                        <div class="row mt16 o_settings_container">
-                            <div class="col-12 col-lg-6 o_setting_box">
-                                <div class="o_setting_left_pane">
-                                    <field name="document_management_enabled"/>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="document_management_enabled"/>
-                                    <div class="text-muted">
-                                        Gestion documentaire avancée par affaire/chantier
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
+                <xpath expr="//form" position="inside">
+                    <group string="EAZYNOVA">
+                        <group>
+                            <field name="ai_assistance_enabled"/>
+                            <field name="ai_provider"/>
+                            <field name="ai_api_key" password="True"/>
+                            <field name="facial_recognition_enabled"/>
+                            <field name="facial_recognition_tolerance"/>
+                            <field name="ocr_enabled"/>
+                            <field name="document_management_enabled"/>
+                        </group>
+                    </group>
                 </xpath>
             </field>
         </record>
         
-        <!-- Action pour ouvrir les paramètres -->
-        <record id="action_eazynova_settings" model="ir.actions.act_window" module="EAZYNOVA">
+        <record id="action_eazynova_settings" model="ir.actions.act_window">
             <field name="name">Paramètres EAZYNOVA</field>
             <field name="res_model">res.config.settings</field>
             <field name="view_mode">form</field>
-            <field name="target">inline</field>
-            <field name="context">{'module': 'eazynova'}</field>
         </record>
         
     </data>
