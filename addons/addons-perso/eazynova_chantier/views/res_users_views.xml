@@ -13,7 +13,7 @@
                 <xpath expr="//notebook" position="inside">
                     <page string="Reconnaissance Faciale" 
                           name="facial_recognition"
-                          groups="eazynova.group_eazynova_user">
+                          groups="group_eazynova_user">
                         
                         <group>
                             <group string="Configuration">

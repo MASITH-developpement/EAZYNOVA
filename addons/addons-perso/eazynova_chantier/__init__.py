@@ -5,6 +5,7 @@ Initialisation des composants du module
 """
 
 from . import models
+from . import wizard
 from . import controllers
 
 import os
