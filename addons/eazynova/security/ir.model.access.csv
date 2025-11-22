@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_res_company_user,res.company.user,base.model_res_company,group_eazynova_user,1,0,0,0
-access_res_company_manager,res.company.manager,base.model_res_company,group_eazynova_manager,1,1,0,0
-access_res_company_admin,res.company.admin,base.model_res_company,group_eazynova_admin,1,1,1,1
-access_res_users_facial_user,res.users.facial.user,base.model_res_users,group_eazynova_user,1,1,0,0
