@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <menuitem id="menu_chantier"
-                  name="Chantiers"
-                  parent="eazynova.menu_eazynova_root"
-                  sequence="10"/>
-    </data>
-</odoo>

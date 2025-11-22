@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Extension formulaire société -->
+        <record id="view_company_form_eazynova" model="ir.ui.view">
+            <field name="name">res.company.form.eazynova</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                
+                <!-- Ajout informations EAZYNOVA après informations générales -->
+                <xpath expr="//group[@name='social_media']" position="after">
+                    <group string="EAZYNOVA" name="eazynova_info">
+                        <field name="eazynova_code" readonly="1"/>
+                        <field name="eazynova_dashboard_layout"/>
+                    </group>
+                </xpath>
+                
+                <!-- Ajout onglet Statistiques -->
+                <xpath expr="//notebook" position="inside">
+                    <page string="Statistiques EAZYNOVA" 
+                          name="eazynova_stats"
+                          groups="eazynova.group_eazynova_manager">
+                        
+                        <group>
+                            <group string="Activité">
+                                <field name="total_chantiers" 
+                                       widget="statinfo"
+                                       readonly="1"/>
+                                <field name="total_factures" 
+                                       widget="statinfo"
+                                       readonly="1"/>
+                            </group>
+                            
+                            <group string="Configuration">
+                                <button name="%(eazynova.action_eazynova_settings)d" 
+                                        string="Paramètres EAZYNOVA"
+                                        type="action" 
+                                        class="btn-primary"
+                                        icon="fa-cog"
+                                        groups="eazynova.group_eazynova_admin"/>
+                            </group>
+                        </group>
+                        
+                    </page>
+                </xpath>
+                
+            </field>
+        </record>
+        
+    </data>
+</odoo>

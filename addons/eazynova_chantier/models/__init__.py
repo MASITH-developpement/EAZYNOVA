@@ -1,5 +1,8 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+"""
+Importation des modèles EAZYNOVA
+"""
 
-from . import chantier
-from . import chantier_task
-from . import chantier_document
+from . import res_config_settings
+from . import eazynova_company
+from . import eazynova_user_facial
