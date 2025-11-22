@@ -26,21 +26,29 @@
         'mail',
         'portal',
     ],
+    'external_dependencies': {
+        'python': [
+            'face_recognition',  # Reconnaissance faciale
+            'PIL',              # Pillow pour traitement d'images
+            'numpy',            # Calculs numériques
+        ],
+    },
     'data': [
         # Sécurité
         'security/eazynova_security.xml',
         'security/ir.model.access.csv',
-        
+
         # Données
         'data/eazynova_data.xml',
-        
+
         # Vues
         'views/eazynova_dashboard_views.xml',
         'views/res_config_settings_views.xml',
         'views/res_company_views.xml',
         'views/res_users_views.xml',
+        'views/eazynova_facial_data_views.xml',
         'views/eazynova_menu.xml',
-        
+
         # Wizards
         'wizard/ai_assistant_wizard_views.xml',
         'wizard/document_ocr_wizard_views.xml',
