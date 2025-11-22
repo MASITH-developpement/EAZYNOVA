@@ -67,7 +67,6 @@ RUN chmod +x /start-odoo.sh
 
 # Point d'entrée
 # COPY init_odoo_user.py /opt/init_odoo_user.py
-# Copie des modules personnalisés
-COPY addons/EAZYNOVA /opt/odoo/custom_addons/EAZYNOVA
+COPY addons/addons-perso/eazynova_chantier /opt/odoo/custom_addons/eazynova_chantier
 COPY clean_assets.py /opt/clean_assets.py
 CMD ["/start-odoo.sh"]

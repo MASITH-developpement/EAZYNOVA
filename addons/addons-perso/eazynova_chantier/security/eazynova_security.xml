@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Catégorie EAZYNOVA -->
+        <record id="module_category_eazynova" model="ir.module.category">
+            <field name="name">EAZYNOVA</field>
+            <field name="description">Gestion d'entreprise EAZYNOVA</field>
+            <field name="sequence">100</field>
+        </record>
+        
+        <!-- Groupe Utilisateur -->
+        <record id="group_eazynova_user" model="res.groups">
+            <field name="name">Utilisateur EAZYNOVA</field>
+            
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Accès de base aux modules EAZYNOVA</field>
+        </record>
+        
+        <!-- Groupe Manager -->
+        <record id="group_eazynova_manager" model="res.groups">
+            <field name="name">Manager EAZYNOVA</field>
+            
+            <field name="implied_ids" eval="[(4, ref('group_eazynova_user'))]"/>
+            <field name="comment">Gestion et administration des modules EAZYNOVA</field>
+        </record>
+        
+        <!-- Groupe Administrateur -->
+        <record id="group_eazynova_admin" model="res.groups">
+            <field name="name">Administrateur EAZYNOVA</field>
+            
+            <field name="implied_ids" eval="[(4, ref('group_eazynova_manager'))]"/>
+            <field name="comment">Administration complète du système EAZYNOVA</field>
+        </record>
+        
+        <!-- Règles d'enregistrement -->
+        <record id="eazynova_company_rule_user" model="ir.rule">
+            <field name="name">EAZYNOVA: Utilisateur - Société</field>
+            <field name="model_id" ref="base.model_res_company"/>
+            <field name="domain_force">['|', ('id', '=', user.company_id.id), ('id', 'in', user.company_ids.ids)]</field>
+            <field name="groups" eval="[(4, ref('group_eazynova_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Protection des données biométriques (RGPD) -->
+        <record id="eazynova_facial_data_rule" model="ir.rule">
+            <field name="name">EAZYNOVA: Données faciales - Utilisateur propriétaire uniquement</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="domain_force">[('id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+    </data>
+</odoo>

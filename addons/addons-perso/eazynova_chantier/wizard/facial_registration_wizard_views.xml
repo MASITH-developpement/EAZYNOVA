@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="view_facial_registration_wizard_form" model="ir.ui.view">
+            <field name="name">eazynova.facial.registration.wizard.form</field>
+            <field name="model">eazynova.facial.registration.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Enregistrement Reconnaissance Faciale">
+                    
+                    <field name="state" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="facial_image_filename" invisible="1"/>
+                    
+                    <group invisible="state != 'capture'">
+                        <group colspan="2">
+                            <div class="alert alert-info" role="alert">
+                                <h4><i class="fa fa-camera"/> Capture de votre visage</h4>
+                                <p>Pour activer la reconnaissance faciale, nous devons enregistrer votre visage. Assurez-vous :</p>
+                                <ul>
+                                    <li>D'être dans un endroit bien éclairé</li>
+                                    <li>D'être seul sur la photo</li>
+                                    <li>Que votre visage est bien visible et de face</li>
+                                    <li>De ne pas porter de lunettes de soleil ou masque</li>
+                                </ul>
+                            </div>
+                        </group>
+                        
+                        <group string="Image">
+                            <field name="facial_image" widget="image" options="{'size': [300, 300]}" nolabel="1"/>
+                        </group>
+                        
+                        <group string="Consentement RGPD" colspan="2">
+                            <field name="consent_gdpr" widget="boolean_toggle" nolabel="1"/>
+                            <div>
+                                <p>En cochant cette case, je consens au traitement de mes données biométriques (reconnaissance faciale) conformément au RGPD.</p>
+                                <p><strong>Mes données seront :</strong></p>
+                                <ul>
+                                    <li>Utilisées uniquement pour l'authentification</li>
+                                    <li>Stockées de manière chiffrée et sécurisée</li>
+                                    <li>Non partagées avec des tiers</li>
+                                    <li>Supprimables à tout moment</li>
+                                </ul>
+                            </div>
+                        </group>
+                        
+                        <group colspan="2" invisible="not error_message">
+                            <div class="alert alert-warning" role="alert">
+                                <i class="fa fa-exclamation-triangle"/> 
+                                <field name="error_message" nolabel="1"/>
+                            </div>
+                        </group>
+                    </group>
+                    
+                    <group invisible="state != 'process'">
+                        <div class="text-center">
+                            <i class="fa fa-spinner fa-spin fa-3x"/>
+                            <p class="mt16">Traitement en cours...</p>
+                        </div>
+                    </group>
+                    
+                    <group invisible="state != 'confirm'">
+                        <group colspan="2">
+                            <div class="alert alert-success" role="alert">
+                                <h4><i class="fa fa-check-circle"/> Enregistrement réussi !</h4>
+                                <p>Vos données de reconnaissance faciale ont été enregistrées avec un score de qualité de <field name="quality_score" readonly="1"/> / 100.</p>
+                                <p>Vous pouvez maintenant utiliser la reconnaissance faciale pour vous connecter.</p>
+                            </div>
+                        </group>
+                    </group>
+                    
+                    <footer>
+                        <button string="Enregistrer" name="action_process_image" type="object" class="btn-primary" invisible="state != 'capture'"/>
+                        <button string="Terminer" name="action_confirm" type="object" class="btn-primary" invisible="state != 'confirm'"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel"/>
+                    </footer>
+                    
+                </form>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

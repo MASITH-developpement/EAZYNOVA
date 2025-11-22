@@ -1,0 +1,250 @@
+/* ============================================
+   EAZYNOVA - Styles personnalisés
+   ============================================ */
+
+/* === Dashboard === */
+.o_eazynova_dashboard {
+    padding: 20px;
+}
+
+.o_eazynova_dashboard_header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.o_eazynova_dashboard_content .card {
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.o_eazynova_dashboard_content .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* === Reconnaissance Faciale === */
+.o_facial_recognition_capture {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.o_facial_header h2 {
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.o_facial_capture_area {
+    position: relative;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.o_video_container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%; /* Ratio 4:3 */
+}
+
+.o_video_container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.o_face_guide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.o_face_oval {
+    width: 60%;
+    height: 80%;
+    border: 3px solid rgba(102, 126, 234, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+}
+
+.o_captured_image {
+    width: 100%;
+    padding-bottom: 75%;
+    position: relative;
+}
+
+.o_captured_image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.o_facial_actions button {
+    min-width: 150px;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 25px;
+}
+
+.o_facial_instructions {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* === Assistant IA === */
+.o_ai_assistant_widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.o_ai_assistant_button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.o_ai_assistant_button:hover {
+    transform: scale(1.1);
+}
+
+.o_ai_assistant_button i {
+    font-size: 28px;
+}
+
+/* === OCR Widget === */
+.o_ocr_upload_area {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.o_ocr_upload_area:hover {
+    border-color: #667eea;
+    background: #f8f9fa;
+}
+
+.o_ocr_upload_area.dragover {
+    border-color: #667eea;
+    background: #e7f3ff;
+}
+
+/* === Kanban Cards === */
+.o_eazynova_dashboard_card {
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.o_eazynova_dashboard_card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.o_stat_value {
+    font-size: 32px;
+    font-weight: bold;
+    display: block;
+}
+
+.o_stat_text {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .o_eazynova_dashboard {
+        padding: 10px;
+    }
+    
+    .o_facial_recognition_capture {
+        padding: 10px;
+    }
+    
+    .o_ai_assistant_widget {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .o_ai_assistant_button {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* === Badges personnalisés === */
+.badge-eazynova {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+/* === Boutons personnalisés === */
+.btn-eazynova {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    transition: all 0.3s;
+}
+
+.btn-eazynova:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
