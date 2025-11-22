@@ -5,7 +5,7 @@
     'depends': [
         'base_industry_data',
         'crm',
-        'documents',
+        'bi_applicant_document_management',
         'hr',
         'project',
         'stock',
