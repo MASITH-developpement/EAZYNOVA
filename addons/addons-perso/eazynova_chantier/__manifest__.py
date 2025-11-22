@@ -36,21 +36,26 @@
         # Données
         'data/eazynova_data.xml',
         
-        # Vues principales
-        'views/eazynova_dashboard_views.xml',
+        # IMPORTANT: Vues de configuration AVANT les autres vues (car elles définissent des actions)
         'views/res_config_settings_views.xml',
-        'views/eazynova_menu.xml',
-        'views/res_company_views.xml',
-        'views/res_users_views.xml',
-        # Wizards
+        
+        # Wizards (avant le dashboard car il peut les référencer)
         'wizard/ai_assistant_wizard_views.xml',
         'wizard/document_ocr_wizard_views.xml',
         'wizard/facial_registration_wizard_views.xml',
+        
+        # Vues principales (dashboard en dernier car il référence les actions ci-dessus)
+        'views/res_company_views.xml',
+        'views/res_users_views.xml',
+        'views/eazynova_dashboard_views.xml',
+        
+        # Menus (toujours en dernier)
+        'views/eazynova_menu.xml',
     ],
     'assets': {
         'web.assets_backend': [
-            'eazynova/static/src/js/dashboard.js',
-            'eazynova/static/src/xml/dashboard.xml',
+            'eazynova_chantier/static/src/js/dashboard.js',
+            'eazynova_chantier/static/src/xml/dashboard.xml',
         ],
     },
     'images': ['static/description/icon.png'],
