@@ -6,13 +6,6 @@
               parent="base.menu_administration"
               sequence="100"/>
 
-    <!-- Menu pour la configuration des emails -->
-    <menuitem id="menu_intervention_mail_config"
-              name="Emails autorisés"
-              parent="menu_intervention_config_root"
-              action="action_intervention_mail_config"
-              sequence="10"/>
-
     <!-- Configuration générale des interventions -->
     <record id="view_intervention_config_settings" model="ir.ui.view">
         <field name="name">intervention.config.settings.form</field>
