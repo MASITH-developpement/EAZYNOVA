@@ -36,7 +36,7 @@ class FacialAuthController(http.Controller):
 
         return request.render('eazynova.facial_login_page', values)
 
-    @http.route('/web/facial_auth/identify', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/web/facial_auth/identify', type='jsonrpc', auth='public', methods=['POST'], csrf=False)
     def facial_identify(self, photo_data, **kwargs):
         """
         Identifie un utilisateur à partir d'une photo
@@ -106,7 +106,7 @@ class FacialAuthController(http.Controller):
                 'error': _('Erreur lors de l\'identification: %s') % str(e)
             }
 
-    @http.route('/web/facial_auth/login', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/web/facial_auth/login', type='jsonrpc', auth='public', methods=['POST'], csrf=False)
     def facial_login(self, photo_data, **kwargs):
         """
         Authentifie un utilisateur via reconnaissance faciale
@@ -199,7 +199,7 @@ class FacialAuthController(http.Controller):
                 'error': _('Erreur lors de l\'authentification: %s') % str(e)
             }
 
-    @http.route('/web/facial_auth/check_availability', type='json', auth='public')
+    @http.route('/web/facial_auth/check_availability', type='jsonrpc', auth='public')
     def check_facial_availability(self):
         """Vérifie si la reconnaissance faciale est disponible"""
         try:
