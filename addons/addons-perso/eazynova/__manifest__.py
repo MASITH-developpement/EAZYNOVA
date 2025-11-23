@@ -48,14 +48,14 @@
         # Données
         'data/eazynova_data.xml',
 
-        # Vues
+        # Vues - Menu DOIT être chargé en premier
+        'views/eazynova_menu.xml',
         'views/eazynova_dashboard_views.xml',
         'views/res_config_settings_views.xml',
         'views/res_company_views.xml',
         'views/res_users_views.xml',
         'views/eazynova_facial_data_views.xml',
         'views/facial_auth_templates.xml',
-        'views/eazynova_menu.xml',
 
         # Wizards
         'wizard/ai_assistant_wizard_views.xml',
