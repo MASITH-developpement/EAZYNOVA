@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Catégorie de module -->
-    <record id="module_category_eazynova_bank" model="ir.module.category">
-        <field name="name">EAZYNOVA - Import Bancaire</field>
-        <field name="description">Gestion des imports de relevés bancaires</field>
-        <field name="sequence">20</field>
-    </record>
-
     <!-- Groupe Utilisateur -->
     <record id="group_bank_statement_user" model="res.groups">
         <field name="name">Utilisateur Import Bancaire</field>
-        <field name="category_id" ref="module_category_eazynova_bank"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
     </record>
 
     <!-- Groupe Manager -->
     <record id="group_bank_statement_manager" model="res.groups">
         <field name="name">Manager Import Bancaire</field>
-        <field name="category_id" ref="module_category_eazynova_bank"/>
         <field name="implied_ids" eval="[(4, ref('group_bank_statement_user'))]"/>
     </record>
 
