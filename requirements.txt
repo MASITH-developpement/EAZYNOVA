@@ -1,29 +1,16 @@
 # Dépendances EAZYNOVA Core
 
-<<<<<<< HEAD
-qifparse
-numpy
-Pillow
-PyPDF2<3.0.0
-
-# Pour OCR/IA achats
-pytesseract
-pdf2image
-openai
-anthropic
-
-# Pour reconnaissance faciale
-face_recognition
-opencv-python
-=======
 # Reconnaissance faciale
 face_recognition>=1.3.0
 Pillow>=10.0.0
 numpy>=1.24.0
 
-# Import bancaire (si module bank_statement utilisé)
+# Import bancaire
+qifparse>=0.9
 ofxparse>=0.21
 pandas>=2.0.0
+
+# OCR et traitement PDF
 PyPDF2>=3.0.0
 pytesseract>=0.3.10
 pdf2image>=1.16.0
@@ -31,4 +18,3 @@ pdf2image>=1.16.0
 # IA (optionnel)
 openai>=1.0.0
 anthropic>=0.7.0
->>>>>>> 530d44fea90b19f68c0e9a65eb3787ed12ec6baa
