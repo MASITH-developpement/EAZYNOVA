@@ -7,6 +7,13 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     # Configuration IA
+    eazynova_ai_enabled = fields.Boolean(
+        string="Activer l'IA",
+        config_parameter='eazynova.ai_enabled',
+        default=False,
+        help="Activer l'intelligence artificielle pour l'analyse automatique"
+    )
+
     eazynova_ai_provider = fields.Selection([
         ('anthropic', 'Anthropic Claude'),
         ('openai', 'OpenAI GPT-4'),
@@ -82,6 +89,7 @@ class ResConfigSettings(models.TransientModel):
         params = self.env['ir.config_parameter'].sudo()
 
         res.update({
+            'eazynova_ai_enabled': params.get_param('eazynova.ai_enabled', False),
             'eazynova_ai_provider': params.get_param('eazynova.ai_provider', 'anthropic'),
             'eazynova_ai_api_key': params.get_param('eazynova.ai_api_key', ''),
             'eazynova_ai_model': params.get_param('eazynova.ai_model', 'claude-3-5-sonnet-20241022'),
@@ -99,6 +107,7 @@ class ResConfigSettings(models.TransientModel):
         super(ResConfigSettings, self).set_values()
         params = self.env['ir.config_parameter'].sudo()
 
+        params.set_param('eazynova.ai_enabled', self.eazynova_ai_enabled)
         params.set_param('eazynova.ai_provider', self.eazynova_ai_provider)
         params.set_param('eazynova.ai_api_key', self.eazynova_ai_api_key or '')
         params.set_param('eazynova.ai_model', self.eazynova_ai_model)
