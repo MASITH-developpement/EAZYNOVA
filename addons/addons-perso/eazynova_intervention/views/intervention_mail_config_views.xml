@@ -75,7 +75,7 @@
     <!-- Menu Item sous Paramètres/Interventions -->
     <menuitem id="menu_intervention_mail_config"
               name="Emails autorisés"
-              parent="intervention.menu_intervention_config"
+              parent="menu_intervention_config"
               action="action_intervention_mail_config"
               sequence="20"/>
 </odoo>
