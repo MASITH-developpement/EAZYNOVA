@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template pour afficher les avis sur le site web -->
+    <template id="website_customer_reviews" name="Avis Clients">
+        <t t-call="website.layout">
+            <div class="container mt-5">
+                <h1>Avis de nos clients</h1>
+                <!-- TODO: Ajouter le contenu des avis -->
+            </div>
+        </t>
+    </template>
+</odoo>

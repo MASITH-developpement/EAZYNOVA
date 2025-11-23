@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Séquence -->
+    <record id="seq_review_request" model="ir.sequence">
+        <field name="name">Demande Avis</field>
+        <field name="code">eazynova.review.request</field>
+        <field name="prefix">REV</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Configuration par défaut -->
+    <record id="trust_config_default" model="eazynova.trust.config">
+        <field name="name">Configuration Avis Clients</field>
+        <field name="auto_send_after_invoice">True</field>
+        <field name="days_after_invoice">7</field>
+        <field name="auto_reminder">True</field>
+        <field name="days_before_reminder">14</field>
+        <field name="moderation_required">True</field>
+        <field name="min_rating_publish">3</field>
+        <field name="display_on_website">True</field>
+        <field name="reviews_per_page">10</field>
+    </record>
+</odoo>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action -->
+    <record id="action_customer_review" model="ir.actions.act_window">
+        <field name="name">Avis Clients</field>
+        <field name="res_model">eazynova.customer.review</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
