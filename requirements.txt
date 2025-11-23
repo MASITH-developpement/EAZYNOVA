@@ -13,3 +13,4 @@ anthropic>=0.7.0
 # Import bancaire
 ofxparse>=0.21
 pandas>=2.0.0
+pdfminer.six>=20221105
