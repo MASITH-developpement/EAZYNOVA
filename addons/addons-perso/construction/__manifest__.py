@@ -21,10 +21,10 @@
         'data/project_project.xml',
         'data/ir_attachment_pre.xml',
         'data/uom_uom.xml',
-        'data/planning_role.xml',
+        # 'data/planning_role.xml',  # supprimé, modèle absent en Community
         'data/product_template.xml',
         'data/product_product.xml',
-        'data/knowledge_cover.xml',
+        # 'data/knowledge_cover.xml',  # supprimé, modèle absent en Community
         'data/knowledge_article.xml',
         'data/knowledge_article_favorite.xml',
         'data/mail_message.xml',

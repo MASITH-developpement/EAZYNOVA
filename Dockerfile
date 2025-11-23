@@ -5,9 +5,10 @@ USER root
 # Build date: 2025-11-22 - Force rebuild to include all security files
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Installation des dépendances système
+
+# Installation des dépendances système (incl. dlib/face_recognition)
 RUN apt-get update && \
-    apt-get install -y python3-pip python3-dev build-essential libpq-dev curl git wget cmake && \
+    apt-get install -y python3-pip python3-dev build-essential libpq-dev curl git wget cmake libboost-python-dev libboost-system-dev libopenblas-dev liblapack-dev && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
@@ -29,27 +30,8 @@ RUN git clone --depth 1 --branch 19.0 https://github.com/odoo/odoo.git /opt/odoo
 RUN sed -i "s/__import__('pkg_resources').require('odoo==19.0')/# __import__('pkg_resources').require('odoo==19.0')/" /usr/local/bin/odoo
 
 # Patch Odoo pour accepter l'utilisateur postgres (nécessaire pour Railway)
-RUN python3 << 'EOF'
-import re
-
-# Lire le fichier
-with open('/opt/odoo/odoo/service/db.py', 'r') as f:
-    content = f.read()
-
-# Remplacer la vérification de sécurité par un pass
-content = re.sub(
-    r"if db_user == 'postgres':\s+raise RuntimeError\([^)]+\)",
-    "if db_user == 'postgres':\n        pass  # Patched for Railway",
-    content,
-    flags=re.MULTILINE
-)
-
-# Écrire le fichier modifié
-with open('/opt/odoo/odoo/service/db.py', 'w') as f:
-    f.write(content)
-
-print("✅ Patch Odoo appliqué avec succès")
-EOF
+COPY patch_odoo.py /patch_odoo.py
+RUN python3 /patch_odoo.py
 
 # Créer dossier config et copier fichier minimal
 #RUN mkdir -p /etc/odoo
