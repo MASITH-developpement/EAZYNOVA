@@ -51,9 +51,6 @@
                 <field name="donneur_ordre_id"/>
                 <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
                 <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Grouper par">
-                    <filter string="Donneur d'ordre" name="donneur_ordre" context="{'group_by': 'donneur_ordre_id'}"/>
-                </group>
             </search>
         </field>
     </record>
