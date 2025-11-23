@@ -6,12 +6,12 @@
         <field name="arch" type="xml">
             <form string="Assistant IA">
                 <group>
-                    <field name="question" widget="text"/>
-                    <field name="context_info" widget="text"/>
+                    <field name="prompt" widget="text"/>
+                    <field name="context_data" widget="text"/>
                     <field name="response" widget="text" invisible="not response"/>
                 </group>
                 <footer>
-                    <button string="Demander à l'IA" name="action_ask_ai" type="object" class="btn-primary"/>
+                    <button string="Demander à l'IA" name="action_process" type="object" class="btn-primary"/>
                     <button string="Annuler" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

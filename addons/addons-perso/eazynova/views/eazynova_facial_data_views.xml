@@ -5,7 +5,7 @@
         <field name="name">eazynova.facial.data.tree</field>
         <field name="model">eazynova.facial.data</field>
         <field name="arch" type="xml">
-            <tree string="Enregistrements Faciaux" decoration-muted="not active">
+            <list string="Enregistrements Faciaux" decoration-muted="not active">
                 <field name="name"/>
                 <field name="user_id"/>
                 <field name="company_id" groups="base.group_multi_company"/>
@@ -14,7 +14,7 @@
                 <field name="verification_count"/>
                 <field name="last_verification_date"/>
                 <field name="active" widget="boolean_toggle"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -49,11 +49,7 @@
                 </header>
 
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" type="object" name="action_view_verifications" icon="fa-check-circle">
-                            <field name="verification_count" widget="statinfo" string="Vérifications"/>
-                        </button>
-                    </div>
+                    <!-- Bouton de statistiques supprimé car la méthode action_view_verifications n'existe pas -->
 
                     <field name="photo" widget="image" class="oe_avatar" options="{'size': [150, 150]}"/>
 
@@ -155,31 +151,11 @@
                 <field name="name" string="Nom"/>
                 <field name="user_id" string="Utilisateur"/>
 
-                <filter string="Actifs"
-                        name="filter_active"
-                        domain="[('active', '=', True)]"/>
-                <filter string="Inactifs"
-                        name="filter_inactive"
-                        domain="[('active', '=', False)]"/>
-
-                <separator/>
-
-                <filter string="Qualité Élevée"
-                        name="filter_high_quality"
-                        domain="[('quality_score', '>=', 70)]"/>
-                <filter string="Qualité Moyenne"
-                        name="filter_medium_quality"
-                        domain="[('quality_score', '>=', 40), ('quality_score', '&lt;', 70)]"/>
-                <filter string="Qualité Faible"
-                        name="filter_low_quality"
-                        domain="[('quality_score', '&lt;', 40)]"/>
-
-                <separator/>
-
-                <filter string="Vérifiés Récemment"
-                        name="filter_recently_verified"
-                        domain="[('last_verification_date', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
-
+                <filter string="Actifs" name="filter_active" domain="[('active', '=', True)]"/>
+                <filter string="Inactifs" name="filter_inactive" domain="[('active', '=', False)]"/>
+                <filter string="Qualité Élevée" name="filter_high_quality" domain="[('quality_score', '>=', 70)]"/>
+                <filter string="Qualité Moyenne" name="filter_medium_quality" domain="[('quality_score', '>=', 40), ('quality_score', '&lt;', 70)]"/>
+                <filter string="Qualité Faible" name="filter_low_quality" domain="[('quality_score', '&lt;', 40)]"/>
                 <group expand="0" string="Grouper Par">
                     <filter string="Utilisateur"
                             name="group_user"

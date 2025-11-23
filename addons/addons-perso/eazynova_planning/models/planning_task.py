@@ -93,6 +93,7 @@ class PlanningTask(models.Model):
     )
     resource_skill_ids = fields.Many2many(
         'eazynova.planning.resource.skill',
+        'task_skill_rel',
         string="Compétences requises"
     )
 

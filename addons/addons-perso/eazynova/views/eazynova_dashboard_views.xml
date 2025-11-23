@@ -6,9 +6,5 @@
         <field name="tag">eazynova_dashboard</field>
     </record>
 
-    <menuitem id="menu_eazynova_dashboard"
-              name="Tableau de Bord"
-              parent="menu_eazynova_root"
-              action="eazynova_dashboard_action"
-              sequence="1"/>
+
 </odoo>

@@ -6,13 +6,11 @@
         <field name="arch" type="xml">
             <form string="OCR de Document">
                 <group>
-                    <field name="file_type"/>
-                    <field name="file_name" invisible="1"/>
-                    <field name="file_data" filename="file_name"/>
+                    <field name="document" filename="document_filename"/>
                     <field name="extracted_text" widget="text" invisible="not extracted_text"/>
                 </group>
                 <footer>
-                    <button string="Extraire" name="action_extract" type="object" class="btn-primary"/>
+                    <button string="Extraire" name="action_process_ocr" type="object" class="btn-primary"/>
                     <button string="Annuler" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

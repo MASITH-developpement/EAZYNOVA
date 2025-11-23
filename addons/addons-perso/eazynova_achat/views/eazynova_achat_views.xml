@@ -6,12 +6,12 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
-                <group string="Reconnaissance de caractères (OCR) & IA">
+                <group string="Reconnaissance de caractères (OCR) &amp; IA">
                     <field name="ocr_attachment_id"/>
                     <field name="ocr_extracted_text"/>
                     <field name="ia_suggestion"/>
                     <field name="chantier_id"/>
-                    <button name="action_ocr_extract" type="object" string="Extraire & Suggérer (OCR/IA)" class="oe_highlight"/>
+                    <button name="action_ocr_extract" type="object" string="Extraire &amp; Suggérer (OCR/IA)" class="oe_highlight"/>
                 </group>
             </xpath>
         </field>

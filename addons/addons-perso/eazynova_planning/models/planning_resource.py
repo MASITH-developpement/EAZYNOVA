@@ -43,7 +43,7 @@ class PlanningResource(models.Model):
     # Compétences
     skill_ids = fields.Many2many(
         'eazynova.planning.resource.skill',
-        relation='eazynova_resource_skill_rel',
+        'resource_skill_rel',
         string="Compétences"
     )
 

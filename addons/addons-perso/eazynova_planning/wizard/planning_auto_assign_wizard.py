@@ -28,6 +28,7 @@ class PlanningAutoAssignWizard(models.TransientModel):
 
     skill_ids = fields.Many2many(
         'eazynova.planning.resource.skill',
+        'wiz_auto_assign_skill_rel',
         string="Compétences requises"
     )
 
