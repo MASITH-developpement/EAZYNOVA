@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Remove Powered By Odoo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+    <style>
+        :root {
+          --primary-color: #185ADB;
+          --bg-white: #fff;
+          --text-color: #121212;
+          --text-color-light: #64728f;
+        }
+        body{
+          font-family: "Montserrat", sans-serif;
+        }
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: var(--text-color);
+            font-family: Montserrat;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            border-radius: 30px;
+            line-height: normal;
+            text-transform: capitalize;
+            background-color: #F5F5F5;
+            border: none;
+            margin-bottom: 0;
+            padding: 12px 24px;
+      }
+      .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+      border-color: transparent;
+      isolation: isolate;
+      }
+      .nav-tabs .nav-link:focus-visible {
+      border-color: transparent;
+      box-shadow: none;
+      }
+      /* owl-carosel */
+    .owl-carousel .owl-nav {
+      position: absolute;
+      top: 42%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-42%);
+    }
+
+    .owl-carousel .owl-nav button.owl-prev {
+      position: absolute;
+      right: -36px;
+      font-size: 28px;
+      background-color: #e4e4e4;
+      border-radius: 20px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .owl-carousel .owl-nav button.owl-next {
+      position: absolute;
+      left: -36px;
+      font-size: 28px;
+      background-color: #e4e4e4;
+      border-radius: 20px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    </style>
+</head>
+<body>
+<!-- overview -->
+<div class="container">
+    <div class="my-5">
+        <!-- button tab -->
+        <!--  -->
+        <!-- version support -->
+        <div class="supports my-5 py-3" style="border-bottom: 1px solid #e7e7e7;">
+            <div class="row justify-content-between">
+                <div class="col-4">
+                </div>
+                <div class="col-6">
+                    <div class="row" style="margin-top:10px">
+
+                        <div class="my-3 d-flex align-items-center justify-content-end">
+                            <span class="me-3"><b>Supports: </b></span>
+                            <div class="text-center"
+                                 style="background-color:#017E84 !important; font-size:0.8rem !important; color:#fff !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                                Community
+                            </div>
+                            <div class="text-center"
+                                 style="background-color:#875A7B !important; color:#fff !important; font-size:0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                                Enterprise
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px">
+                        <div class="d-flex align-items-center justify-content-end">
+                            <span class="me-3"><b>Availability: </b></span>
+                            <div class="text-center col"
+                                 style="font-size:0.8rem !important; color:#5B899E !important; border:1px solid #5B899E; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:20px !important; min-width:120px !important">
+                                <i class="fa fa-check" style="color:green"></i> On Premise
+                            </div>
+                            <div class="text-center col"
+                                 style="font-size:0.8rem !important; color:#5B899E !important; border:1px solid #5B899E; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:20px !important; min-width:120px !important">
+                                <i class="fa fa-check" style="color:green"></i> Odoo.sh
+                            </div>
+                            <div class="text-center col"
+                                 style="border:1px solid #017E84; font-size:0.8rem !important; color:#017E84 !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:20px !important; min-width:120px !important">
+                                <i class="fa fa-times" style="color:red"></i> Odoo Online
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="myTabContent">
+            <!-- description -->
+            <div class="tab-pane fade show active" id="home" role="tabpanel"
+                 aria-labelledby="home-tab">
+                <div class="position-relative"
+                     style="border-radius: 16px; background: #f8f8f8; padding: 20px 0;">
+                    <div class="row " style="
+          padding: 2rem 0rem 0 !important;
+        ">
+                        <div class="col-lg-8 mx-auto gap-4 d-flex flex-column align-items-center">
+                            <p class="my-1 text-center text-uppercase"
+                               style="
+              letter-spacing: 4px !important;
+              color: var(--primary-color);
+              font-weight: bold;
+              text-align: center;
+              font-size: 14px;
+              font-weight: 600;
+              line-height: 15.96px;
+              text-transform: uppercase;
+            ">
+                                Customize your email templates
+                            </p>
+                            <h1 class="text-center text-uppercase my-0"
+                                style="
+              color: var(--text-color);
+              font-size: 46px;
+              font-weight: 700;
+              line-height: normal;
+            ">Remove Powered By Odoo</span>
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="position-absolute bottom-0 end-0"
+                         style=" z-index: 2;">
+                        <img src="./icon.png">
+                    </div>
+                </div>
+
+                <!-- video blog link section  -->
+
+                <div style="background-color: #ffffff; border: 1px solid #e7e7e7; padding: 40px; border-radius: 12px; text-align: center; color: #000; margin-top: 34px;">
+                    <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 0px;">
+                        Documentation and Support
+                    </h1>
+                    <div style="margin-top: 30px;display: flex; gap: 20px; justify-content: center; align-items: center;">
+                        <div style="width: 100%;">
+                            <div style="background-color: #F7F3FF; min-height: 289px; border-radius: 12px; padding: 32px; text-align: left;">
+                                <div style="margin-bottom: 24px;">
+                                    <i class="fa fa-book" style="padding: 15px; background-color: #E9E4F5;border-radius: 12px; font-size: 32px; color: #185ADB;"></i>
+                                </div>
+                                <h3 style="color: #121212; font-size: 24px; font-weight: 700; margin-bottom: 12px;">Documentation</h3>
+                                <p style="color: #666666; font-size: 16px; margin-bottom: 24px;">Access our comprehensive guide</p>
+                                <div style="display: flex; align-items: center; gap: 12px; background-color: black; padding: 8px; border-radius: 8px;">
+                                    <div>
+                                        <i class="fa fa-copy" style="color: #fff; padding-left: 10px;"></i>
+                                    </div>
+                                    <a style="font-family: 'Montserrat', sans-serif;
+                                            padding-top: 7px;
+                                            border: none;
+                                            width: 368px;
+                                            background: transparent;
+                                            outline: none;
+                                            color: #fff;
+                                            margin: 0;
+                                            font-weight: bold;
+                                            text-decoration: none;
+                                            overflow-wrap: anywhere;
+                                            word-wrap: break-word;
+                                            white-space: normal;">
+                                        https://www.auguria.fr/en/blog/modules-odoo-auguria-9/remove-powered-by-odoo-249
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 100%;">
+                            <div style="background-color: #FFF5F5;  min-height: 289px; border-radius: 12px; padding: 32px; text-align: left;margin-left: 30px;">
+                                <div style="margin-bottom: 24px;">
+                                    <i class="fa fa-headset" style="padding: 15px; background-color: #FFDCDC;border-radius: 12px; font-size: 32px; color: #185ADB;"></i>
+                                </div>
+                                <h3 style="color: #121212; font-size: 24px; font-weight: 700; margin-bottom: 12px;">
+                                    Customer Support</h3>
+                                <p style="color: #666666; font-size: 16px; margin-bottom: 24px;">Contact our expert team</p>
+                                <div style="display: flex; align-items: center; gap: 12px; background-color: black; padding: 8px; border-radius: 8px;">
+                                    <div>
+                                        <i class="fa fa-copy" style="color: #fff; padding-left: 10px;"></i>
+                                    </div>
+                                    <a style="padding-top: 7px; border: none; width: 368px; background: transparent; outline: none; color: #fff;text-overflow: ellipsis !important; margin: 0; overflow: hidden !important; white-space: nowrap;font-weight: bold;">
+                                        contact@auguria.fr
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+
+                <!-- overview -->
+                <div class="row  mb-5 mt-5">
+                    <div class="col-lg-12">
+                        <div class="border rounded py-5 mt-4 px-4"
+                             style="background-color:#FAFAFF; border-radius:6px">
+                            <h1 style="color: var(--primary-color);
+                  text-align: center;
+                  font-family: Montserrat;
+                  font-size: 40px;
+                  font-style: normal;
+                  font-weight: 700;
+                  line-height: normal;
+                  text-transform: uppercase;
+                  padding-bottom: 50px;">
+                                Overview
+                            </h1>
+                            <p style="color: var(--text-color-light);
+                  font-family: Montserrat;
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: 30px;">
+                                This module allows you to remove the <strong>"Powered By Odoo"</strong> mention from all 
+                                email templates. Customize your business communications by removing this automatic signature 
+                                from your Odoo emails.
+                            </p>
+                            <p style="color: var(--text-color-light);
+                  font-family: Montserrat;
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: 30px;">
+                                <strong>Main Benefits:</strong>
+                            </p>
+                            <ul style="color: var(--text-color-light);
+                  font-family: Montserrat;
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: 30px;">
+                                <li>Professional and personalized email communications</li>
+                                <li>Remove branding from all email templates in one click</li>
+                                <li>Batch action for multiple templates</li>
+                                <li>Compatible with all languages</li>
+                                <li>Simple configuration process</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  -->
+                <div class="row mb-5">
+                    <div class="col-lg-12">
+                        <h1 style="color: var(--primary-color);
+              text-align: center;
+              font-family: Montserrat;
+              font-size: 40px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: normal;
+              text-transform: uppercase;
+              padding-bottom: 50px;">Key Features</h1>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="d-flex align-items-center justify-content-start gap-2"
+                                     style="background-color:#FAFAFF !important; border-radius:8px !important; padding:20px">
+                                    <div class="d-flex align-items-center justify-content-center"
+                                         style="background-color:#185ADB !important; border-radius:8px !important; height:42px; width:42px">
+                                        <i class="fa fa-eraser" style="color: #fff; font-size: 20px;"></i>
+                                    </div>
+                                    <h5 class="m-0"
+                                        style="color:#000 !important; font-weight:bold">
+                                        Remove Branding
+                                    </h5>
+                                    <p class="m-0"
+                                       style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                        Automatically remove "Powered By Odoo"
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="d-flex align-items-center justify-content-start gap-2"
+                                     style="background-color:#FAFAFF !important; border-radius:8px !important; padding:20px">
+                                    <div class="d-flex align-items-center justify-content-center"
+                                         style="background-color:#185ADB !important; border-radius:8px !important; height:42px; width:42px">
+                                        <i class="fa fa-envelope" style="color: #fff; font-size: 20px;"></i>
+                                    </div>
+                                    <h5 class="m-0"
+                                        style="color:#000 !important; font-weight:bold">
+                                        Email Customization
+                                    </h5>
+                                    <p class="m-0"
+                                       style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                        Professional email appearance
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="d-flex align-items-center justify-content-start gap-2"
+                                     style="background-color:#FAFAFF !important; border-radius:8px !important; padding:20px">
+                                    <div class="d-flex align-items-center justify-content-center"
+                                         style="background-color:#185ADB !important; border-radius:8px !important; height:42px; width:42px">
+                                        <i class="fa fa-bolt" style="color: #fff; font-size: 20px;"></i>
+                                    </div>
+                                    <h5 class="m-0"
+                                        style="color:#000 !important; font-weight:bold">
+                                        Batch Action
+                                    </h5>
+                                    <p class="m-0"
+                                       style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                        Apply to all templates at once
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="d-flex align-items-center justify-content-start gap-2"
+                                     style="background-color:#FAFAFF !important; border-radius:8px !important; padding:20px">
+                                    <div class="d-flex align-items-center justify-content-center"
+                                         style="background-color:#185ADB !important; border-radius:8px !important; height:42px; width:42px">
+                                        <i class="fa fa-globe" style="color: #fff; font-size: 20px;"></i>
+                                    </div>
+                                    <h5 class="m-0"
+                                        style="color:#000 !important; font-weight:bold">
+                                        Multilingual Support
+                                    </h5>
+                                    <p class="m-0"
+                                       style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                        Works with all installed languages
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  -->
+                <!-- screenshot and other -->
+
+                <div class="mb-4 bg-white"
+                     style=" border: 1px solid #EBEEF2; border-radius: 6px; box-shadow: 0px 8px 20px -4px rgba(0, 0, 0, 0.10); border: 1px solid #EBEEF2;">
+                    <div>
+                        <ul class="nav nav-tabs justify-content-center bg-white py-2"
+                            id="myTab" role="tablist"
+                            style="border-radius: 6px 6px 0 0;">
+                            <li class="nav-item">
+                                <a aria-controls="overview"
+                                   aria-bs-selected="true"
+                                   class="nav-link active" data-bs-toggle="tab"
+                                   href="#overview" id="overview-tab" role="tab"
+                                   style="color:#121212; font-weight:500; font-size:16px">
+                                    Screenshots</a>
+                            </li>
+                            <li class="nav-item">
+                                <a aria-controls="feature"
+                                   aria-bs-selected="false"
+                                   class="nav-link py-2" data-bs-toggle="tab"
+                                   href="#feature" id="feature-tab" role="tab"
+                                   style="color:#121212; font-weight:500; font-size:16px">Features</a>
+                            </li>
+                            <li class="nav-item">
+                                <a aria-controls="faq" aria-bs-selected="false"
+                                   class="nav-link" data-bs-toggle="tab"
+                                   href="#faq" id="faq-tab" role="tab"
+                                   style="color:#121212; font-weight:500; font-size:16px">
+                                    FAQs</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content p-md-5 p-2 py-3" id="myTabContent">
+                        <div aria-labelledby="overview-tab"
+                             class="tab-pane fade show active" id="overview"
+                             role="tabpanel">
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px">
+                                <img alt="acc_bg"
+                                     class="w-100 h-100 position-absolute img-fluid left_0"
+                                     loading="lazy"
+                                     src="//apps.odoocdn.com/apps/assets/17.0/ks_dashboard_ninja/ai-img/o3.png?007008f"
+                                     style="">
+                            </div>
+                            <!-- screenshots section-->
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">How to Use</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                <strong>Prerequisites:</strong> Enable Developer Mode to access the Technical menu. Go to <strong>Settings → Activate Developer Mode</strong>.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <h4 style="color: var(--primary-color); text-align: center; margin-bottom: 20px;">
+                                                Steps to follow:
+                                            </h4>
+                                            <ol style="font-size: 16px; line-height: 2; color: var(--text-color); max-width: 800px; margin: 0 auto;">
+                                                <li>Go to <strong>Settings → Technical → Email Templates</strong></li>
+                                                <li>Select <strong>all templates</strong> (or only the ones you want to modify)</li>
+                                                <li>Click <strong>Action → Remove Powered By Odoo</strong></li>
+                                            </ol>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./screenshots/screen-en.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Multilingual Note</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                If you use Odoo in multiple languages, repeat these instructions for each language to remove "Powered By Odoo" from all translated templates.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div style="background-color: rgba(24, 90, 219, 0.1); border-left: 4px solid var(--primary-color); padding: 20px; border-radius: 8px; max-width: 800px; margin: 0 auto; text-align: left;">
+                                                <i class="fa fa-language fa-2x" style="float: left; margin-right: 15px; color: var(--primary-color);"></i>
+                                                <strong>Tip:</strong> Make sure to switch languages in Odoo settings and apply the removal action for each language to ensure complete branding removal across your entire system.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div aria-labelledby="feature-tab"
+                             class="tab-pane fade show py-1" id="feature"
+                             role="tabpanel">
+                            <div class="row py-4">
+                                <!-- Features Section -->
+                                <div class="col-md-6 col-sm-12 p-3">
+                                    <div class="d-flex flex-column align-items-start h-100"
+                                         style="padding:30px; border-radius:12px; background-color:#faf8ff">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex align-items-center justify-content-center "
+                                                 style="width:36px; height:36px; border-radius:50%; background-color:#185ADB ; margin-right:10px">
+                                                <i class="fa fa-star  "
+                                                   style="color:#fff; font-size:14px"></i>
+                                            </div>
+                                            <p style="color:#1A202C; font-weight:600; font-size:1.2rem; margin-bottom:2px">
+                                                Available for Odoo 19.0 Community and Enterprise</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 p-3">
+                                    <div class="d-flex flex-column align-items-start h-100"
+                                         style="padding:30px; border-radius:12px; background-color:#faf8ff">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex align-items-center justify-content-center "
+                                                 style="width:36px; height:36px; border-radius:50%; background-color:#185ADB ; margin-right:10px">
+                                                <i class="fa fa-star  "
+                                                   style="color:#fff; font-size:14px"></i>
+                                            </div>
+                                            <p style="color:#1A202C; font-weight:600; font-size:1.2rem; margin-bottom:2px">
+                                                Remove "Powered By Odoo" from all email templates</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 p-3">
+                                    <div class="d-flex flex-column align-items-start h-100"
+                                         style="padding:30px; border-radius:12px; background-color:#faf8ff">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex align-items-center justify-content-center "
+                                                 style="width:36px; height:36px; border-radius:50%; background-color:#185ADB ; margin-right:10px">
+                                                <i class="fa fa-star  "
+                                                   style="color:#fff; font-size:14px"></i>
+                                            </div>
+                                            <p style="color:#1A202C; font-weight:600; font-size:1.2rem; margin-bottom:2px">
+                                                Batch action for multiple templates simultaneously</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 p-3">
+                                    <div class="d-flex flex-column align-items-start h-100"
+                                         style="padding:30px; border-radius:12px; background-color:#faf8ff">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex align-items-center justify-content-center "
+                                                 style="width:36px; height:36px; border-radius:50%; background-color:#185ADB ; margin-right:10px">
+                                                <i class="fa fa-star  "
+                                                   style="color:#fff; font-size:14px"></i>
+                                            </div>
+                                            <p style="color:#1A202C; font-weight:600; font-size:1.2rem; margin-bottom:2px">
+                                                Compatible with all installed languages</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div aria-labelledby="faq-tab"
+                             class="tab-pane fade show" id="faq"
+                             role="tabpanel">
+                            <div class="row"
+                                 style=" background-color:#fff !important">
+                                <div class="col-md-12" aria-labelledby="faq-tab"
+                                     id="faq" role="tabpanel">
+                                    <div class="accordion mb-4" id="accordion6">
+                                        <div style="background-color:#fff">
+                                            <!-- accordian -->
+                                            <div class="accordion"
+                                                 id="accordion_faq">
+                                                <!-- Question 1 -->
+                                                <div class="card mb-3"
+                                                     style="border:1px solid #EBEEF2; box-shadow:none; border-radius:10px">
+                                                    <div class="card-header"
+                                                         style="padding:0 0 0 0; background-color:#fff; border-bottom:none; border-radius:10px">
+                                                        <h5 style="margin:0">
+                                                            <button class="btn btn-link collapsed"
+                                                                    data-bs-toggle="collapse"
+                                                                    data-bs-target="#collapse_one"
+                                                                    aria-expanded="false"
+                                                                    aria-controls="collapse_one"
+                                                                    style="text-decoration:none; display:block; width:100%; padding:0.75rem 1.25rem; text-align:left; color:#121212 !important; font-size:18px; font-weight:600; border-bottom-left-radius:10px; border-bottom-right-radius:10px">
+                                                                How do I enable Developer Mode?
+                                                                <span class="fa fa-chevron-down"
+                                                                      style="float:right; margin-top:5px"></span>
+                                                            </button>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapse_one"
+                                                         class="collapse"
+                                                         data-bs-parent="#accordion_faq">
+                                                        <p style="padding:0.75rem 1.25rem; font-size:16px; line-height:27px;  color:#888; font-weight:normal; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                            Go to Settings, scroll down to the Developer Tools section, and click on "Activate the developer mode". You can also activate it from the menu by clicking on your username in the top right corner.
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Question 2 -->
+                                                <div class="card mb-3"
+                                                     style="border:1px solid #EBEEF2; box-shadow:none; border-radius:10px">
+                                                    <div class="card-header"
+                                                         style="padding:0 0 0 0; background-color:#fff; border-bottom:none; border-radius:10px">
+                                                        <h5 style="margin:0">
+                                                            <button class="btn btn-link collapsed"
+                                                                    data-bs-toggle="collapse"
+                                                                    data-bs-target="#collapse_two"
+                                                                    aria-expanded="false"
+                                                                    aria-controls="collapse_two"
+                                                                    style="text-decoration:none; display:block; width:100%; padding:0.75rem 1.25rem; text-align:left; color:#121212 !important; font-size:18px; font-weight:600; border-bottom-left-radius:10px; border-bottom-right-radius:10px">
+                                                                Can I remove the branding from specific templates only?
+                                                                <span class="fa fa-chevron-down"
+                                                                      style="float:right; margin-top:5px"></span>
+                                                            </button>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapse_two"
+                                                         class="collapse"
+                                                         data-bs-parent="#accordion_faq">
+                                                        <p style="padding:0.75rem 1.25rem; font-size:16px; line-height:27px;  color:#888; font-weight:normal; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                            Yes, you can select specific email templates from the list and apply the "Remove Powered By Odoo" action only to those templates. You are not required to apply it to all templates.
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Question 3 -->
+                                                <div class="card mb-3"
+                                                     style="border:1px solid #EBEEF2; box-shadow:none; border-radius:10px">
+                                                    <div class="card-header"
+                                                         style="padding:0 0 0 0; background-color:#fff; border-bottom:none; border-radius:10px">
+                                                        <h5 style="margin:0">
+                                                            <button class="btn btn-link collapsed"
+                                                                    data-bs-toggle="collapse"
+                                                                    data-bs-target="#collapse_three"
+                                                                    aria-expanded="false"
+                                                                    aria-controls="collapse_three"
+                                                                    style="text-decoration:none; display:block; width:100%; padding:0.75rem 1.25rem; text-align:left; color:#121212 !important; font-size:18px; font-weight:600; border-bottom-left-radius:10px; border-bottom-right-radius:10px">
+                                                                Does this work with custom email templates?
+                                                                <span class="fa fa-chevron-down"
+                                                                      style="float:right; margin-top:5px"></span>
+                                                            </button>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapse_three"
+                                                         class="collapse"
+                                                         data-bs-parent="#accordion_faq">
+                                                        <p style="padding:0.75rem 1.25rem; font-size:16px; line-height:27px;  color:#888; font-weight:normal; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                            Yes, this module works with both standard Odoo email templates and custom templates you've created. It will remove the "Powered By Odoo" mention from any template you select.
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+
+            <div class="my-5 py-5" style="background-color: #f5f5f0; border-radius: 16px; padding: 60px 40px;">
+                <div class="text-center mb-5">
+                    <h2 style="font-family: 'Caveat', cursive; color: var(--text-color); font-size: 48px; font-weight: 700;">
+                        How we support your Odoo journey
+                    </h2>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Bloc 1 - Advisory & Scoping (BLEU) -->
+                    <div class="col-lg-6 col-md-6">
+                        <div class="h-100" style="background-color: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="background-color: #185ADB; padding: 40px; text-align: center;">
+                                <i class="fa fa-compass" style="font-size: 80px; color: #fff;"></i>
+                            </div>
+                            <div style="padding: 30px;">
+                                <h4 style="font-family: 'Caveat', cursive; color: var(--text-color); font-weight: 700; font-size: 32px; margin-bottom: 20px; text-align: center;">
+                                    Advisory & Scoping
+                                </h4>
+                                <ul style="font-family: 'Montserrat', sans-serif; color: var(--text-color); font-size: 16px; line-height: 2; padding-left: 20px; list-style: disc;">
+                                    <li>Business process review and audit</li>
+                                    <li>Workshops with key stakeholders</li>
+                                    <li>Odoo roadmap and implementation strategy</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloc 2 - Implementation & Integration (JAUNE) -->
+                    <div class="col-lg-6 col-md-6">
+                        <div class="h-100" style="background-color: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="background-color: #FFBA00; padding: 40px; text-align: center;">
+                                <i class="fa fa-cog" style="font-size: 80px; color: #fff;"></i>
+                            </div>
+                            <div style="padding: 30px;">
+                                <h4 style="font-family: 'Caveat', cursive; color: var(--text-color); font-weight: 700; font-size: 32px; margin-bottom: 20px; text-align: center;">
+                                    Implementation & Integration
+                                </h4>
+                                <ul style="font-family: 'Montserrat', sans-serif; color: var(--text-color); font-size: 16px; line-height: 2; padding-left: 20px; list-style: disc;">
+                                    <li>Odoo configuration tailored to your workflows</li>
+                                    <li>Custom developments when standard is not enough</li>
+                                    <li>API-based integrations with your existing tools</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloc 3 - Migration & Data Transition (JAUNE) -->
+                    <div class="col-lg-6 col-md-6">
+                        <div class="h-100" style="background-color: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="background-color: #FFBA00; padding: 40px; text-align: center;">
+                                <i class="fa fa-arrow-left" style="font-size: 80px; color: #fff;"></i>
+                                <i class="fa fa-arrow-right" style="font-size: 80px; color: #fff;"></i>
+                            </div>
+                            <div style="padding: 30px;">
+                                <h4 style="font-family: 'Caveat', cursive; color: var(--text-color); font-weight: 700; font-size: 32px; margin-bottom: 20px; text-align: center;">
+                                    Migration & Data Transition
+                                </h4>
+                                <ul style="font-family: 'Montserrat', sans-serif; color: var(--text-color); font-size: 16px; line-height: 2; padding-left: 20px; list-style: disc;">
+                                    <li>Analysis of legacy systems and data structure</li>
+                                    <li>Secure data cleansing, mapping and migration</li>
+                                    <li>Testing, validation and go-live support</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloc 4 - Support, Training & Continuous Improvement (BLEU) -->
+                    <div class="col-lg-6 col-md-6">
+                        <div class="h-100" style="background-color: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="background-color: #185ADB; padding: 40px; text-align: center;">
+                                <i class="fa fa-life-buoy" style="font-size: 80px; color: #fff;"></i>
+                            </div>
+                            <div style="padding: 30px;">
+                                <h4 style="font-family: 'Caveat', cursive; color: var(--text-color); font-weight: 700; font-size: 32px; margin-bottom: 20px; text-align: center;">
+                                    Support, Training & Continuous Improvement
+                                </h4>
+                                <ul style="font-family: 'Montserrat', sans-serif; color: var(--text-color); font-size: 16px; line-height: 2; padding-left: 20px; list-style: disc;">
+                                    <li>Functional and technical support on Odoo</li>
+                                    <li>User training and onboarding sessions</li>
+                                    <li>Continuous improvement and new feature rollout</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+    </div>
+    </section>
+    <!--  -->
+</div>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+     rtl:true,
+     loop:true,
+     margin:10,
+     nav:true,
+     responsive:{
+         0:{
+             items:1
+         },
+         600:{
+             items:2
+         },
+         1000:{
+             items:3
+         }
+     }
+    })
+</script>
+</html>
