@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action -->
+    <record id="action_trust_config" model="ir.actions.act_window">
+        <field name="name">Configuration Avis Clients</field>
+        <field name="res_model">eazynova.trust.config</field>
+        <field name="view_mode">form</field>
+    </record>
+</odoo>

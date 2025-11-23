@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Principal -->
+    <menuitem id="menu_trust_root"
+              name="Avis Clients"
+              parent="eazynova.menu_eazynova_root"
+              sequence="70"/>
+
+    <!-- Sous-menus -->
+    <menuitem id="menu_review_requests"
+              name="Demandes d'Avis"
+              parent="menu_trust_root"
+              action="action_review_request"
+              sequence="10"/>
+
+    <menuitem id="menu_customer_reviews"
+              name="Avis Clients"
+              parent="menu_trust_root"
+              action="action_customer_review"
+              sequence="20"/>
+
+    <menuitem id="menu_trust_config"
+              name="Configuration"
+              parent="menu_trust_root"
+              action="action_trust_config"
+              sequence="100"
+              groups="eazynova_trust.group_trust_manager"/>
+</odoo>
