@@ -4,7 +4,8 @@
     <menuitem id="menu_prix_root"
               name="Vérification Prix"
               parent="eazynova.menu_eazynova_root"
-              sequence="60"/>
+              sequence="60"
+              web_icon="eazynova_prix,static/description/icon.png"/>
 
     <!-- Sous-menus -->
     <menuitem id="menu_prix_verification"

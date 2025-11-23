@@ -35,6 +35,7 @@
                     <field name="enable_price_check" widget="boolean_toggle"/>
                     <field name="price_status" widget="badge" decoration-success="price_status == 'ok'" decoration-warning="price_status == 'warning'" decoration-danger="price_status == 'alert'" decoration-muted="price_status == 'never'"/>
                     <field name="last_price_check"/>
+                    <field name="external_avg_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 </group>
             </xpath>
         </field>
