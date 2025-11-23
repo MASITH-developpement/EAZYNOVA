@@ -41,6 +41,7 @@
         'security/intervention_security.xml',
         'security/intervention_rules.xml',
         'security/ir.model.access.csv',
+        'views/intervention_mail_config_views.xml',
         'views/res_config_settings_views.xml',
         'views/intervention_config_views.xml',
         'views/intervention_config_settings.xml',
