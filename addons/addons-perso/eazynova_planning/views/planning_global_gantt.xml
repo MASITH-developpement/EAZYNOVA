@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue planning global type diagramme par employé -->
+    <record id="action_planning_global_gantt" model="ir.actions.act_window">
+        <field name="name">Planning global (diagramme)</field>
+        <field name="res_model">eazynova.planning.assignment</field>
+        <field name="view_mode">gantt,tree,form</field>
+        <field name="view_id" ref="view_planning_assignment_gantt"/>
+        <field name="context">{"search_default_group_by_resource_id": 1}</field>
+    </record>
+
+    <record id="view_planning_assignment_gantt" model="ir.ui.view">
+        <field name="name">eazynova.planning.assignment.gantt</field>
+        <field name="model">eazynova.planning.assignment</field>
+        <field name="arch" type="xml">
+            <gantt string="Planning global" date_start="date_start" date_stop="date_end" default_group_by="resource_id" color="resource_id">
+                <field name="name"/>
+                <field name="task_id"/>
+                <field name="resource_id"/>
+                <field name="state"/>
+            </gantt>
+        </field>
+    </record>
+</odoo>

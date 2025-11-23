@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, _
+
+from odoo import api, fields, models
+from odoo.tools.translate import _
 from odoo.exceptions import ValidationError
 import logging
 
@@ -8,6 +10,41 @@ _logger = logging.getLogger(__name__)
 
 
 class PlanningResource(models.Model):
+    # Peut travailler le week-end ?
+    work_weekend = fields.Boolean(
+        string="Travaille le week-end",
+        default=False,
+        help="Si coché, la ressource peut être planifiée le samedi/dimanche."
+    )
+    # Peut travailler les jours fériés ?
+    work_holidays = fields.Boolean(
+        string="Travaille les jours fériés",
+        default=False,
+        help="Si coché, la ressource peut être planifiée les jours fériés."
+    )
+    _name = 'eazynova.planning.resource'
+    _description = 'Ressource de planning EAZYNOVA'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = 'name'
+
+    def onchange(self):
+        # Méthode onchange requise par Odoo, peut être personnalisée si besoin
+        pass
+
+
+class PlanningResource(models.Model):
+    # Peut travailler le week-end ?
+    work_weekend = fields.Boolean(
+        string="Travaille le week-end",
+        default=False,
+        help="Si coché, la ressource peut être planifiée le samedi/dimanche."
+    )
+    # Peut travailler les jours fériés ?
+    work_holidays = fields.Boolean(
+        string="Travaille les jours fériés",
+        default=False,
+        help="Si coché, la ressource peut être planifiée les jours fériés."
+    )
     _name = 'eazynova.planning.resource'
     _description = 'Ressource de planning EAZYNOVA'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -24,7 +61,12 @@ class PlanningResource(models.Model):
         ('vehicle', 'Véhicule'),
         ('material', 'Matériel'),
         ('other', 'Autre'),
-    ], string="Type de ressource", required=True, default='human', tracking=True)
+    ],
+        string="Type de ressource",
+        required=True,
+        default='human',
+        tracking=True
+    )
 
     # Lien avec employé (si ressource humaine)
     employee_id = fields.Many2one(
@@ -146,12 +188,16 @@ class PlanningResource(models.Model):
         for resource in self:
             # Vérifier les absences en cours
             current_absences = resource.absence_ids.filtered(
-                lambda a: a.date_start <= now <= a.date_end and a.state == 'approved'
+                lambda a: (
+                    a.date_start <= now <= a.date_end and a.state == 'approved'
+                )
             )
 
             if current_absences:
                 # Vérifier si c'est une maintenance
-                if any(a.absence_type == 'maintenance' for a in current_absences):
+                if any(
+                    a.absence_type == 'maintenance' for a in current_absences
+                ):
                     resource.availability_status = 'maintenance'
                 else:
                     resource.availability_status = 'absent'
@@ -159,7 +205,8 @@ class PlanningResource(models.Model):
 
             # Vérifier les assignations en cours
             current_assignments = resource.assignment_ids.filtered(
-                lambda a: a.date_start <= now <= a.date_end and a.state in ('confirmed', 'in_progress')
+                lambda a: a.date_start <= now <= a.date_end and a.state in (
+                    'confirmed', 'in_progress')
             )
 
             if current_assignments:
@@ -171,8 +218,13 @@ class PlanningResource(models.Model):
     def _check_code_unique(self):
         """Vérifie l'unicité du code"""
         for resource in self:
-            if self.search_count([('code', '=', resource.code), ('id', '!=', resource.id)]) > 0:
-                raise ValidationError(_("Le code de la ressource doit être unique."))
+            if self.search_count([
+                ('code', '=', resource.code),
+                ('id', '!=', resource.id)
+            ]) > 0:
+                raise ValidationError(
+                    _("Le code de la ressource doit être unique.")
+                )
 
     def action_view_assignments(self):
         """Ouvre la vue des assignations"""
@@ -199,7 +251,10 @@ class PlanningResource(models.Model):
         }
 
     def get_availability(self, date_start, date_end):
-        """Retourne la disponibilité de la ressource pour une période donnée"""
+        """
+        Retourne la disponibilité de la ressource pour une période donnée,
+        en tenant compte des week-ends et jours fériés
+        """
         self.ensure_one()
 
         # Vérifier les absences
@@ -207,10 +262,11 @@ class PlanningResource(models.Model):
             ('resource_id', '=', self.id),
             ('state', '=', 'approved'),
             '|',
-            '&', ('date_start', '<=', date_start), ('date_end', '>=', date_start),
+            '&',
+            ('date_start', '<=', date_start),
+            ('date_end', '>=', date_start),
             '&', ('date_start', '<=', date_end), ('date_end', '>=', date_end),
         ])
-
         if absences:
             return {
                 'available': False,
@@ -223,16 +279,59 @@ class PlanningResource(models.Model):
             ('resource_id', '=', self.id),
             ('state', 'in', ('confirmed', 'in_progress')),
             '|',
-            '&', ('date_start', '<=', date_start), ('date_end', '>=', date_start),
+            '&',
+            ('date_start', '<=', date_start),
+            ('date_end', '>=', date_start),
             '&', ('date_start', '<=', date_end), ('date_end', '>=', date_end),
         ])
-
         if assignments:
             return {
                 'available': False,
                 'reason': 'busy',
                 'details': assignments.mapped('task_id.name')
             }
+
+        # Vérifier week-end
+        import datetime
+        current = date_start
+        while current <= date_end:
+            if current.weekday() >= 5 and not self.work_weekend:
+                return {
+                    'available': False,
+                    'reason': 'weekend',
+                    'details': [
+                        _(
+                            "Week-end non autorisé pour cette ressource ("
+                            + current.strftime('%A')
+                            + ")"
+                        )
+                    ]
+                }
+            current += datetime.timedelta(days=1)
+
+        # Vérifier jours fériés
+        if (
+            self.calendar_id and
+            self.calendar_id.holiday_ids and
+            not self.work_holidays
+        ):
+            holidays = self.calendar_id.holiday_ids.mapped('date')
+            current = date_start.date()
+            end = date_end.date()
+            while current <= end:
+                if current in holidays:
+                    return {
+                        'available': False,
+                        'reason': 'holiday',
+                        'details': [
+                            _(
+                                "Jour férié non autorisé pour cette ressource ("
+                                + current.strftime('%Y-%m-%d')
+                                + ")"
+                            )
+                        ]
+                    }
+                current += datetime.timedelta(days=1)
 
         return {
             'available': True,

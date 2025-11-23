@@ -18,4 +18,12 @@
               name="Configuration"
               parent="menu_eazynova_root"
               sequence="100"/>
+
+    <!-- Intégration du planning global dans le menu EAZYNOVA -->
+    <menuitem id="menu_eazynova_planning_root_core"
+              name="Planning"
+              parent="menu_eazynova_root"
+              sequence="50"
+              web_icon="eazynova,static/description/planning_icon.png"/>
+    <menuitem id="menu_eazynova_planning_global_core" name="Planning global (diagramme)" parent="menu_eazynova_planning_root_core" action="action_planning_global_gantt" sequence="10"/>
 </odoo>
