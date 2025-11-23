@@ -53,7 +53,6 @@
                 <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
                 <group expand="0" string="Grouper par">
                     <filter string="Donneur d'ordre" name="donneur_ordre" context="{'group_by': 'donneur_ordre_id'}"/>
-                    <filter string="Société" name="company" context="{'group_by': 'company_id'}"/>
                 </group>
             </search>
         </field>
