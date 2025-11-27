@@ -54,8 +54,6 @@
         'views/intervention_actions.xml',
         'views/intervention_views.xml',
         'views/intervention_quick_create_views.xml',
-        'views/intervention_menus.xml',
-        'views/intervention_mail_config_views.xml',
         'views/settings_views.xml',
         'views/intervention_colors_template.xml',
         'report/intervention_reports.xml',
@@ -63,7 +61,6 @@
         'wizard/intervention_validation_wizard_views.xml',
         'views/res_users_view.xml',
         'views/res_partner_latlong.xml',
-        'security/intervention_user_access_rules.xml',
     ],
     'assets': {
         'web.assets_backend': [

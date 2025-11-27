@@ -243,10 +243,15 @@
         <field name="model">intervention.intervention</field>
         <field name="type">list</field>
         <field name="arch" type="xml">
-            <list decoration-info="statut=='planifie'" 
-                  decoration-warning="statut=='en_cours'" 
+            <list decoration-info="statut=='planifie'"
+                  decoration-warning="statut=='en_cours'"
                   decoration-success="statut=='termine'"
                   decoration-muted="statut=='annule'">
+                <header>
+                    <button name="action_open_technician_portal" type="object" string="🔧 Portail Technicien"
+                            class="btn-primary"
+                            help="Accéder au portail des techniciens pour voir vos interventions"/>
+                </header>
                 <field name="numero"/>
                 <field name="numero_donneur_ordre" string="N° DO"/>
                 <field name="date_prevue"/>
