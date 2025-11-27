@@ -4,11 +4,16 @@ Plateforme SaaS de gestion d'entreprise basée sur Odoo 19 CE avec modules perso
 
 ## 🚀 Déploiement 100% Automatique sur Railway
 
-Déployez EAZYNOVA en **2 clics** avec PostgreSQL inclus - **ZÉRO configuration manuelle !**
+Déployez EAZYNOVA en **1 clic** avec PostgreSQL inclus - **ZÉRO configuration manuelle !**
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/new?template=https://github.com/MASITH-developpement/EAZYNOVA)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https://github.com/MASITH-developpement/EAZYNOVA)
 
-**Temps : ~5-8 minutes | Configuration : 0 | Clics : 2** ⚡
+**OU copiez ce lien direct dans votre navigateur :**
+```
+https://railway.app/new?template=https://github.com/MASITH-developpement/EAZYNOVA
+```
+
+**Temps : ~5-8 minutes | Configuration : 0 | Clic : 1** ⚡
 
 ### Tout est créé automatiquement :
 - ✅ PostgreSQL avec base de données
