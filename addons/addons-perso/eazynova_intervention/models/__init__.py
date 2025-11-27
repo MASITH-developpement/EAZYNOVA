@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from . import intervention_access_mixin
 from . import intervention
 from . import intervention_quick_create
+from . import intervention_settings
 from . import materiel
 from . import geocoding_cache
 from . import res_partner
