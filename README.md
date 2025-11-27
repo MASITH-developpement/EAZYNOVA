@@ -2,23 +2,28 @@
 
 Plateforme SaaS de gestion d'entreprise basée sur Odoo 19 CE avec modules personnalisés pour la construction, la gestion de chantiers, et l'authentification par reconnaissance faciale.
 
-## 🚀 Déploiement Rapide sur Railway
+## 🚀 Déploiement 100% Automatique sur Railway
 
-Déployez EAZYNOVA en un clic avec PostgreSQL inclus :
+Déployez EAZYNOVA en **2 clics** avec PostgreSQL inclus - **ZÉRO configuration manuelle !**
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/new?template=https://github.com/MASITH-developpement/EAZYNOVA)
 
-**Temps de déploiement : ~5 minutes** ⏱️
+**Temps : ~5-8 minutes | Configuration : 0 | Clics : 2** ⚡
 
-Tout est configuré automatiquement :
-- ✅ PostgreSQL
-- ✅ Odoo 19
-- ✅ Modules EAZYNOVA
-- ✅ Variables d'environnement
-- ✅ HTTPS
-- ✅ Initialisation de la base de données
+### Tout est créé automatiquement :
+- ✅ PostgreSQL avec base de données
+- ✅ Odoo 19 configuré
+- ✅ Modules EAZYNOVA installés
+- ✅ **Toutes les variables d'environnement** (mots de passe, DB, admin, etc.)
+- ✅ Base de données Odoo initialisée
+- ✅ Entreprise et administrateur configurés
+- ✅ HTTPS automatique
+- ✅ Prêt à l'emploi !
 
-➡️ **[Guide de déploiement Railway complet](./RAILWAY_DEPLOY.md)**
+**Aucune variable à créer manuellement.** Tout est dans le template ! 🎉
+
+➡️ **[Guide de déploiement automatique](./RAILWAY_AUTO_DEPLOY.md)** ⭐
+➡️ [Guide de déploiement complet](./RAILWAY_DEPLOY.md)
 
 ---
 
