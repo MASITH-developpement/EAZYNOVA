@@ -1,14 +1,132 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
-  "build": {
-    "builder": "DOCKERFILE",
-    "dockerfilePath": "Dockerfile"
-  },
-  "deploy": {
-    "startCommand": "/start-odoo.sh",
-    "healthcheckPath": "/web/health",
-    "healthcheckTimeout": 100,
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
+  "name": "EAZYNOVA Odoo 19 SaaS",
+  "description": "Déploiement complet d'Odoo 19 avec PostgreSQL pour EAZYNOVA - Plateforme SaaS de gestion d'entreprise avec reconnaissance faciale",
+  "icon": "https://www.odoo.com/web/image/website/1/favicon",
+  "services": {
+    "postgresql": {
+      "name": "PostgreSQL Database",
+      "type": "postgres",
+      "icon": "https://railway.app/brand/postgres.svg",
+      "description": "Base de données PostgreSQL pour Odoo",
+      "variables": {
+        "POSTGRES_DB": {
+          "description": "Nom de la base de données principale",
+          "default": "eazynova"
+        },
+        "POSTGRES_USER": {
+          "description": "Utilisateur PostgreSQL",
+          "default": "odoo"
+        },
+        "POSTGRES_PASSWORD": {
+          "description": "Mot de passe PostgreSQL (généré automatiquement)",
+          "generator": {
+            "type": "secret"
+          }
+        }
+      },
+      "volumes": [
+        {
+          "mountPath": "/var/lib/postgresql/data"
+        }
+      ]
+    },
+    "odoo": {
+      "name": "EAZYNOVA Odoo",
+      "type": "dockerfile",
+      "icon": "https://www.odoo.com/web/image/website/1/favicon",
+      "description": "Application Odoo 19 avec modules personnalisés EAZYNOVA",
+      "source": {
+        "type": "repo",
+        "repo": "MASITH-developpement/EAZYNOVA",
+        "branch": "main"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "Dockerfile"
+      },
+      "deploy": {
+        "startCommand": "/start-odoo.sh",
+        "healthcheckPath": "/web/health",
+        "healthcheckTimeout": 120,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "variables": {
+        "PORT": {
+          "description": "Port HTTP pour Odoo",
+          "default": "8069"
+        },
+        "ENVIRONMENT": {
+          "description": "Environnement d'exécution (production ou development)",
+          "default": "production"
+        },
+        "ODOO_ADMIN_PASSWORD": {
+          "description": "Mot de passe maître Odoo (pour gérer les bases de données)",
+          "generator": {
+            "type": "secret"
+          }
+        },
+        "PGHOST": {
+          "description": "Hôte PostgreSQL",
+          "reference": "postgresql.PGHOST"
+        },
+        "PGPORT": {
+          "description": "Port PostgreSQL",
+          "reference": "postgresql.PGPORT"
+        },
+        "PGUSER": {
+          "description": "Utilisateur PostgreSQL",
+          "reference": "postgresql.POSTGRES_USER"
+        },
+        "PGPASSWORD": {
+          "description": "Mot de passe PostgreSQL",
+          "reference": "postgresql.POSTGRES_PASSWORD"
+        },
+        "PGDATABASE": {
+          "description": "Nom de la base de données",
+          "reference": "postgresql.POSTGRES_DB"
+        },
+        "DATABASE_URL": {
+          "description": "URL complète de connexion PostgreSQL",
+          "reference": "postgresql.DATABASE_URL"
+        },
+        "AUTO_INIT_DB": {
+          "description": "Initialiser automatiquement la base de données Odoo au premier démarrage",
+          "default": "true"
+        },
+        "INIT_DB_NAME": {
+          "description": "Nom de la base de données Odoo à créer automatiquement",
+          "default": "eazynova_prod"
+        },
+        "INIT_ADMIN_EMAIL": {
+          "description": "Email de l'administrateur Odoo (pour l'initialisation automatique)",
+          "default": "admin@eazynova.com"
+        },
+        "INIT_COMPANY_NAME": {
+          "description": "Nom de la société (pour l'initialisation automatique)",
+          "default": "EAZYNOVA"
+        },
+        "INIT_COUNTRY": {
+          "description": "Code pays (FR, US, etc.)",
+          "default": "FR"
+        },
+        "INIT_LANG": {
+          "description": "Langue par défaut (fr_FR, en_US, etc.)",
+          "default": "fr_FR"
+        }
+      },
+      "domains": [
+        {
+          "type": "railway"
+        }
+      ],
+      "volumes": [
+        {
+          "mountPath": "/var/lib/odoo"
+        }
+      ],
+      "dependsOn": ["postgresql"]
+    }
   }
 }
