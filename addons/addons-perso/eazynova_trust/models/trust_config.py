@@ -20,6 +20,12 @@ class TrustConfig(models.Model):
         default=False
     )
 
+    trustpilot_dev_mode = fields.Boolean(
+        string='Mode développement Trustpilot',
+        default=True,
+        help="Désactive la publication automatique et la vérification de signature pour les tests"
+    )
+
     trustpilot_api_key = fields.Char(
         string='Clé API Trustpilot'
     )
@@ -31,6 +37,24 @@ class TrustConfig(models.Model):
     trustpilot_review_url = fields.Char(
         string='URL d\'avis Trustpilot',
         help='Lien vers la page d\'avis Trustpilot'
+    )
+
+    trustpilot_template_id = fields.Char(
+        string='Template ID Trustpilot'
+    )
+
+    trustpilot_widget_token = fields.Char(
+        string='Widget Token Trustpilot'
+    )
+
+    trustpilot_locale = fields.Char(
+        string='Locale',
+        default='fr-FR'
+    )
+
+    trustpilot_script_url = fields.Char(
+        string='Script URL',
+        default='//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js'
     )
 
     # Google Reviews

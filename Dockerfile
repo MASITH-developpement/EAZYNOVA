@@ -35,7 +35,7 @@ RUN python3 /patch_odoo.py
 
 # Créer dossier config et copier fichier minimal
 #RUN mkdir -p /etc/odoo
-#COPY odoo.conf /etc/odoo/odoo.conf
+COPY odoo.conf /etc/odoo/odoo.conf
 
 # Créer dossier pour les données Odoo
 RUN mkdir -p /var/lib/odoo
@@ -53,7 +53,8 @@ RUN echo "Build date: ${BUILD_DATE}"
 
 # Copie et permission du script de démarrage
 COPY start-odoo.sh /start-odoo.sh
-RUN chmod +x /start-odoo.sh
+# Normaliser les fins de ligne Windows -> Unix
+RUN sed -i 's/\r$//' /start-odoo.sh && chmod +x /start-odoo.sh
 
 # Point d'entrée
 COPY addons/addons-perso /opt/odoo/custom_addons

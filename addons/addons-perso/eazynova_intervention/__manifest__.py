@@ -41,6 +41,9 @@
         'security/intervention_security.xml',
         'security/intervention_rules.xml',
         'security/ir.model.access.csv',
+        'views/intervention_search_views.xml',
+        'views/intervention_views.xml',
+        'views/intervention_actions.xml',
         'views/intervention_menus.xml',
         'views/intervention_mail_config_views.xml',
         'views/res_config_settings_views.xml',
@@ -51,11 +54,7 @@
         'data/automation_send_report.xml',
         'data/automation_incoming_mail.xml',
         'data/cron_cleanup_geocoding.xml',
-        'views/intervention_actions.xml',
-        'views/intervention_views.xml',
         'views/intervention_quick_create_views.xml',
-        'views/intervention_menus.xml',
-        'views/intervention_mail_config_views.xml',
         'views/settings_views.xml',
         'views/intervention_colors_template.xml',
         'report/intervention_reports.xml',
@@ -63,12 +62,21 @@
         'wizard/intervention_validation_wizard_views.xml',
         'views/res_users_view.xml',
         'views/res_partner_latlong.xml',
+        'views/technician_portal_template.xml',
+        'views/technician_photos_avant_template.xml',
+        'views/technician_rapport_template.xml',
+        'views/technician_photos_apres_template.xml',
+        'views/technician_validation_client_template.xml',
         'security/intervention_user_access_rules.xml',
     ],
     'assets': {
         'web.assets_backend': [
             'eazynova_intervention/static/src/css/intervention_enhanced.css',
             'eazynova_intervention/static/src/css/intervention_override.css',
+            'eazynova_intervention/static/src/js/backend/intervention_color_dynamic.js',
+        ],
+        'web.assets_frontend': [
+            # Pas de JS Odoo custom à charger côté frontend pour le portail technicien
         ],
     },
     'images': [
@@ -78,4 +86,5 @@
     'installable': True,
     'application': True,
     'live_test_url': 'https://www.masith.fr',
+    'post_init_hook': 'post_init_hook',
 }

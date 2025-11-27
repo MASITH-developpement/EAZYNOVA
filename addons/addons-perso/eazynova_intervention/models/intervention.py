@@ -18,6 +18,10 @@ _logger = logging.getLogger(__name__)
 
 
 class InterventionIntervention(models.Model, InterventionAccessMixin, MailThread):
+    observations_client = fields.Text(
+        string="Observations du client",
+        help="Commentaires ou remarques du client lors de la validation."
+    )
     _name = 'intervention.intervention'
     _inherit = ['mail.thread']
     _description = "Intervention technique"
@@ -707,6 +711,7 @@ class InterventionIntervention(models.Model, InterventionAccessMixin, MailThread
     duree_prevue = fields.Float(string="Durée prévue (h)", default=lambda self: self._default_duree_prevue())
     duree_reelle = fields.Float(
         string="Durée réelle (h)", compute="_compute_duree_reelle", store=True)
+    date_calendar_stop = fields.Datetime(string="Fin calendrier", compute="_compute_date_calendar_stop", store=True)
 
     # Type et statut
     type_intervention = fields.Selection([
@@ -740,6 +745,16 @@ class InterventionIntervention(models.Model, InterventionAccessMixin, MailThread
         'intervention_id',
         string="Matériaux utilisés"
     )
+
+    @api.depends('date_fin', 'date_prevue', 'duree_prevue')
+    def _compute_date_calendar_stop(self):
+        for rec in self:
+            if rec.date_fin:
+                rec.date_calendar_stop = rec.date_fin
+            elif rec.date_prevue:
+                rec.date_calendar_stop = rec.date_prevue + timedelta(hours=rec.duree_prevue or 2.0)
+            else:
+                rec.date_calendar_stop = False
 
     # Liens avec les ventes et facturation
     sale_order_id = fields.Many2one(
@@ -1220,6 +1235,19 @@ class InterventionIntervention(models.Model, InterventionAccessMixin, MailThread
 
     @api.model
     def create(self, vals):
+        # Odoo 19 : peut recevoir une liste de dicts ou un dict
+        if isinstance(vals, list):
+            interventions = self.browse()
+            for val in vals:
+                if val.get('numero', '/') in (False, '/', ''):
+                    numero_genere = self.env['ir.sequence'].next_by_code('intervention.intervention') or '/'
+                    _logger.warning(f"[DEBUG INTERVENTION] Génération numéro (batch): {numero_genere}")
+                    val['numero'] = numero_genere
+                else:
+                    _logger.warning(f"[DEBUG INTERVENTION] Numéro fourni (batch): {val.get('numero')}")
+                interventions += super(InterventionIntervention, self).create(val)
+            return interventions
+
         # Contrôle d'accès global intervention
         if not self.env.user.has_group('base.group_system') and not self.check_intervention_access('create'):
             raise AccessError("Vous n'avez pas le droit de créer une intervention.")
@@ -1228,13 +1256,13 @@ class InterventionIntervention(models.Model, InterventionAccessMixin, MailThread
         if 'rapport_intervention' in vals and not self.check_intervention_access('create', section='rapport'):
             raise AccessError("Vous n'avez pas le droit de créer un rapport d'intervention.")
 
-        # Contrôle photos/heure : autorisé à la première saisie même sans droit création
-        # (on ne bloque jamais la première saisie, même si la case création n'est pas cochée)
-        # Donc on ne fait rien ici, la restriction ne s'applique qu'en modification/suppression
-
         # Création intervention
-        if vals.get('numero', '/') == '/':
-            vals['numero'] = self.env['ir.sequence'].next_by_code('intervention.intervention') or '/'
+        if vals.get('numero', '/') in (False, '/', ''):
+            numero_genere = self.env['ir.sequence'].next_by_code('intervention.intervention') or '/'
+            _logger.warning(f"[DEBUG INTERVENTION] Génération numéro: {numero_genere}")
+            vals['numero'] = numero_genere
+        else:
+            _logger.warning(f"[DEBUG INTERVENTION] Numéro fourni: {vals.get('numero')}")
         intervention = super(InterventionIntervention, self).create(vals)
         # Créer automatiquement l'événement calendrier si une date est prévue
         if intervention.date_prevue and intervention.technicien_principal_id:

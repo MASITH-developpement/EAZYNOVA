@@ -53,21 +53,6 @@ class ResConfigSettings(models.TransientModel):
         help="Seuil minimum de confiance pour l'OCR (0-100)"
     )
 
-    # Configuration Reconnaissance faciale
-    eazynova_facial_enabled = fields.Boolean(
-        string="Activer reconnaissance faciale",
-        config_parameter='eazynova.facial_enabled',
-        default=False,
-        help="Activer l'authentification par reconnaissance faciale (RGPD: requiert consentement)"
-    )
-
-    eazynova_facial_tolerance = fields.Float(
-        string="Tolérance reconnaissance faciale",
-        config_parameter='eazynova.facial_tolerance',
-        default=0.6,
-        help="Tolérance pour la reconnaissance faciale (0.0-1.0, plus bas = plus strict)"
-    )
-
     # Paramètres généraux
     eazynova_auto_backup = fields.Boolean(
         string="Sauvegarde automatique",
@@ -96,8 +81,6 @@ class ResConfigSettings(models.TransientModel):
             'eazynova_ocr_enabled': params.get_param('eazynova.ocr_enabled', True),
             'eazynova_ocr_language': params.get_param('eazynova.ocr_language', 'fra+eng'),
             'eazynova_ocr_confidence_threshold': float(params.get_param('eazynova.ocr_confidence_threshold', 80.0)),
-            'eazynova_facial_enabled': params.get_param('eazynova.facial_enabled', False),
-            'eazynova_facial_tolerance': float(params.get_param('eazynova.facial_tolerance', 0.6)),
             'eazynova_auto_backup': params.get_param('eazynova.auto_backup', True),
             'eazynova_debug_mode': params.get_param('eazynova.debug_mode', False),
         })
@@ -114,7 +97,5 @@ class ResConfigSettings(models.TransientModel):
         params.set_param('eazynova.ocr_enabled', self.eazynova_ocr_enabled)
         params.set_param('eazynova.ocr_language', self.eazynova_ocr_language)
         params.set_param('eazynova.ocr_confidence_threshold', self.eazynova_ocr_confidence_threshold)
-        params.set_param('eazynova.facial_enabled', self.eazynova_facial_enabled)
-        params.set_param('eazynova.facial_tolerance', self.eazynova_facial_tolerance)
         params.set_param('eazynova.auto_backup', self.eazynova_auto_backup)
         params.set_param('eazynova.debug_mode', self.eazynova_debug_mode)
