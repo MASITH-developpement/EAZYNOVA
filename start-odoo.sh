@@ -31,6 +31,14 @@ done
 echo "Nettoyage des assets..."
 python3 /opt/clean_assets.py
 
+# Initialisation Railway (si nécessaire)
+if [ -f "/init-railway.sh" ]; then
+  echo ""
+  echo "🔧 Vérification de l'initialisation Railway..."
+  bash /init-railway.sh || echo "⚠️  Initialisation Railway ignorée ou échouée"
+  echo ""
+fi
+
 # Nom de la base de données
 echo "Base de données: ${PGDATABASE}"
 
