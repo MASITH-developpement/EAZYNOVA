@@ -143,3 +143,11 @@ docs/_templates/
 # Données de développement
 **/dev_data/
 **/fixtures/local_*.json
+
+# === RAILWAY ===
+# Fichiers d'environnement Railway (sauf .example)
+.env.railway
+!.env.railway.example
+
+# Logs Railway locaux
+railway-logs/
