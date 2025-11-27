@@ -1,10 +1,14 @@
 #!/bin/bash
 set -e
 
+# Détection de l'environnement
+ENVIRONMENT=${ENVIRONMENT:-production}
+
 # Affichage des informations de connexion
 echo "=========================================="
 echo "Démarrage Odoo 19 - EAZYNOVA"
 echo "=========================================="
+echo "Environnement: ${ENVIRONMENT}"
 echo "PostgreSQL Host: ${PGHOST}"
 echo "PostgreSQL Port: ${PGPORT}"
 echo "PostgreSQL User: ${PGUSER}"
@@ -30,9 +34,28 @@ python3 /opt/clean_assets.py
 # Nom de la base de données
 echo "Base de données: ${PGDATABASE}"
 
-# URL publique
-echo "URL publique: https://eazynova.up.railway.app"
+# URL publique (Railway fournit RAILWAY_PUBLIC_DOMAIN)
+if [ -n "$RAILWAY_PUBLIC_DOMAIN" ]; then
+  echo "URL publique: https://${RAILWAY_PUBLIC_DOMAIN}"
+else
+  echo "URL publique: http://localhost:${PORT:-8069}"
+fi
 echo "=========================================="
+
+# Configuration selon l'environnement
+if [ "$ENVIRONMENT" = "production" ]; then
+  echo "Mode PRODUCTION activé"
+  WORKERS=2
+  MAX_CRON=2
+  DEV_MODE=""
+  LOG_LEVEL="info"
+else
+  echo "Mode DÉVELOPPEMENT activé"
+  WORKERS=0
+  MAX_CRON=1
+  DEV_MODE="--dev=all"
+  LOG_LEVEL="debug"
+fi
 
 # Lancer Odoo avec paramètres en ligne de commande
 exec /usr/local/bin/odoo \
@@ -43,10 +66,10 @@ exec /usr/local/bin/odoo \
   --database=${PGDATABASE} \
   --http-interface=0.0.0.0 \
   --http-port=${PORT:-8069} \
-  --workers=0 \
-  --max-cron-threads=1 \
+  --workers=${WORKERS} \
+  --max-cron-threads=${MAX_CRON} \
   --proxy-mode \
   --addons-path=/opt/odoo/odoo/addons,/opt/odoo/addons,/opt/odoo/custom_addons,/mnt/extra-addons/addons-perso \
   --data-dir=/var/lib/odoo \
-  --log-level=info \
-  --dev=all
+  --log-level=${LOG_LEVEL} \
+  ${DEV_MODE}
