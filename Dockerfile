@@ -12,7 +12,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
-    apt-get install -y python3-lxml python3-ldap postgresql && \
+    apt-get install -y python3-lxml python3-ldap postgresql postgresql-client && \
     pip3 install lxml-html-clean
 
 # Installation de wheel
@@ -51,9 +51,10 @@ EXPOSE ${PORT:-8069}
 ARG BUILD_DATE=2025-11-22T22:25:00
 RUN echo "Build date: ${BUILD_DATE}"
 
-# Copie et permission du script de démarrage
+# Copie et permission des scripts
 COPY start-odoo.sh /start-odoo.sh
-RUN chmod +x /start-odoo.sh
+COPY init-railway.sh /init-railway.sh
+RUN chmod +x /start-odoo.sh /init-railway.sh
 
 # Point d'entrée
 COPY addons/addons-perso /opt/odoo/custom_addons
