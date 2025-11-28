@@ -101,16 +101,9 @@ railway add --database postgres
 print_success "PostgreSQL ajouté"
 echo ""
 
-# Configurer les variables d'environnement spécifiques au client
-print_step "⚙️  Configuration des variables..."
-
-railway variables set INIT_ADMIN_EMAIL="$ADMIN_EMAIL"
-railway variables set INIT_COMPANY_NAME="$COMPANY_NAME"
-railway variables set INIT_DB_NAME="${CLIENT_NAME//-/_}_prod"
-railway variables set AUTO_INIT_DB="true"
-railway variables set ENVIRONMENT="production"
-
-print_success "Variables configurées"
+# Les variables seront configurées automatiquement par railway.json
+print_step "⚙️  Railway.json va configurer toutes les variables automatiquement..."
+print_success "Configuration automatique activée (via railway.json)"
 echo ""
 
 # Déployer depuis GitHub
