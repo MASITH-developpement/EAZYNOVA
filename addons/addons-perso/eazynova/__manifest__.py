@@ -39,8 +39,8 @@
         # Données
         'data/eazynova_data.xml',
 
-        'views/eazynova_menu.xml',
         'views/eazynova_dashboard_views.xml',
+        'views/eazynova_menu.xml',
         'views/res_config_settings_views.xml',
         'views/res_company_views.xml',
         'views/res_users_views.xml',

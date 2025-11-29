@@ -65,7 +65,7 @@ else
   LOG_LEVEL="debug"
 fi
 
-# Lancer Odoo avec paramètres en ligne de commande
+# Lancer Odoo avec paramètres en ligne de commande (chemins addons combinés pour compatibilité)
 exec /usr/local/bin/odoo \
   --db_host=${PGHOST} \
   --db_port=${PGPORT} \
@@ -77,7 +77,7 @@ exec /usr/local/bin/odoo \
   --workers=${WORKERS} \
   --max-cron-threads=${MAX_CRON} \
   --proxy-mode \
-  --addons-path=/opt/odoo/odoo/addons,/opt/odoo/addons,/opt/odoo/custom_addons,/mnt/extra-addons/addons-perso \
+  --addons-path=/opt/odoo/odoo/addons,/opt/odoo/addons,/mnt/extra-addons/addons-perso,/opt/odoo/custom_addons \
   --data-dir=/var/lib/odoo \
   --log-level=${LOG_LEVEL} \
   ${DEV_MODE}

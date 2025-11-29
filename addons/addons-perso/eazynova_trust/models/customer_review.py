@@ -145,6 +145,8 @@ class CustomerReview(models.Model):
 
     def action_approve(self):
         """Approuve l'avis"""
+        if not self.env.user.has_group('eazynova_trust.group_trust_manager'):
+            raise ValidationError("Seul un Manager Avis Clients peut approuver l'avis.")
         self.write({'state': 'approved'})
 
         # Marquer la demande comme complétée si elle existe

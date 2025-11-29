@@ -8,7 +8,7 @@
         <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'list', 'view_id': ref('intervention_intervention_view_list')}),
             (0, 0, {'view_mode': 'kanban', 'view_id': ref('intervention_intervention_view_kanban_mobile')}),
-            (0, 0, {'view_mode': 'calendar', 'view_id': ref('action_intervention_planning')}),
+            (0, 0, {'view_mode': 'calendar', 'view_id': ref('intervention_intervention_view_calendar')}),
             (0, 0, {'view_mode': 'graph'}),
             (0, 0, {'view_mode': 'pivot'})
         ]"></field>
@@ -72,9 +72,15 @@
         <field name="name">intervention_intervention_view_list</field>
         <field name="model">intervention.intervention</field>
         <field name="arch" type="xml">
-            <list>
-                <!-- Définition de la vue liste -->
-            </list>
+            <tree>
+                <field name="numero"/>
+                <field name="date_prevue"/>
+                <field name="donneur_ordre_id"/>
+                <field name="client_final_id"/>
+                <field name="technicien_principal_id"/>
+                <field name="type_intervention"/>
+                <field name="statut"/>
+            </tree>
         </field>
     </record>
 
@@ -83,7 +89,14 @@
         <field name="model">intervention.intervention</field>
         <field name="arch" type="xml">
             <kanban>
-                <!-- Définition de la vue kanban -->
+                <field name="numero"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <field name="numero"/>
+                        </div>
+                    </t>
+                </templates>
             </kanban>
         </field>
     </record>

@@ -2,7 +2,7 @@
 {
     'name': 'EAZYNOVA - Gestion des Avis Clients',
     'version': '19.0.1.0.0',
-    'category': 'Marketing/CRM',
+    'category': 'Évaluations',
     'summary': 'Gestion des avis clients Trustpilot et publication sur site web',
     'description': """
         EAZYNOVA - Module Gestion des Avis Clients
@@ -44,7 +44,9 @@
         'sale_management',
         'account',
         'website',
+        'web',
         'portal',
+        'eazynova_intervention',
         'eazynova',  # Module EAZYNOVA Core
     ],
     'data': [
@@ -56,11 +58,13 @@
         'data/trust_data.xml',
         'data/mail_template_data.xml',
         'data/cron_trust.xml',
+        'data/cron_trust_sync.xml',
 
         # Vues
-        'views/trust_menu.xml',
         'views/review_request_views.xml',
+        'views/trust_menu.xml',
         'views/customer_review_views.xml',
+        'views/intervention_inherit_trust.xml',
         'views/trust_config_views.xml',
         'views/res_partner_views.xml',
 
@@ -81,4 +85,5 @@
     'installable': True,
     'application': False,
     'auto_install': False,
+    'post_init_hook': 'post_init_hook',
 }

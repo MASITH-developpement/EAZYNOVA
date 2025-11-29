@@ -1,0 +1,29 @@
+{
+  "name": "eazynova-provisioning",
+  "version": "1.0.0",
+  "description": "Système de provisioning automatique d'instances EAZYNOVA via Railway API",
+  "main": "api-server.js",
+  "scripts": {
+    "start": "node api-server.js",
+    "create": "node create-instance.js"
+  },
+  "keywords": [
+    "eazynova",
+    "odoo",
+    "saas",
+    "railway",
+    "auto-provisioning",
+    "multi-tenant"
+  ],
+  "author": "MASITH Développement",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MASITH-developpement/EAZYNOVA.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

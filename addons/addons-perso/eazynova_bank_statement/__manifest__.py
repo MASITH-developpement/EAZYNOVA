@@ -42,9 +42,8 @@
     'website': 'https://eazynova-production.up.railway.app/',
     'license': 'LGPL-3',
     'depends': [
-        'eazynova',              # Module CORE (IA, OCR)
-        'account',               # Comptabilité Odoo
-        'account_accountant',    # Rapprochement bancaire (Community compatible)
+        'eazynova',
+        'account',
     ],
     'external_dependencies': {
         'python': [

@@ -35,7 +35,7 @@ RUN python3 /patch_odoo.py
 
 # Créer dossier config et copier fichier minimal
 #RUN mkdir -p /etc/odoo
-#COPY odoo.conf /etc/odoo/odoo.conf
+COPY odoo.conf /etc/odoo/odoo.conf
 
 # Créer dossier pour les données Odoo
 RUN mkdir -p /var/lib/odoo
@@ -52,9 +52,11 @@ ARG BUILD_DATE=2025-11-22T22:25:00
 RUN echo "Build date: ${BUILD_DATE}"
 
 # Copie et permission des scripts
+
+# On copie les deux scripts et on normalise les fins de ligne pour start-odoo.sh, puis on rend les deux exécutables
 COPY start-odoo.sh /start-odoo.sh
 COPY init-railway.sh /init-railway.sh
-RUN chmod +x /start-odoo.sh /init-railway.sh
+RUN sed -i 's/\r$//' /start-odoo.sh && chmod +x /start-odoo.sh /init-railway.sh
 
 # Point d'entrée
 COPY addons/addons-perso /opt/odoo/custom_addons

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
     <!-- Vue arbre -->
     <record id="view_review_request_tree" model="ir.ui.view">
         <field name="name">eazynova.review.request.tree</field>
         <field name="model">eazynova.review.request</field>
         <field name="arch" type="xml">
-            <tree string="Demandes d'Avis" decoration-info="state == 'draft'" decoration-success="state == 'completed'">
+            <list string="Demandes d'Avis" decoration-info="state == 'draft'" decoration-success="state == 'completed'">
                 <field name="name"/>
                 <field name="request_date"/>
                 <field name="partner_id"/>
                 <field name="partner_email"/>
                 <field name="platform"/>
                 <field name="state" widget="badge"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -47,9 +48,6 @@
     </record>
 
     <!-- Action -->
-    <record id="action_review_request" model="ir.actions.act_window">
-        <field name="name">Demandes d'Avis</field>
-        <field name="res_model">eazynova.review.request</field>
-        <field name="view_mode">tree,form</field>
-    </record>
+    <!-- action_review_request définie dans trust_menu.xml pour garantir l'ordre -->
+    </data>
 </odoo>

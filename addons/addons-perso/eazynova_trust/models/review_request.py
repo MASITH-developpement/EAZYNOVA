@@ -3,6 +3,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 import logging
+import uuid
 
 _logger = logging.getLogger(__name__)
 
@@ -52,6 +53,12 @@ class ReviewRequest(models.Model):
         'sale.order',
         string='Commande',
         tracking=True
+    )
+
+    intervention_id = fields.Many2one(
+        'intervention.intervention',
+        string='Intervention',
+        ondelete='set null'
     )
 
     request_date = fields.Datetime(
@@ -116,12 +123,27 @@ class ReviewRequest(models.Model):
         tracking=True
     )
 
+    access_token = fields.Char(
+        string='Token d\'accès',
+        readonly=True,
+        copy=False,
+        index=True
+    )
+
+    token_used = fields.Boolean(
+        string='Token utilisé',
+        default=False,
+        help="Empêche les soumissions multiples via le même lien"
+    )
+
     @api.model_create_multi
     def create(self, vals_list):
         """Génère la référence automatiquement"""
         for vals in vals_list:
             if vals.get('name', 'Nouveau') == 'Nouveau':
                 vals['name'] = self.env['ir.sequence'].next_by_code('eazynova.review.request') or 'Nouveau'
+            if not vals.get('access_token'):
+                vals['access_token'] = uuid.uuid4().hex
         return super().create(vals_list)
 
     @api.depends('request_date')
@@ -149,7 +171,19 @@ class ReviewRequest(models.Model):
             else:
                 # Lien vers formulaire interne
                 base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-                request.review_link = f"{base_url}/review/submit/{request.id}"
+                request.review_link = f"{base_url}/review/submit/{request.id}?token={request.access_token}"
+
+    def _check_token_valid(self, token):
+        self.ensure_one()
+        if not token or token != self.access_token:
+            return False, 'invalid'
+        if self.state in ['completed', 'cancelled']:
+            return False, 'state'
+        if self.token_used:
+            return False, 'used'
+        if self.expiry_date and self.expiry_date < fields.Date.today():
+            return False, 'expired'
+        return True, 'ok'
 
     def action_send_request(self):
         """Envoie la demande d'avis par email"""
@@ -247,3 +281,15 @@ class ReviewRequest(models.Model):
                 request.action_send_reminder()
             except Exception as e:
                 _logger.error(f"Erreur lors de l'envoi de la relance pour {request.name}: {str(e)}")
+
+    def cron_send_pending_requests(self):
+        """Envoie les demandes en attente dont la date de demande est passée"""
+        pending = self.search([
+            ('state', '=', 'pending'),
+            ('request_date', '<=', fields.Datetime.now())
+        ])
+        for req in pending:
+            try:
+                req.action_send_request()
+            except Exception as e:
+                _logger.error(f"Erreur envoi demande pour {req.name}: {str(e)}")

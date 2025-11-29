@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_intervention_intervention_all,intervention.intervention.all,model_intervention_intervention,,1,1,1,1
-access_intervention_materiel_all,intervention.materiel.all,model_intervention_materiel,,1,1,1,1

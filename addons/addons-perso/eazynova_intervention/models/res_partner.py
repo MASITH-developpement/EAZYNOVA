@@ -32,8 +32,8 @@ class ResPartner(models.Model):
             vals_list = [vals_list]
         for vals in vals_list:
             if self.env.context.get('from_intervention'):
-                if not (self.env.user.has_group('intervention.group_intervention_gestionnaire') or
-                        self.env.user.has_group('intervention.group_intervention_admin')):
+                if not (self.env.user.has_group('eazynova_intervention.group_intervention_gestionnaire') or
+                        self.env.user.has_group('eazynova_intervention.group_intervention_admin')):
                     raise AccessError(
                         "Seuls les gestionnaires et administrateurs peuvent "
                         "créer de nouveaux clients."

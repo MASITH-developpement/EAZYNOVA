@@ -4,8 +4,7 @@
     <record id="board_intervention_dashboard" model="board.board">
         <field name="name">Tableau de bord Interventions</field>
         <field name="view_ids" eval="[(0,0,{'view_mode':'list','view_id':ref('intervention_intervention_view_list')}),
-                                        (0,0,{'view_mode':'kanban','view_id':ref('intervention_intervention_view_kanban_mobile')}),
-                                        (0,0,{'view_mode':'calendar','view_id':ref('action_intervention_planning')})]"/>
+                        (0,0,{'view_mode':'calendar','view_id':ref('action_intervention_planning')})]"/>
     </record>
 
     <!-- Menu pour accéder au dashboard -->

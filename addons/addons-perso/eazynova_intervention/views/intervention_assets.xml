@@ -3,19 +3,9 @@
     <!-- Assets JavaScript et CSS pour le module intervention -->
     <template id="assets_backend" name="intervention assets" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
-            <!-- Widget de sélection de date avec disponibilités -->
-            <script type="text/javascript" src="/intervention/static/src/js/datetime_disponibilite.js"></script>
-            <!-- Couleur dynamique -->
-            <script type="text/javascript" src="/intervention/static/src/js/intervention_color_dynamic.js"></script>
         </xpath>
     </template>
     
     <!-- Templates XML pour Owl -->
-    <template id="assets_web" name="intervention web assets" inherit_id="web.assets_web">
-        <xpath expr="." position="inside">
-            <t t-call="web.assets_xml">
-                <t t-call="intervention.static.src.xml.datetime_disponibilite"/>
-            </t>
-        </xpath>
-    </template>
+    <!-- assets_web supprimé : aucun JS custom côté frontend -->
 </odoo>
