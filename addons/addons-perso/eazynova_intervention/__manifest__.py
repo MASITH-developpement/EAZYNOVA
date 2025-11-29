@@ -61,7 +61,6 @@
         'views/intervention_report_templates.xml',
         'wizard/intervention_validation_wizard_views.xml',
         'views/res_users_view.xml',
-        'views/res_partner_latlong.xml',
         'views/technician_portal_template.xml',
         'views/technician_photos_avant_template.xml',
         'views/technician_rapport_template.xml',

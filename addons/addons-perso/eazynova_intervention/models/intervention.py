@@ -1655,3 +1655,11 @@ class InterventionIntervention(models.Model, InterventionAccessMixin, MailThread
         # Optionnel : envoyer le rapport par mail après validation
         self.action_send_report()
 
+    def action_open_technician_portal(self):
+        """Ouvre le portail technicien dans un nouvel onglet"""
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/intervention/technicien',
+            'target': 'new',
+        }
+

@@ -1,0 +1,55 @@
+# Railway Ignore - Fichiers à exclure du déploiement
+# Cela accélère les builds et réduit la taille de l'image
+
+# Git
+.git/
+.gitignore
+.github/
+
+# Documentation
+*.md
+!README.md
+DEPLOYMENT_GUIDE.md
+PR_*.md
+
+# Docker local
+docker-compose.yml
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*.cache
+
+# PgAdmin data (développement local uniquement)
+pgadmin-data/
+
+# Odoo local
+odoo-data/
+odoo-db-data/

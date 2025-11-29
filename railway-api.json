@@ -1,0 +1,40 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "name": "EAZYNOVA Provisioning API",
+  "description": "API publique pour créer des instances EAZYNOVA automatiquement",
+  "icon": "https://railway.app/brand/logo-light.svg",
+  "services": {
+    "api": {
+      "name": "Provisioning API",
+      "type": "web",
+      "source": {
+        "repo": "MASITH-developpement/EAZYNOVA",
+        "branch": "claude/configure-railway-01BFMjoetfrJMFfTcSHVn5fv"
+      },
+      "build": {
+        "builder": "NIXPACKS",
+        "buildCommand": "npm install"
+      },
+      "deploy": {
+        "startCommand": "node api-server.js",
+        "healthcheckPath": "/",
+        "healthcheckTimeout": 30
+      },
+      "variables": {
+        "RAILWAY_API_TOKEN": {
+          "description": "Token Railway API pour créer des instances",
+          "required": true
+        },
+        "PORT": {
+          "default": "3000"
+        },
+        "NODE_ENV": {
+          "default": "production"
+        }
+      },
+      "domains": {
+        "generateDomain": true
+      }
+    }
+  }
+}

@@ -16,3 +16,21 @@ restartPolicyMaxRetries = 10
 # === VARIABLES DE BUILD ===
 [build.env]
 PYTHONUNBUFFERED = "1"
+
+# === VARIABLES D'ENVIRONNEMENT PRODUCTION ===
+# Railway injecte automatiquement DATABASE_URL, mais on peut aussi définir les variables séparément
+# Ces variables seront accessibles dans l'application via ${VAR_NAME}
+
+# Base de données PostgreSQL
+# Railway crée automatiquement une DB PostgreSQL et fournit ces variables:
+# - DATABASE_URL (format: postgresql://user:pass@host:port/dbname)
+# - PGHOST, PGPORT, PGUSER, PGPASSWORD, PGDATABASE
+# Pas besoin de les définir ici, Railway les fournit automatiquement
+
+# Port HTTP (Railway l'injecte automatiquement)
+# PORT est fourni par Railway
+
+# Configuration Odoo
+# Définir ces variables dans l'interface Railway ou via railway.json
+# ODOO_ADMIN_PASSWORD - Mot de passe admin Odoo (IMPORTANT: à configurer dans Railway UI)
+# PGDATABASE - Nom de la base de données (par défaut: railway)
