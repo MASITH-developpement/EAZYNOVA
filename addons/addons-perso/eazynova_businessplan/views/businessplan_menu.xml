@@ -3,39 +3,19 @@
     <!-- Menu Principal -->
     <menuitem id="menu_businessplan_root"
               name="Business Plans"
-              sequence="10"
-              web_icon="eazynova_businessplan,static/description/icon.png"/>
+              sequence="10"/>
 
     <!-- Sous-menus -->
     <menuitem id="menu_businessplan_plans"
-              name="Business Plans"
+              name="Mes Business Plans"
               parent="menu_businessplan_root"
               action="action_business_plan"
               sequence="10"/>
 
     <menuitem id="menu_businessplan_indicators"
-              name="Indicateurs"
+              name="Tous les indicateurs"
               parent="menu_businessplan_root"
               action="action_business_plan_indicator"
               sequence="20"/>
-
-    <!-- Menu Reporting -->
-    <menuitem id="menu_businessplan_reporting"
-              name="Reporting"
-              parent="menu_businessplan_root"
-              sequence="50"/>
-
-    <menuitem id="menu_businessplan_indicators_report"
-              name="Analyse des indicateurs"
-              parent="menu_businessplan_reporting"
-              action="action_business_plan_indicator"
-              sequence="10"/>
-
-    <!-- Menu Configuration -->
-    <menuitem id="menu_businessplan_config"
-              name="Configuration"
-              parent="menu_businessplan_root"
-              sequence="100"
-              groups="base.group_system"/>
 
 </odoo>
