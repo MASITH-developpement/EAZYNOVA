@@ -1,296 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vue Formulaire Indicateur -->
+    <!-- Vue Formulaire Indicateur (SIMPLIFIÉ) -->
     <record id="view_business_plan_indicator_form" model="ir.ui.view">
         <field name="name">business.plan.indicator.form</field>
         <field name="model">business.plan.indicator</field>
         <field name="arch" type="xml">
-            <form string="Indicateur de suivi">
-                <header>
-                    <button name="action_activate" string="Activer" type="object"
-                            invisible="state != 'draft'" class="oe_highlight"/>
-                    <button name="action_achieve" string="Marquer comme atteint" type="object"
-                            invisible="state != 'active'" class="oe_highlight"/>
-                    <button name="action_fail" string="Marquer comme échoué" type="object"
-                            invisible="state != 'active'"/>
-                    <field name="state" widget="statusbar"
-                           statusbar_visible="draft,active,achieved"/>
-                </header>
+            <form string="Indicateur">
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_view_history" type="object"
-                                class="oe_stat_button" icon="fa-history">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_text">Historique</span>
-                            </div>
-                        </button>
-                    </div>
-                    <widget name="web_ribbon" title="Atteint" bg_color="text-bg-success"
-                            invisible="state != 'achieved'"/>
-                    <widget name="web_ribbon" title="Échoué" bg_color="text-bg-danger"
-                            invisible="state != 'failed'"/>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" placeholder="Nom de l'indicateur..."/>
-                        </h1>
-                    </div>
                     <group>
-                        <group>
-                            <field name="business_plan_id"/>
-                            <field name="indicator_type"/>
-                            <field name="category"/>
-                            <field name="user_id" widget="many2one_avatar_user"/>
-                            <field name="sequence" groups="base.group_no_one"/>
-                        </group>
-                        <group>
-                            <field name="unit"/>
-                            <field name="frequency"/>
-                            <field name="last_update_date"/>
-                            <field name="next_review_date"/>
-                            <field name="currency_id" invisible="1"/>
-                        </group>
+                        <field name="name"/>
+                        <field name="business_plan_id"/>
+                        <field name="target_value"/>
+                        <field name="current_value"/>
+                        <field name="progress" widget="progressbar"/>
                     </group>
-                    <group>
-                        <group string="Valeurs">
-                            <label for="target_value"/>
-                            <div class="o_row">
-                                <field name="target_value"/>
-                                <span invisible="unit != 'currency'">
-                                    <field name="currency_id" options="{'no_open': True}"/>
-                                </span>
-                                <span invisible="unit != 'percentage'">%</span>
-                            </div>
-                            <label for="current_value"/>
-                            <div class="o_row">
-                                <field name="current_value"/>
-                                <span invisible="unit != 'currency'">
-                                    <field name="currency_id" options="{'no_open': True}"/>
-                                </span>
-                                <span invisible="unit != 'percentage'">%</span>
-                            </div>
-                            <label for="previous_value"/>
-                            <div class="o_row">
-                                <field name="previous_value"/>
-                                <span invisible="unit != 'currency'">
-                                    <field name="currency_id" options="{'no_open': True}"/>
-                                </span>
-                                <span invisible="unit != 'percentage'">%</span>
-                            </div>
-                        </group>
-                        <group string="Performance">
-                            <field name="progress" widget="progressbar"/>
-                            <field name="achievement_rate" widget="percentage"/>
-                            <field name="variance"/>
-                            <field name="variance_percentage" widget="percentage"/>
-                            <field name="alert_status" widget="badge"
-                                   decoration-success="alert_status == 'ok'"
-                                   decoration-warning="alert_status == 'warning'"
-                                   decoration-danger="alert_status == 'critical'"/>
-                        </group>
-                    </group>
-                    <group string="Seuils d'alerte">
-                        <group>
-                            <field name="min_threshold"/>
-                        </group>
-                        <group>
-                            <field name="max_threshold"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page string="Description" name="description">
-                            <field name="description" placeholder="Description détaillée de l'indicateur..."/>
-                        </page>
-                        <page string="Historique" name="history">
-                            <field name="history_ids" nolabel="1">
-                                <tree editable="bottom">
-                                    <field name="date"/>
-                                    <field name="value"/>
-                                    <field name="note"/>
-                                    <field name="user_id" readonly="1"/>
-                                </tree>
-                            </field>
-                        </page>
-                        <page string="Notes" name="notes">
-                            <field name="notes" placeholder="Notes..."/>
-                        </page>
-                    </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
             </form>
         </field>
     </record>
 
-    <!-- Vue Liste Indicateur -->
+    <!-- Vue Liste Indicateur (SIMPLIFIÉ) -->
     <record id="view_business_plan_indicator_tree" model="ir.ui.view">
         <field name="name">business.plan.indicator.tree</field>
         <field name="model">business.plan.indicator</field>
         <field name="arch" type="xml">
-            <tree string="Indicateurs"
-                  decoration-success="alert_status == 'ok'"
-                  decoration-warning="alert_status == 'warning'"
-                  decoration-danger="alert_status == 'critical'">
-                <field name="sequence" widget="handle"/>
+            <tree editable="bottom">
                 <field name="name"/>
                 <field name="business_plan_id"/>
-                <field name="indicator_type"/>
-                <field name="unit"/>
                 <field name="target_value"/>
                 <field name="current_value"/>
                 <field name="progress" widget="progressbar"/>
-                <field name="achievement_rate" widget="percentage"/>
-                <field name="alert_status" widget="badge"
-                       decoration-success="alert_status == 'ok'"
-                       decoration-warning="alert_status == 'warning'"
-                       decoration-danger="alert_status == 'critical'"/>
-                <field name="state" widget="badge"
-                       decoration-success="state == 'achieved'"
-                       decoration-info="state == 'active'"
-                       decoration-muted="state == 'draft'"/>
-                <field name="user_id" widget="many2one_avatar_user"/>
-                <field name="color" column_invisible="1"/>
             </tree>
-        </field>
-    </record>
-
-    <!-- Vue Kanban Indicateur -->
-    <record id="view_business_plan_indicator_kanban" model="ir.ui.view">
-        <field name="name">business.plan.indicator.kanban</field>
-        <field name="model">business.plan.indicator</field>
-        <field name="arch" type="xml">
-            <kanban class="o_kanban_mobile">
-                <field name="id"/>
-                <field name="name"/>
-                <field name="indicator_type"/>
-                <field name="current_value"/>
-                <field name="target_value"/>
-                <field name="progress"/>
-                <field name="achievement_rate"/>
-                <field name="alert_status"/>
-                <field name="state"/>
-                <field name="color"/>
-                <templates>
-                    <t t-name="card">
-                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-                            <div class="oe_kanban_content">
-                                <div class="o_kanban_record_top mb-2">
-                                    <div class="o_kanban_record_headings">
-                                        <strong class="o_kanban_record_title"><field name="name"/></strong>
-                                    </div>
-                                    <span class="float-end badge text-bg-secondary">
-                                        <field name="indicator_type"/>
-                                    </span>
-                                </div>
-                                <div class="o_kanban_record_body">
-                                    <div class="row mb-2">
-                                        <div class="col-6">
-                                            <small>Cible:</small><br/>
-                                            <strong><field name="target_value"/></strong>
-                                        </div>
-                                        <div class="col-6">
-                                            <small>Actuel:</small><br/>
-                                            <strong><field name="current_value"/></strong>
-                                        </div>
-                                    </div>
-                                    <div class="mb-2">
-                                        <field name="progress" widget="progressbar"/>
-                                    </div>
-                                    <div>
-                                        <span t-attf-class="badge #{record.alert_status.raw_value == 'ok' ? 'text-bg-success' : record.alert_status.raw_value == 'warning' ? 'text-bg-warning' : 'text-bg-danger'}">
-                                            <field name="alert_status"/>
-                                        </span>
-                                        <span class="badge text-bg-info float-end">
-                                            <field name="achievement_rate"/>%
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
-
-    <!-- Vue Graphique Indicateur -->
-    <record id="view_business_plan_indicator_graph" model="ir.ui.view">
-        <field name="name">business.plan.indicator.graph</field>
-        <field name="model">business.plan.indicator</field>
-        <field name="arch" type="xml">
-            <graph string="Analyse des indicateurs" type="bar">
-                <field name="name"/>
-                <field name="achievement_rate" type="measure"/>
-            </graph>
-        </field>
-    </record>
-
-    <!-- Vue Pivot Indicateur -->
-    <record id="view_business_plan_indicator_pivot" model="ir.ui.view">
-        <field name="name">business.plan.indicator.pivot</field>
-        <field name="model">business.plan.indicator</field>
-        <field name="arch" type="xml">
-            <pivot string="Analyse des indicateurs">
-                <field name="indicator_type" type="row"/>
-                <field name="business_plan_id" type="row"/>
-                <field name="achievement_rate" type="measure"/>
-                <field name="current_value" type="measure"/>
-            </pivot>
-        </field>
-    </record>
-
-    <!-- Vue Recherche Indicateur -->
-    <record id="view_business_plan_indicator_search" model="ir.ui.view">
-        <field name="name">business.plan.indicator.search</field>
-        <field name="model">business.plan.indicator</field>
-        <field name="arch" type="xml">
-            <search string="Indicateurs">
-                <field name="name"/>
-                <field name="business_plan_id"/>
-                <field name="indicator_type"/>
-                <separator/>
-                <filter string="Actifs" name="active"
-                        domain="[('state', '=', 'active')]"/>
-                <filter string="Atteints" name="achieved"
-                        domain="[('state', '=', 'achieved')]"/>
-                <filter string="Critiques" name="critical"
-                        domain="[('alert_status', '=', 'critical')]"/>
-                <filter string="En alerte" name="warning"
-                        domain="[('alert_status', '=', 'warning')]"/>
-                <separator/>
-                <filter string="Mes indicateurs" name="my_indicators"
-                        domain="[('user_id', '=', uid)]"/>
-                <group expand="0" string="Grouper par">
-                    <filter string="Business Plan" name="group_business_plan"
-                            context="{'group_by': 'business_plan_id'}"/>
-                    <filter string="Type" name="group_type"
-                            context="{'group_by': 'indicator_type'}"/>
-                    <filter string="État d'alerte" name="group_alert"
-                            context="{'group_by': 'alert_status'}"/>
-                    <filter string="État" name="group_state"
-                            context="{'group_by': 'state'}"/>
-                </group>
-            </search>
         </field>
     </record>
 
     <!-- Action Indicateur -->
     <record id="action_business_plan_indicator" model="ir.actions.act_window">
-        <field name="name">Indicateurs de suivi</field>
+        <field name="name">Indicateurs</field>
         <field name="res_model">business.plan.indicator</field>
-        <field name="view_mode">tree,kanban,form,graph,pivot</field>
-        <field name="search_view_id" ref="view_business_plan_indicator_search"/>
-        <field name="context">{'search_default_active': 1}</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Aucun indicateur trouvé
-            </p>
-            <p>
-                Les indicateurs sont générés automatiquement lors de la validation d'un business plan.
-            </p>
-        </field>
+        <field name="view_mode">tree,form</field>
     </record>
 
 </odoo>

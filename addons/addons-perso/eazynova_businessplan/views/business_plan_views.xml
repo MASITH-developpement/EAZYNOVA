@@ -1,289 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vue Formulaire Business Plan -->
+    <!-- Vue Formulaire Business Plan (SIMPLIFIÉ) -->
     <record id="view_business_plan_form" model="ir.ui.view">
         <field name="name">business.plan.form</field>
         <field name="model">business.plan</field>
         <field name="arch" type="xml">
             <form string="Business Plan">
                 <header>
-                    <button name="action_submit" string="Soumettre" type="object"
-                            invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_validate" string="Valider" type="object"
-                            invisible="state != 'submitted'" class="oe_highlight"
-                            groups="base.group_system"/>
-                    <button name="action_start" string="Démarrer" type="object"
-                            invisible="state != 'validated'" class="oe_highlight"/>
+                            invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_done" string="Terminer" type="object"
-                            invisible="state != 'in_progress'" class="oe_highlight"/>
-                    <button name="action_cancel" string="Annuler" type="object"
-                            invisible="state in ['done', 'cancelled']"/>
-                    <button name="action_draft" string="Remettre en brouillon" type="object"
-                            invisible="state not in ['submitted', 'cancelled']"/>
-                    <field name="state" widget="statusbar"
-                           statusbar_visible="draft,submitted,validated,in_progress,done"/>
+                            invisible="state != 'validated'" class="oe_highlight"/>
+                    <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
+                    <div class="oe_button_box">
                         <button name="action_view_indicators" type="object"
                                 class="oe_stat_button" icon="fa-line-chart">
-                            <field name="indicator_count" widget="statbutton"
-                                   string="Indicateurs"/>
-                        </button>
-                        <button name="action_view_attachments" type="object"
-                                class="oe_stat_button" icon="fa-files-o">
-                            <field name="attachment_count" widget="statbutton"
-                                   string="Documents"/>
+                            <field name="indicator_count" widget="statbutton" string="Indicateurs"/>
                         </button>
                     </div>
-                    <widget name="web_ribbon" title="Validé" bg_color="text-bg-success"
-                            invisible="state != 'validated'"/>
-                    <widget name="web_ribbon" title="En cours" bg_color="text-bg-info"
-                            invisible="state != 'in_progress'"/>
-                    <widget name="web_ribbon" title="Terminé" bg_color="text-bg-secondary"
-                            invisible="state != 'done'"/>
-                    <widget name="web_ribbon" title="Annulé" bg_color="text-bg-danger"
-                            invisible="state != 'cancelled'"/>
                     <div class="oe_title">
-                        <h1>
-                            <field name="name" placeholder="Nom du business plan..."/>
-                        </h1>
-                        <h3>
-                            <field name="reference" readonly="1"/>
-                        </h3>
+                        <h1><field name="name" placeholder="Nom du business plan..."/></h1>
+                        <h3><field name="reference"/></h3>
                     </div>
                     <group>
                         <group>
-                            <field name="company_id" groups="base.group_multi_company"/>
-                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="user_id"/>
                             <field name="date_start"/>
                             <field name="date_end"/>
-                            <field name="duration_months"/>
                         </group>
                         <group>
+                            <field name="revenue_target"/>
                             <field name="currency_id" invisible="1"/>
-                            <field name="validated_by" invisible="state not in ['validated', 'in_progress', 'done']"/>
-                            <field name="validation_date" invisible="state not in ['validated', 'in_progress', 'done']"/>
-                            <field name="progress" widget="progressbar" invisible="state not in ['in_progress', 'done']"/>
-                            <field name="achievement_rate" widget="percentage" invisible="state not in ['in_progress', 'done']"/>
+                            <field name="progress" widget="progressbar" invisible="state == 'draft'"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Résumé exécutif" name="summary">
+                        <page string="Description">
                             <group>
-                                <field name="executive_summary" nolabel="1"
-                                       placeholder="Résumé exécutif du business plan..."/>
+                                <field name="description" nolabel="1" placeholder="Description..."/>
                             </group>
                         </page>
-                        <page string="Description" name="description">
+                        <page string="Objectifs">
                             <group>
-                                <field name="description" nolabel="1"
-                                       placeholder="Description détaillée du business plan..."/>
+                                <field name="objectives" nolabel="1" placeholder="Objectifs..."/>
                             </group>
                         </page>
-                        <page string="Objectifs" name="objectives">
-                            <group>
-                                <field name="objectives" nolabel="1"
-                                       placeholder="Objectifs stratégiques..."/>
-                            </group>
-                        </page>
-                        <page string="Finances" name="finances">
-                            <group>
-                                <group string="Budget et Investissement">
-                                    <field name="budget_total"/>
-                                    <field name="investment_required"/>
-                                </group>
-                                <group string="Objectifs Financiers">
-                                    <field name="revenue_target"/>
-                                    <field name="profit_target"/>
-                                </group>
-                            </group>
-                        </page>
-                        <page string="Marché et Stratégie" name="market">
-                            <group>
-                                <group string="Analyse de Marché">
-                                    <field name="target_market" placeholder="Description du marché cible..."/>
-                                    <field name="competitive_advantage"
-                                           placeholder="Vos avantages concurrentiels..."/>
-                                </group>
-                            </group>
-                            <group>
-                                <field name="market_analysis" nolabel="1"
-                                       placeholder="Analyse détaillée du marché..."/>
-                            </group>
-                            <group>
-                                <field name="marketing_strategy" nolabel="1"
-                                       placeholder="Votre stratégie marketing..."/>
-                            </group>
-                        </page>
-                        <page string="Organisation" name="organization">
-                            <group>
-                                <group>
-                                    <field name="team_size"/>
-                                    <field name="key_resources" placeholder="Ressources clés nécessaires..."/>
-                                </group>
-                            </group>
-                            <group>
-                                <field name="organizational_structure" nolabel="1"
-                                       placeholder="Structure organisationnelle..."/>
-                            </group>
-                        </page>
-                        <page string="Indicateurs" name="indicators"
-                              invisible="state in ['draft', 'submitted']">
+                        <page string="Indicateurs" invisible="state == 'draft'">
                             <field name="indicator_ids" nolabel="1">
-                                <tree decoration-success="alert_status == 'ok'"
-                                      decoration-warning="alert_status == 'warning'"
-                                      decoration-danger="alert_status == 'critical'">
-                                    <field name="sequence" widget="handle"/>
+                                <tree editable="bottom">
                                     <field name="name"/>
-                                    <field name="indicator_type"/>
                                     <field name="target_value"/>
                                     <field name="current_value"/>
-                                    <field name="achievement_rate" widget="progressbar"/>
-                                    <field name="alert_status" invisible="1"/>
-                                    <field name="state" widget="badge"
-                                           decoration-success="state == 'achieved'"
-                                           decoration-info="state == 'active'"
-                                           decoration-muted="state == 'draft'"/>
+                                    <field name="progress" widget="progressbar"/>
                                 </tree>
                             </field>
-                        </page>
-                        <page string="Notes" name="notes">
-                            <field name="notes" placeholder="Notes internes..."/>
                         </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
                     <field name="message_ids"/>
                 </div>
             </form>
         </field>
     </record>
 
-    <!-- Vue Liste Business Plan -->
+    <!-- Vue Liste Business Plan (SIMPLIFIÉ) -->
     <record id="view_business_plan_tree" model="ir.ui.view">
         <field name="name">business.plan.tree</field>
         <field name="model">business.plan</field>
         <field name="arch" type="xml">
-            <tree string="Business Plans"
-                  decoration-info="state == 'in_progress'"
-                  decoration-success="state == 'done'"
-                  decoration-muted="state in ['draft', 'cancelled']">
+            <tree>
                 <field name="reference"/>
                 <field name="name"/>
-                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="user_id"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
-                <field name="duration_months"/>
-                <field name="budget_total" sum="Total Budget"/>
-                <field name="revenue_target" sum="Total CA Cible"/>
-                <field name="indicator_count"/>
-                <field name="progress" widget="progressbar" invisible="state in ['draft', 'submitted']"/>
-                <field name="state" widget="badge"
-                       decoration-info="state == 'in_progress'"
-                       decoration-success="state == 'done'"
-                       decoration-warning="state == 'submitted'"/>
-                <field name="currency_id" column_invisible="1"/>
+                <field name="revenue_target"/>
+                <field name="progress" widget="progressbar"/>
+                <field name="state" widget="badge"/>
             </tree>
         </field>
     </record>
 
-    <!-- Vue Kanban Business Plan -->
-    <record id="view_business_plan_kanban" model="ir.ui.view">
-        <field name="name">business.plan.kanban</field>
-        <field name="model">business.plan</field>
-        <field name="arch" type="xml">
-            <kanban class="o_kanban_dashboard" default_group_by="state">
-                <field name="id"/>
-                <field name="name"/>
-                <field name="reference"/>
-                <field name="user_id"/>
-                <field name="state"/>
-                <field name="progress"/>
-                <field name="achievement_rate"/>
-                <field name="indicator_count"/>
-                <field name="color"/>
-                <templates>
-                    <t t-name="card">
-                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-                            <div class="o_dropdown_kanban dropdown">
-                                <a class="dropdown-toggle o-no-caret btn" role="button" data-bs-toggle="dropdown" href="#" aria-label="Dropdown menu" title="Dropdown menu">
-                                    <span class="fa fa-ellipsis-v"/>
-                                </a>
-                                <div class="dropdown-menu" role="menu">
-                                    <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Modifier</a></t>
-                                    <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Supprimer</a></t>
-                                    <div role="separator" class="dropdown-divider"/>
-                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
-                                </div>
-                            </div>
-                            <div class="oe_kanban_content">
-                                <div class="o_kanban_record_top">
-                                    <div class="o_kanban_record_headings">
-                                        <strong class="o_kanban_record_title"><field name="name"/></strong>
-                                        <br/>
-                                        <small><field name="reference"/></small>
-                                    </div>
-                                </div>
-                                <div class="o_kanban_record_body">
-                                    <field name="user_id" widget="many2one_avatar_user"/>
-                                    <div class="mt-2">
-                                        <span class="badge text-bg-info"><field name="indicator_count"/> indicateurs</span>
-                                    </div>
-                                    <div class="mt-2" t-if="record.state.raw_value in ['in_progress', 'done']">
-                                        <div class="mb-1">
-                                            <small>Progression: </small>
-                                            <field name="progress" widget="progressbar"/>
-                                        </div>
-                                        <div>
-                                            <small>Réalisation: <field name="achievement_rate"/>%</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="o_kanban_record_bottom mt-2">
-                                    <div class="oe_kanban_bottom_left">
-                                        <small><field name="date_start"/> - <field name="date_end"/></small>
-                                    </div>
-                                    <div class="oe_kanban_bottom_right">
-                                        <field name="activity_ids" widget="kanban_activity"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
-
-    <!-- Vue Recherche Business Plan -->
+    <!-- Vue Recherche Business Plan (SIMPLIFIÉ) -->
     <record id="view_business_plan_search" model="ir.ui.view">
         <field name="name">business.plan.search</field>
         <field name="model">business.plan</field>
         <field name="arch" type="xml">
-            <search string="Business Plans">
+            <search>
                 <field name="name"/>
-                <field name="reference"/>
                 <field name="user_id"/>
-                <separator/>
-                <filter string="Mes Business Plans" name="my_plans"
-                        domain="[('user_id', '=', uid)]"/>
-                <filter string="En cours" name="in_progress"
-                        domain="[('state', '=', 'in_progress')]"/>
-                <filter string="À valider" name="to_validate"
-                        domain="[('state', '=', 'submitted')]"/>
-                <separator/>
-                <filter string="Date de début" name="date_start"
-                        date="date_start"/>
-                <group expand="0" string="Grouper par">
-                    <filter string="État" name="group_state"
-                            context="{'group_by': 'state'}"/>
-                    <filter string="Responsable" name="group_user"
-                            context="{'group_by': 'user_id'}"/>
-                    <filter string="Date de début" name="group_date_start"
-                            context="{'group_by': 'date_start'}"/>
+                <filter string="Mes Business Plans" name="my_plans" domain="[('user_id', '=', uid)]"/>
+                <filter string="En cours" name="validated" domain="[('state', '=', 'validated')]"/>
+                <group string="Grouper par">
+                    <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Responsable" name="group_user" context="{'group_by': 'user_id'}"/>
                 </group>
             </search>
         </field>
@@ -293,16 +106,11 @@
     <record id="action_business_plan" model="ir.actions.act_window">
         <field name="name">Business Plans</field>
         <field name="res_model">business.plan</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="view_business_plan_search"/>
+        <field name="view_mode">tree,form</field>
         <field name="context">{'search_default_my_plans': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Créer votre premier Business Plan
-            </p>
-            <p>
-                Les business plans vous permettent de structurer vos projets,
-                définir vos objectifs et suivre vos indicateurs de performance.
             </p>
         </field>
     </record>
