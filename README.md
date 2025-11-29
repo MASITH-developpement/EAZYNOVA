@@ -4,11 +4,16 @@ Plateforme SaaS de gestion d'entreprise basée sur Odoo 19 CE avec modules perso
 
 ## 🚀 Déploiement 100% Automatique sur Railway
 
-Déployez EAZYNOVA en **2 clics** avec PostgreSQL inclus - **ZÉRO configuration manuelle !**
+Déployez EAZYNOVA en **1 clic** avec PostgreSQL inclus - **ZÉRO configuration manuelle !**
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/new?template=https://github.com/MASITH-developpement/EAZYNOVA)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https://github.com/MASITH-developpement/EAZYNOVA)
 
-**Temps : ~5-8 minutes | Configuration : 0 | Clics : 2** ⚡
+**OU copiez ce lien direct dans votre navigateur :**
+```
+https://railway.app/new?template=https://github.com/MASITH-developpement/EAZYNOVA
+```
+
+**Temps : ~5-8 minutes | Configuration : 0 | Clic : 1** ⚡
 
 ### Tout est créé automatiquement :
 - ✅ PostgreSQL avec base de données
@@ -22,7 +27,8 @@ Déployez EAZYNOVA en **2 clics** avec PostgreSQL inclus - **ZÉRO configuration
 
 **Aucune variable à créer manuellement.** Tout est dans le template ! 🎉
 
-➡️ **[Guide de déploiement automatique](./RAILWAY_AUTO_DEPLOY.md)** ⭐
+➡️ **[🚀 QUICKSTART - Toutes les méthodes de déploiement](./QUICKSTART.md)** ⭐
+➡️ [Guide de déploiement automatique](./RAILWAY_AUTO_DEPLOY.md)
 ➡️ [Guide de déploiement complet](./RAILWAY_DEPLOY.md)
 
 ---
@@ -63,9 +69,14 @@ Déployez EAZYNOVA en **2 clics** avec PostgreSQL inclus - **ZÉRO configuration
 
 ### Déploiement
 
+- **[QUICKSTART.md](./QUICKSTART.md)** ⭐ - Toutes les méthodes de déploiement (Lien, Script, Auto-provisioning)
+- **[DEPLOY.md](./DEPLOY.md)** - Déploiement via script `deploy.sh` (une commande)
+- **[AUTO_PROVISIONING.md](./AUTO_PROVISIONING.md)** - Système SaaS multi-tenant automatique
+- **[RAILWAY_DIRECT_LINK.md](./RAILWAY_DIRECT_LINK.md)** - Lien direct de configuration Railway
 - **[RAILWAY_DEPLOY.md](./RAILWAY_DEPLOY.md)** - Déploiement en un clic sur Railway
 - **[RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md)** - Guide rapide Railway (5 min)
 - **[RAILWAY_SETUP.md](./RAILWAY_SETUP.md)** - Configuration Railway détaillée
+- **[RAILWAY_FIX_404.md](./RAILWAY_FIX_404.md)** - Résolution erreur 404
 - **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Guide de déploiement général
 
 ### Développement
@@ -113,7 +124,35 @@ docker-compose up -d
 
 ### Railway (Recommandé)
 
-Cliquez sur le bouton "Deploy on Railway" ci-dessus ou suivez le [guide complet](./RAILWAY_DEPLOY.md).
+**3 Méthodes de Déploiement :**
+
+| Méthode | Temps | Cas d'Usage |
+|---------|-------|-------------|
+| **1. [Lien Direct](./RAILWAY_DIRECT_LINK.md)** | 1 clic | Instance unique |
+| **2. [Script `deploy.sh`](./DEPLOY.md)** | 1 commande | Instances multiples manuelles |
+| **3. [Auto-Provisioning](./AUTO_PROVISIONING.md)** | API REST | SaaS multi-tenant automatique |
+
+➡️ **[Voir le QUICKSTART pour choisir](./QUICKSTART.md)**
+
+### Auto-Provisioning SaaS Multi-Tenant
+
+Pour créer des instances EAZYNOVA automatiquement depuis un site web :
+
+```bash
+# Créer une instance pour un client
+node create-instance.js acme-corp admin@acme.com
+
+# Ou démarrer le serveur API
+node api-server.js
+```
+
+**Parfait pour :**
+- Sites web SaaS avec inscription client
+- Plateformes de partenaires
+- Démonstrations automatiques
+- Gestion de centaines de clients isolés
+
+➡️ **[Guide complet Auto-Provisioning](./AUTO_PROVISIONING.md)**
 
 ### Autres Plateformes
 
@@ -152,9 +191,17 @@ EAZYNOVA/
 ├── docker-compose.yml          # Développement local
 ├── start-odoo.sh              # Script de démarrage
 ├── init-railway.sh            # Initialisation automatique Railway
+├── deploy.sh                  # Script de déploiement une commande
+├── railway.json               # Configuration Railway (auto-détectée)
 ├── railway.toml               # Configuration Railway
 ├── railway.template.json      # Template Railway (déploiement en un clic)
-└── requirements.txt           # Dépendances Python
+├── create-instance.js         # Auto-provisioning via Railway API
+├── api-server.js              # Serveur API pour création d'instances
+├── package.json               # Configuration Node.js
+├── requirements.txt           # Dépendances Python
+├── QUICKSTART.md              # ⭐ Guide de démarrage rapide
+├── AUTO_PROVISIONING.md       # Guide auto-provisioning SaaS
+└── DEPLOY.md                  # Guide script deploy.sh
 ```
 
 ---
