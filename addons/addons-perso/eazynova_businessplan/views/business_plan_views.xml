@@ -130,23 +130,7 @@
                         </page>
                         <page string="Indicateurs" name="indicators"
                               invisible="state in ['draft', 'submitted']">
-                            <field name="indicator_ids" nolabel="1">
-                                <tree decoration-success="alert_status == 'ok'"
-                                      decoration-warning="alert_status == 'warning'"
-                                      decoration-danger="alert_status == 'critical'">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="name"/>
-                                    <field name="indicator_type"/>
-                                    <field name="target_value"/>
-                                    <field name="current_value"/>
-                                    <field name="achievement_rate" widget="progressbar"/>
-                                    <field name="alert_status" invisible="1"/>
-                                    <field name="state" widget="badge"
-                                           decoration-success="state == 'achieved'"
-                                           decoration-info="state == 'active'"
-                                           decoration-muted="state == 'draft'"/>
-                                </tree>
-                            </field>
+                                                        <field name="indicator_ids" nolabel="1"/>
                         </page>
                         <page string="Notes" name="notes">
                             <field name="notes" placeholder="Notes internes..."/>
@@ -163,30 +147,18 @@
     </record>
 
     <!-- Vue Liste Business Plan -->
-    <record id="view_business_plan_tree" model="ir.ui.view">
-        <field name="name">business.plan.tree</field>
+    <record id="view_business_plan_list_fixed" model="ir.ui.view">
+        <field name="name">business.plan.list.fixed</field>
         <field name="model">business.plan</field>
         <field name="arch" type="xml">
-            <tree string="Business Plans"
-                  decoration-info="state == 'in_progress'"
-                  decoration-success="state == 'done'"
-                  decoration-muted="state in ['draft', 'cancelled']">
+            <list>
                 <field name="reference"/>
                 <field name="name"/>
-                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="user_id"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
-                <field name="duration_months"/>
-                <field name="budget_total" sum="Total Budget"/>
-                <field name="revenue_target" sum="Total CA Cible"/>
-                <field name="indicator_count"/>
-                <field name="progress" widget="progressbar" invisible="state in ['draft', 'submitted']"/>
-                <field name="state" widget="badge"
-                       decoration-info="state == 'in_progress'"
-                       decoration-success="state == 'done'"
-                       decoration-warning="state == 'submitted'"/>
-                <field name="currency_id" column_invisible="1"/>
-            </tree>
+                <field name="state"/>
+            </list>
         </field>
     </record>
 
@@ -267,24 +239,17 @@
                 <field name="name"/>
                 <field name="reference"/>
                 <field name="user_id"/>
-                <separator/>
+                
                 <filter string="Mes Business Plans" name="my_plans"
                         domain="[('user_id', '=', uid)]"/>
                 <filter string="En cours" name="in_progress"
                         domain="[('state', '=', 'in_progress')]"/>
                 <filter string="À valider" name="to_validate"
                         domain="[('state', '=', 'submitted')]"/>
-                <separator/>
+                
                 <filter string="Date de début" name="date_start"
                         date="date_start"/>
-                <group expand="0" string="Grouper par">
-                    <filter string="État" name="group_state"
-                            context="{'group_by': 'state'}"/>
-                    <filter string="Responsable" name="group_user"
-                            context="{'group_by': 'user_id'}"/>
-                    <filter string="Date de début" name="group_date_start"
-                            context="{'group_by': 'date_start'}"/>
-                </group>
+
             </search>
         </field>
     </record>
@@ -293,7 +258,7 @@
     <record id="action_business_plan" model="ir.actions.act_window">
         <field name="name">Business Plans</field>
         <field name="res_model">business.plan</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="search_view_id" ref="view_business_plan_search"/>
         <field name="context">{'search_default_my_plans': 1}</field>
         <field name="help" type="html">

@@ -102,12 +102,12 @@
                         </page>
                         <page string="Historique" name="history">
                             <field name="history_ids" nolabel="1">
-                                <tree editable="bottom">
-                                    <field name="date"/>
-                                    <field name="value"/>
-                                    <field name="note"/>
+                                <list editable="bottom">
+                                    <!-- <field name="date"/> -->
+                                    <!-- <field name="value"/> -->
+                                    <!-- <field name="note"/> -->
                                     <field name="user_id" readonly="1"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Notes" name="notes">
@@ -125,34 +125,25 @@
     </record>
 
     <!-- Vue Liste Indicateur -->
-    <record id="view_business_plan_indicator_tree" model="ir.ui.view">
-        <field name="name">business.plan.indicator.tree</field>
+    <record id="view_business_plan_indicator_list" model="ir.ui.view">
+        <field name="name">business.plan.indicator.list</field>
         <field name="model">business.plan.indicator</field>
         <field name="arch" type="xml">
-            <tree string="Indicateurs"
-                  decoration-success="alert_status == 'ok'"
-                  decoration-warning="alert_status == 'warning'"
-                  decoration-danger="alert_status == 'critical'">
-                <field name="sequence" widget="handle"/>
-                <field name="name"/>
-                <field name="business_plan_id"/>
-                <field name="indicator_type"/>
-                <field name="unit"/>
-                <field name="target_value"/>
-                <field name="current_value"/>
-                <field name="progress" widget="progressbar"/>
-                <field name="achievement_rate" widget="percentage"/>
-                <field name="alert_status" widget="badge"
-                       decoration-success="alert_status == 'ok'"
-                       decoration-warning="alert_status == 'warning'"
-                       decoration-danger="alert_status == 'critical'"/>
-                <field name="state" widget="badge"
-                       decoration-success="state == 'achieved'"
-                       decoration-info="state == 'active'"
-                       decoration-muted="state == 'draft'"/>
-                <field name="user_id" widget="many2one_avatar_user"/>
-                <field name="color" column_invisible="1"/>
-            </tree>
+                 <list string="Indicateurs">
+                  <field name="sequence"/>
+                  <field name="name"/>
+                  <field name="business_plan_id"/>
+                  <field name="indicator_type"/>
+                  <field name="unit"/>
+                  <field name="target_value"/>
+                  <field name="current_value"/>
+                  <field name="progress"/>
+                  <field name="achievement_rate"/>
+                  <field name="alert_status"/>
+                  <field name="state"/>
+                  <field name="user_id"/>
+                  <field name="color"/>
+                 </list>
         </field>
     </record>
 
@@ -250,7 +241,7 @@
                 <field name="name"/>
                 <field name="business_plan_id"/>
                 <field name="indicator_type"/>
-                <separator/>
+                
                 <filter string="Actifs" name="active"
                         domain="[('state', '=', 'active')]"/>
                 <filter string="Atteints" name="achieved"
@@ -259,19 +250,10 @@
                         domain="[('alert_status', '=', 'critical')]"/>
                 <filter string="En alerte" name="warning"
                         domain="[('alert_status', '=', 'warning')]"/>
-                <separator/>
+                
                 <filter string="Mes indicateurs" name="my_indicators"
                         domain="[('user_id', '=', uid)]"/>
-                <group expand="0" string="Grouper par">
-                    <filter string="Business Plan" name="group_business_plan"
-                            context="{'group_by': 'business_plan_id'}"/>
-                    <filter string="Type" name="group_type"
-                            context="{'group_by': 'indicator_type'}"/>
-                    <filter string="État d'alerte" name="group_alert"
-                            context="{'group_by': 'alert_status'}"/>
-                    <filter string="État" name="group_state"
-                            context="{'group_by': 'state'}"/>
-                </group>
+
             </search>
         </field>
     </record>
@@ -280,7 +262,7 @@
     <record id="action_business_plan_indicator" model="ir.actions.act_window">
         <field name="name">Indicateurs de suivi</field>
         <field name="res_model">business.plan.indicator</field>
-        <field name="view_mode">tree,kanban,form,graph,pivot</field>
+        <field name="view_mode">list,kanban,form,graph,pivot</field>
         <field name="search_view_id" ref="view_business_plan_indicator_search"/>
         <field name="context">{'search_default_active': 1}</field>
         <field name="help" type="html">
