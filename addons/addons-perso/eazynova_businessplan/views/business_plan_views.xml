@@ -11,17 +11,30 @@
                             class="btn-info"/>
                     <button name="action_ai_check_financial" string="💰 Vérifier Finances" type="object"
                             class="btn-warning"/>
+                    <button name="action_generate_monthly_indicators" string="📊 Générer Indicateurs Mensuels"
+                            type="object" class="btn-secondary"
+                            invisible="state == 'draft'"
+                            help="Créer les indicateurs mensuels pour toute la période du business plan"/>
+                    <button name="action_refresh_all_monthly_indicators" string="🔄 Actualiser Indicateurs"
+                            type="object" class="btn-secondary"
+                            invisible="monthly_indicator_count == 0"
+                            help="Mettre à jour tous les indicateurs depuis les données Odoo"/>
                     <button name="action_validate" string="✓ Valider le Business Plan" type="object"
                             invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_done" string="✓ Terminer" type="object"
                             invisible="state != 'validated'" class="oe_highlight"/>
                     <field name="state" widget="statusbar"/>
+                    <field name="monthly_indicator_count" invisible="1"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box">
                         <button name="action_view_indicators" type="object"
                                 class="oe_stat_button" icon="fa-line-chart">
                             <field name="indicator_count" widget="statbutton" string="Indicateurs"/>
+                        </button>
+                        <button name="action_view_monthly_indicators" type="object"
+                                class="oe_stat_button" icon="fa-calendar">
+                            <field name="monthly_indicator_count" widget="statbutton" string="Suivi Mensuel"/>
                         </button>
                         <button name="action_ai_smart_suggestions" type="object"
                                 class="oe_stat_button" icon="fa-lightbulb-o">

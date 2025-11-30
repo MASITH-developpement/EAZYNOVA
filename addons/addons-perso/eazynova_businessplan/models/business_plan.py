@@ -153,6 +153,10 @@ class BusinessPlan(models.Model):
     indicator_count = fields.Integer(compute='_compute_indicator_count')
     progress = fields.Float(string='Progression (%)', compute='_compute_progress')
 
+    # Indicateurs mensuels
+    monthly_indicator_ids = fields.One2many('business.plan.monthly.indicator', 'business_plan_id', string='Indicateurs Mensuels')
+    monthly_indicator_count = fields.Integer(compute='_compute_monthly_indicator_count')
+
     # ========== CALCULS ==========
     @api.depends('revenue_year1', 'costs_year1')
     def _compute_profit_year1(self):
@@ -186,6 +190,11 @@ class BusinessPlan(models.Model):
                 plan.progress = sum(plan.indicator_ids.mapped('progress')) / len(plan.indicator_ids)
             else:
                 plan.progress = 0.0
+
+    @api.depends('monthly_indicator_ids')
+    def _compute_monthly_indicator_count(self):
+        for plan in self:
+            plan.monthly_indicator_count = len(plan.monthly_indicator_ids)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -266,6 +275,76 @@ class BusinessPlan(models.Model):
             'view_mode': 'tree,form',
             'domain': [('business_plan_id', '=', self.id)],
             'context': {'default_business_plan_id': self.id},
+        }
+
+    # ========== INDICATEURS MENSUELS ==========
+
+    def action_view_monthly_indicators(self):
+        """Voir les indicateurs mensuels (tableau de bord)"""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'📊 Tableau de Bord Mensuel - {self.reference}',
+            'res_model': 'business.plan.monthly.indicator',
+            'view_mode': 'kanban,graph,pivot,list,form',
+            'domain': [('business_plan_id', '=', self.id)],
+            'context': {
+                'default_business_plan_id': self.id,
+                'search_default_current_year': 1,
+            },
+        }
+
+    def action_generate_monthly_indicators(self):
+        """Générer les indicateurs mensuels pour la période du business plan"""
+        self.ensure_one()
+
+        if not self.date_start or not self.date_end:
+            raise ValidationError(_('Vous devez définir les dates de début et fin du business plan.'))
+
+        # Générer les indicateurs mensuels
+        MonthlyIndicator = self.env['business.plan.monthly.indicator']
+        indicators = MonthlyIndicator.generate_monthly_indicators(
+            self.id,
+            self.date_start,
+            self.date_end
+        )
+
+        # Message de confirmation
+        self.message_post(
+            body=_('%d indicateurs mensuels ont été générés pour la période %s - %s') % (
+                len(indicators),
+                self.date_start.strftime('%m/%Y'),
+                self.date_end.strftime('%m/%Y')
+            )
+        )
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Indicateurs générés'),
+                'message': _('%d indicateurs mensuels créés avec succès') % len(indicators),
+                'type': 'success',
+                'sticky': False,
+            }
+        }
+
+    def action_refresh_all_monthly_indicators(self):
+        """Actualiser tous les indicateurs mensuels depuis les données Odoo"""
+        self.ensure_one()
+
+        for indicator in self.monthly_indicator_ids:
+            indicator.auto_fill_from_odoo_data()
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Données actualisées'),
+                'message': _('Tous les indicateurs mensuels ont été mis à jour'),
+                'type': 'success',
+                'sticky': False,
+            }
         }
 
     # ========== ASSISTANT IA ==========

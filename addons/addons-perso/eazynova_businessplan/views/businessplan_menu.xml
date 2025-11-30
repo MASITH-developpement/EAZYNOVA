@@ -18,4 +18,10 @@
               action="action_business_plan_indicator"
               sequence="20"/>
 
+    <menuitem id="menu_businessplan_monthly_dashboard"
+              name="Tableau de Bord Mensuel"
+              parent="menu_businessplan_root"
+              action="action_business_plan_monthly_indicator"
+              sequence="30"/>
+
 </odoo>
