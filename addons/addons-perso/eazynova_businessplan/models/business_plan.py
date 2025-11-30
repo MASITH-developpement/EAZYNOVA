@@ -267,3 +267,96 @@ class BusinessPlan(models.Model):
             'domain': [('business_plan_id', '=', self.id)],
             'context': {'default_business_plan_id': self.id},
         }
+
+    # ========== ASSISTANT IA ==========
+
+    def action_ai_analyze(self):
+        """Lancer l'analyse IA complète du business plan"""
+        self.ensure_one()
+
+        # Créer une nouvelle analyse
+        assistant = self.env['business.plan.ai.assistant'].create({
+            'business_plan_id': self.id,
+            'analysis_type': 'global',
+        })
+
+        # Lancer l'analyse
+        result = assistant.analyze_business_plan()
+
+        # Afficher le résultat dans un wizard
+        return {
+            'type': 'ir.actions.act_window',
+            'name': '🤖 Assistant IA - Analyse de votre Business Plan',
+            'res_model': 'business.plan.ai.assistant',
+            'res_id': assistant.id,
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_business_plan_id': self.id},
+        }
+
+    def action_ai_help_section(self, section):
+        """Obtenir de l'aide IA pour une section spécifique"""
+        self.ensure_one()
+
+        assistant = self.env['business.plan.ai.assistant'].create({
+            'business_plan_id': self.id,
+            'analysis_type': 'suggestions',
+        })
+
+        suggestions = assistant.suggest_improvements_for_section(section)
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'🤖 Conseils IA pour: {section}',
+            'res_model': 'business.plan.ai.assistant',
+            'res_id': assistant.id,
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_business_plan_id': self.id,
+                'default_suggestions': suggestions,
+            },
+        }
+
+    def action_ai_check_financial(self):
+        """Vérifier la cohérence financière avec l'IA"""
+        self.ensure_one()
+
+        assistant = self.env['business.plan.ai.assistant'].create({
+            'business_plan_id': self.id,
+            'analysis_type': 'financial',
+        })
+
+        checks = assistant.check_financial_coherence()
+        assistant.result = checks
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': '🤖 Vérification Financière IA',
+            'res_model': 'business.plan.ai.assistant',
+            'res_id': assistant.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
+    def action_ai_smart_suggestions(self):
+        """Obtenir des suggestions intelligentes"""
+        self.ensure_one()
+
+        assistant = self.env['business.plan.ai.assistant'].create({
+            'business_plan_id': self.id,
+            'analysis_type': 'suggestions',
+        })
+
+        suggestions = assistant.generate_smart_suggestions()
+        assistant.suggestions = suggestions
+        assistant.result = "Suggestions générées avec succès"
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': '🤖 Suggestions Intelligentes IA',
+            'res_model': 'business.plan.ai.assistant',
+            'res_id': assistant.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
