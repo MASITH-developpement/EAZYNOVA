@@ -20,17 +20,17 @@
     </record>
 
     <!-- Vue Liste Indicateur (SIMPLIFIÉ) -->
-    <record id="view_business_plan_indicator_tree" model="ir.ui.view">
-        <field name="name">business.plan.indicator.tree</field>
+    <record id="view_business_plan_indicator_list" model="ir.ui.view">
+        <field name="name">business.plan.indicator.list</field>
         <field name="model">business.plan.indicator</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="name"/>
                 <field name="business_plan_id"/>
                 <field name="target_value"/>
                 <field name="current_value"/>
                 <field name="progress" widget="progressbar"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -38,7 +38,7 @@
     <record id="action_business_plan_indicator" model="ir.actions.act_window">
         <field name="name">Indicateurs</field>
         <field name="res_model">business.plan.indicator</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
 </odoo>
