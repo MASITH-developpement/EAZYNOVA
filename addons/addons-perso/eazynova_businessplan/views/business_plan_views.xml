@@ -265,12 +265,9 @@
                                     <strong>Suivi :</strong> Mettez à jour régulièrement vos indicateurs pour suivre vos performances.
                                 </div>
                                 <field name="indicator_ids" nolabel="1">
-                                    <tree editable="bottom">
+                                    <list editable="bottom">
                                         <field name="name"/>
-                                        <field name="target_value"/>
-                                        <field name="current_value"/>
-                                        <field name="progress" widget="progressbar"/>
-                                    </tree>
+                                    </list>
                                 </field>
                             </group>
                         </page>
@@ -284,8 +281,8 @@
     </record>
 
     <!-- Vue Liste -->
-    <record id="view_business_plan_tree" model="ir.ui.view">
-        <field name="name">business.plan.tree</field>
+    <record id="view_business_plan_list" model="ir.ui.view">
+        <field name="name">business.plan.list</field>
         <field name="model">business.plan</field>
         <field name="arch" type="xml">
             <list>

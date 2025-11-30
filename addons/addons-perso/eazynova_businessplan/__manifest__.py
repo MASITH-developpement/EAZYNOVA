@@ -28,8 +28,6 @@
         'views/business_plan_monthly_indicator_views.xml',
         'views/business_plan_ai_assistant_views.xml',
         'views/businessplan_menu.xml',
-        'report/businessplan_reports.xml',
-        'report/businessplan_report_templates.xml',
     ],
     'installable': True,
     'application': True,
