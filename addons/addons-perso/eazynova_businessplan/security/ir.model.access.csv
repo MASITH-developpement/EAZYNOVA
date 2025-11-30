@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_business_plan_user,business.plan.user,model_business_plan,group_businessplan_user,1,1,1,1
 access_business_plan_indicator_user,business.plan.indicator.user,model_business_plan_indicator,group_businessplan_user,1,1,1,1
+access_business_plan_ai_assistant_user,business.plan.ai.assistant.user,model_business_plan_ai_assistant,group_businessplan_user,1,1,1,1

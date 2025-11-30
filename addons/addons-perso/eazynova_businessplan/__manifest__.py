@@ -24,6 +24,7 @@
         'data/sequence_data.xml',
         'views/business_plan_views.xml',
         'views/business_plan_indicator_views.xml',
+        'views/business_plan_ai_assistant_views.xml',
         'views/businessplan_menu.xml',
     ],
     'installable': True,

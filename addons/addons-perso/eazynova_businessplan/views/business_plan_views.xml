@@ -7,6 +7,10 @@
         <field name="arch" type="xml">
             <form string="Business Plan">
                 <header>
+                    <button name="action_ai_analyze" string="🤖 Analyser avec l'IA" type="object"
+                            class="btn-info"/>
+                    <button name="action_ai_check_financial" string="💰 Vérifier Finances" type="object"
+                            class="btn-warning"/>
                     <button name="action_validate" string="✓ Valider le Business Plan" type="object"
                             invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_done" string="✓ Terminer" type="object"
@@ -18,6 +22,12 @@
                         <button name="action_view_indicators" type="object"
                                 class="oe_stat_button" icon="fa-line-chart">
                             <field name="indicator_count" widget="statbutton" string="Indicateurs"/>
+                        </button>
+                        <button name="action_ai_smart_suggestions" type="object"
+                                class="oe_stat_button" icon="fa-lightbulb-o">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Suggestions IA</span>
+                            </div>
                         </button>
                     </div>
                     <div class="oe_title">
