@@ -250,8 +250,8 @@
     </record>
 
     <!-- Vue Liste -->
-    <record id="view_business_plan_tree" model="ir.ui.view">
-        <field name="name">business.plan.tree</field>
+    <record id="view_business_plan_list" model="ir.ui.view">
+        <field name="name">business.plan.list</field>
         <field name="model">business.plan</field>
         <field name="arch" type="xml">
             <list>
