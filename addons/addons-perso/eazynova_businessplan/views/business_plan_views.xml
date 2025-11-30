@@ -224,12 +224,9 @@
                                     <strong>Suivi :</strong> Mettez à jour régulièrement vos indicateurs pour suivre vos performances.
                                 </div>
                                 <field name="indicator_ids" nolabel="1">
-                                    <tree editable="bottom">
+                                    <list editable="bottom">
                                         <field name="name"/>
-                                        <field name="target_value"/>
-                                        <field name="current_value"/>
-                                        <field name="progress" widget="progressbar"/>
-                                    </tree>
+                                    </list>
                                 </field>
                             </group>
                         </page>
