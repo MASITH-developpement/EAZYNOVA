@@ -19,12 +19,19 @@
                             type="object" class="btn-secondary"
                             invisible="monthly_indicator_count == 0"
                             help="Mettre à jour tous les indicateurs depuis les données Odoo"/>
+                    <button name="action_generate_all_financial_tables" string="📋 Générer Tableaux Financiers"
+                            type="object" class="btn-primary"
+                            help="Générer tous les tableaux financiers prévisionnels (Trésorerie, Financement, Bilan, Compte de Résultat)"/>
                     <button name="action_validate" string="✓ Valider le Business Plan" type="object"
                             invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_done" string="✓ Terminer" type="object"
                             invisible="state != 'validated'" class="oe_highlight"/>
                     <field name="state" widget="statusbar"/>
                     <field name="monthly_indicator_count" invisible="1"/>
+                    <field name="cash_flow_count" invisible="1"/>
+                    <field name="financing_count" invisible="1"/>
+                    <field name="balance_sheet_count" invisible="1"/>
+                    <field name="income_statement_count" invisible="1"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box">
@@ -59,6 +66,22 @@
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_text">Suivi Mensuel</span>
                             </div>
+                        </button>
+                        <button name="action_view_cash_flow" type="object"
+                                class="oe_stat_button" icon="fa-area-chart">
+                            <field name="cash_flow_count" widget="statbutton" string="Trésorerie"/>
+                        </button>
+                        <button name="action_view_financing" type="object"
+                                class="oe_stat_button" icon="fa-euro">
+                            <field name="financing_count" widget="statbutton" string="Financement"/>
+                        </button>
+                        <button name="action_view_balance_sheet" type="object"
+                                class="oe_stat_button" icon="fa-balance-scale">
+                            <field name="balance_sheet_count" widget="statbutton" string="Bilan"/>
+                        </button>
+                        <button name="action_view_income_statement" type="object"
+                                class="oe_stat_button" icon="fa-calculator">
+                            <field name="income_statement_count" widget="statbutton" string="Résultat"/>
                         </button>
                     </div>
                     <div class="oe_title">

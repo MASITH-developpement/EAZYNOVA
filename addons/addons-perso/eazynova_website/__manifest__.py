@@ -27,9 +27,10 @@
         * Notifications par email
         * Tableau de bord d'administration SaaS
     """,
-    'author': 'EAZYNOVA',
+    'author': 'EAZYNOVA - S. MOREAU',
     'website': 'https://eazynova.fr',
-    'license': 'LGPL-3',
+    'license': 'Other proprietary',
+    'maintainer': 'S. MOREAU',
     'depends': [
         'base',
         'web',

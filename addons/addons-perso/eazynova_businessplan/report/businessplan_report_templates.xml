@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- ==================== TEMPLATE DE BASE AVEC FILIGRANE ==================== -->
+    <template id="eazynova_watermark_layout" inherit_id="web.external_layout">
+        <!-- Filigrane conditionnel (affiché si pas d'abonnement actif) -->
+        <xpath expr="//div[hasclass('header')]" position="after">
+            <t t-if="not o.has_active_subscription()">
+                <div style="position: fixed;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%) rotate(-45deg);
+                            font-size: 80px;
+                            font-weight: bold;
+                            color: rgba(0, 0, 0, 0.08);
+                            z-index: -1;
+                            white-space: nowrap;
+                            pointer-events: none;
+                            text-align: center;
+                            width: 100%;">
+                    PROPULSÉ BY EAZYNOVA
+                </div>
+            </t>
+        </xpath>
+
+        <!-- Footer avec mention créateur -->
+        <xpath expr="//div[hasclass('footer')]" position="inside">
+            <div style="text-align: center; font-size: 9px; color: #888; margin-top: 10px; border-top: 1px solid #ddd; padding-top: 5px;">
+                <span>Créé par EAZYNOVA | Développé par S. MOREAU</span>
+                <t t-if="not o.has_active_subscription()">
+                    <span style="margin-left: 20px; color: #e74c3c;">⚠ Version non licenciée - Abonnez-vous sur eazynova.com</span>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
     <!-- ==================== RAPPORT POUR BANQUES ==================== -->
     <template id="report_businessplan_bank">
         <t t-call="web.html_container">
