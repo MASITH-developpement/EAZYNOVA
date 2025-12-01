@@ -270,6 +270,24 @@ class BusinessPlan(models.Model):
         """Terminer le business plan"""
         self.state = 'done'
 
+    def has_active_subscription(self):
+        """
+        Vérifie si l'utilisateur a un abonnement actif EAZYNOVA
+        Retourne True si abonnement actif, False sinon
+        À connecter avec le module eazynova_website (SaaS subscriptions)
+        """
+        self.ensure_one()
+        # TODO: Intégrer avec le module eazynova_website pour vérifier l'abonnement
+        # Pour l'instant, retourne False (filigrane toujours affiché)
+        # Exemple future implémentation:
+        # subscription = self.env['saas.subscription'].search([
+        #     ('partner_id', '=', self.user_id.partner_id.id),
+        #     ('state', '=', 'active'),
+        # ], limit=1)
+        # return bool(subscription)
+        return False
+
+
     def _generate_indicators(self):
         """Génère des indicateurs basés sur les prévisions"""
         self.ensure_one()

@@ -21,9 +21,10 @@
         * Assistant de génération rapide
         * Interface simple et facile à utiliser
     """,
-    'author': 'EAZYNOVA',
+    'author': 'EAZYNOVA - S. MOREAU',
     'website': 'https://eazynova-production.up.railway.app/',
-    'license': 'LGPL-3',
+    'license': 'Other proprietary',
+    'maintainer': 'S. MOREAU',
     'depends': ['base', 'mail'],
     'data': [
         'security/businessplan_security.xml',
