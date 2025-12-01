@@ -157,7 +157,7 @@ class BusinessPlan(models.Model):
     monthly_indicator_ids = fields.One2many('business.plan.monthly.indicator', 'business_plan_id', string='Indicateurs Mensuels')
     monthly_indicator_count = fields.Integer(compute='_compute_monthly_indicator_count')
 
-    # ========== TABLEAUX FINANCIERS (Propulse by CA) ==========
+    # ========== TABLEAUX FINANCIERS PRÉVISIONNELS ==========
     # Plan de Trésorerie
     cash_flow_ids = fields.One2many('business.plan.cash.flow', 'business_plan_id', string='Plan de Trésorerie')
     cash_flow_count = fields.Integer(compute='_compute_cash_flow_count')

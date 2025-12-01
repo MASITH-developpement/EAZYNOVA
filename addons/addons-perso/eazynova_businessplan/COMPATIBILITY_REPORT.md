@@ -164,10 +164,10 @@ def _check_year(self):
 - ✅ Terminologie comptable française (EBE, BFR, FR, etc.)
 
 ### 3. Standards Français Respectés
-- ✅ Conforme Propulse by Crédit Agricole
 - ✅ Ratios financiers français (FR, BFR, TN)
 - ✅ Structure business plan française
 - ✅ Soldes intermédiaires de gestion français
+- ✅ Conformité standards comptables français
 
 ---
 
@@ -254,7 +254,7 @@ Le module **eazynova_businessplan** est:
 2. ✅ **100% en Français** (interface + terminologie)
 3. ✅ **100% Community Edition** (pas de dépendance Enterprise)
 4. ✅ **Upgradable** vers Odoo 20 et 21 CE
-5. ✅ **Standards Français** respectés (Propulse by CA)
+5. ✅ **Standards Français** respectés
 6. ✅ **Code Moderne** (API Odoo récentes)
 7. ✅ **Tests Validés** (syntaxe Python + XML)
 
@@ -272,5 +272,4 @@ Le module **eazynova_businessplan** est:
 ---
 
 **Généré le**: 2025-12-01
-**Par**: Claude Code (Anthropic)
 **Module**: eazynova_businessplan v19.0.1.0.0
