@@ -15,6 +15,11 @@ RUN apt-get update && \
     apt-get install -y python3-lxml python3-ldap postgresql postgresql-client && \
     pip3 install lxml-html-clean
 
+# Installation wkhtmltopdf (paquet Ubuntu, compatible Odoo 19 CE)
+RUN apt-get update && \
+    apt-get install -y xfonts-75dpi xfonts-base libjpeg-turbo8 libxrender1 wget wkhtmltopdf && \
+    rm -rf /var/lib/apt/lists/*
+
 # Installation de wheel
 
 # Installation des dépendances Python du projet (reconnaissance faciale, etc.)

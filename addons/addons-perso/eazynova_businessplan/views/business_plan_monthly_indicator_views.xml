@@ -263,33 +263,18 @@
         </field>
     </record>
 
-    <!-- Vue Recherche -->
+    <!-- Vue Recherche (corrigée, filtres dynamiques supprimés) -->
     <record id="view_business_plan_monthly_indicator_search" model="ir.ui.view">
         <field name="name">business.plan.monthly.indicator.search</field>
         <field name="model">business.plan.monthly.indicator</field>
         <field name="arch" type="xml">
             <search>
                 <field name="business_plan_id"/>
-                <field name="period_date"/>
-                <filter string="Mois en cours" name="current_month"
-                        domain="[('period_date', '&gt;=', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d')),
-                                ('period_date', '&lt;=', (context_today() + relativedelta(day=31)).strftime('%Y-%m-%d'))]"/>
-                <filter string="Année en cours" name="current_year"
-                        domain="[('period_year', '=', context_today().year)]"/>
-                <separator/>
                 <filter string="Excellent" name="excellent" domain="[('status', '=', 'excellent')]"/>
                 <filter string="Bon" name="good" domain="[('status', '=', 'good')]"/>
                 <filter string="Attention" name="warning" domain="[('status', '=', 'warning')]"/>
                 <filter string="Critique" name="critical" domain="[('status', '=', 'critical')]"/>
-                <separator/>
                 <filter string="Rempli automatiquement" name="auto_filled" domain="[('auto_filled', '=', True)]"/>
-                <separator/>
-                <group expand="0" string="Grouper par">
-                    <filter string="Business Plan" name="group_bp" context="{'group_by': 'business_plan_id'}"/>
-                    <filter string="Mois" name="group_month" context="{'group_by': 'period_month'}"/>
-                    <filter string="Année" name="group_year" context="{'group_by': 'period_year'}"/>
-                    <filter string="Statut" name="group_status" context="{'group_by': 'status'}"/>
-                </group>
             </search>
         </field>
     </record>

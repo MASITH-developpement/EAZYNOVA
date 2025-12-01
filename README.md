@@ -9,6 +9,7 @@ Déployez EAZYNOVA en **1 clic** avec PostgreSQL inclus - **ZÉRO configuration 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https://github.com/MASITH-developpement/EAZYNOVA)
 
 **OU copiez ce lien direct dans votre navigateur :**
+
 ```
 https://railway.app/new?template=https://github.com/MASITH-developpement/EAZYNOVA
 ```
@@ -16,14 +17,15 @@ https://railway.app/new?template=https://github.com/MASITH-developpement/EAZYNOV
 **Temps : ~5-8 minutes | Configuration : 0 | Clic : 1** ⚡
 
 ### Tout est créé automatiquement :
-- ✅ PostgreSQL avec base de données
-- ✅ Odoo 19 configuré
-- ✅ Modules EAZYNOVA installés
-- ✅ **Toutes les variables d'environnement** (mots de passe, DB, admin, etc.)
-- ✅ Base de données Odoo initialisée
-- ✅ Entreprise et administrateur configurés
-- ✅ HTTPS automatique
-- ✅ Prêt à l'emploi !
+
+-   ✅ PostgreSQL avec base de données
+-   ✅ Odoo 19 configuré
+-   ✅ Modules EAZYNOVA installés
+-   ✅ **Toutes les variables d'environnement** (mots de passe, DB, admin, etc.)
+-   ✅ Base de données Odoo initialisée
+-   ✅ Entreprise et administrateur configurés
+-   ✅ HTTPS automatique
+-   ✅ Prêt à l'emploi !
 
 **Aucune variable à créer manuellement.** Tout est dans le template ! 🎉
 
@@ -37,31 +39,32 @@ https://railway.app/new?template=https://github.com/MASITH-developpement/EAZYNOV
 
 ### Modules EAZYNOVA
 
-- **Core** - Module de base EAZYNOVA
-- **Planning** - Gestion de chantiers et planning
-- **Reconnaissance Faciale** - Authentification biométrique sans mot de passe
-- **Construction** - Gestion spécifique au secteur du bâtiment
-- **Electrician** - Outils pour électriciens
+-   **Core** - Module de base EAZYNOVA
+-   **Planning** - Gestion de chantiers et planning
+-   **Reconnaissance Faciale** - Authentification biométrique sans mot de passe
+-   **Construction** - Gestion spécifique au secteur du bâtiment
+-   **Electrician** - Outils pour électriciens
 
 ### Fonctionnalités Clés
 
-- 🏗️ Gestion de chantiers et projets de construction
-- 📅 Planning et calendrier Gantt
-- 👤 Authentification par reconnaissance faciale
-- 📊 Tableaux de bord personnalisés
-- 📱 Interface responsive (mobile-friendly)
-- 🔐 Sécurité renforcée avec biométrie
+-   🏗️ Gestion de chantiers et projets de construction
+-   📅 Planning et calendrier Gantt
+-   👤 Authentification par reconnaissance faciale
+-   📊 Tableaux de bord personnalisés
+-   📱 Interface responsive (mobile-friendly)
+-   🔐 Sécurité renforcée avec biométrie
 
 ---
 
 ## 🛠️ Technologies
 
-- **Odoo 19** Community Edition
-- **Python 3.10+**
-- **PostgreSQL 15**
-- **Face Recognition** (dlib + OpenCV)
-- **Docker** & **Docker Compose**
-- Compatible **Railway**, **Heroku**, **AWS**, **GCP**
+-   **Odoo 19** Community Edition
+-   **Python 3.10+**
+-   **PostgreSQL 15**
+-   **wkhtmltopdf 0.12.6** (génération PDF Odoo)
+-   **Face Recognition** (dlib + OpenCV)
+-   **Docker** & **Docker Compose**
+-   Compatible **Railway**, **Heroku**, **AWS**, **GCP**
 
 ---
 
@@ -69,21 +72,21 @@ https://railway.app/new?template=https://github.com/MASITH-developpement/EAZYNOV
 
 ### Déploiement
 
-- **[QUICKSTART.md](./QUICKSTART.md)** ⭐ - Toutes les méthodes de déploiement (Lien, Script, Auto-provisioning)
-- **[DEPLOY.md](./DEPLOY.md)** - Déploiement via script `deploy.sh` (une commande)
-- **[AUTO_PROVISIONING.md](./AUTO_PROVISIONING.md)** - Système SaaS multi-tenant automatique
-- **[RAILWAY_DIRECT_LINK.md](./RAILWAY_DIRECT_LINK.md)** - Lien direct de configuration Railway
-- **[RAILWAY_DEPLOY.md](./RAILWAY_DEPLOY.md)** - Déploiement en un clic sur Railway
-- **[RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md)** - Guide rapide Railway (5 min)
-- **[RAILWAY_SETUP.md](./RAILWAY_SETUP.md)** - Configuration Railway détaillée
-- **[RAILWAY_FIX_404.md](./RAILWAY_FIX_404.md)** - Résolution erreur 404
-- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Guide de déploiement général
+-   **[QUICKSTART.md](./QUICKSTART.md)** ⭐ - Toutes les méthodes de déploiement (Lien, Script, Auto-provisioning)
+-   **[DEPLOY.md](./DEPLOY.md)** - Déploiement via script `deploy.sh` (une commande)
+-   **[AUTO_PROVISIONING.md](./AUTO_PROVISIONING.md)** - Système SaaS multi-tenant automatique
+-   **[RAILWAY_DIRECT_LINK.md](./RAILWAY_DIRECT_LINK.md)** - Lien direct de configuration Railway
+-   **[RAILWAY_DEPLOY.md](./RAILWAY_DEPLOY.md)** - Déploiement en un clic sur Railway
+-   **[RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md)** - Guide rapide Railway (5 min)
+-   **[RAILWAY_SETUP.md](./RAILWAY_SETUP.md)** - Configuration Railway détaillée
+-   **[RAILWAY_FIX_404.md](./RAILWAY_FIX_404.md)** - Résolution erreur 404
+-   **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Guide de déploiement général
 
 ### Développement
 
-- **Docker Compose** - Développement local
-- **Tests** - Tests unitaires et d'intégration
-- **Modules** - Documentation des modules personnalisés
+-   **Docker Compose** - Développement local
+-   **Tests** - Tests unitaires et d'intégration
+-   **Modules** - Documentation des modules personnalisés
 
 ---
 
@@ -91,8 +94,22 @@ https://railway.app/new?template=https://github.com/MASITH-developpement/EAZYNOV
 
 ### Prérequis
 
-- Docker & Docker Compose
-- Git
+-   Docker & Docker Compose
+-   Git
+
+#### wkhtmltopdf (PDF Odoo)
+
+> **Info :** wkhtmltopdf est installé automatiquement dans l'image Docker (version 0.12.6 recommandée pour Odoo 19 CE). Aucune action manuelle n'est requise pour la génération de PDF.
+
+Si vous développez hors Docker, installez wkhtmltopdf 0.12.6 sur votre machine :
+
+```bash
+wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
+sudo apt install -y xfonts-75dpi xfonts-base libjpeg-turbo8
+sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb || sudo apt-get -f install -y
+```
+
+> wkhtmltopdf doit être dans le PATH système pour que la génération de PDF Odoo fonctionne.
 
 ### Installation
 
@@ -126,11 +143,11 @@ docker-compose up -d
 
 **3 Méthodes de Déploiement :**
 
-| Méthode | Temps | Cas d'Usage |
-|---------|-------|-------------|
-| **1. [Lien Direct](./RAILWAY_DIRECT_LINK.md)** | 1 clic | Instance unique |
-| **2. [Script `deploy.sh`](./DEPLOY.md)** | 1 commande | Instances multiples manuelles |
-| **3. [Auto-Provisioning](./AUTO_PROVISIONING.md)** | API REST | SaaS multi-tenant automatique |
+| Méthode                                            | Temps      | Cas d'Usage                   |
+| -------------------------------------------------- | ---------- | ----------------------------- |
+| **1. [Lien Direct](./RAILWAY_DIRECT_LINK.md)**     | 1 clic     | Instance unique               |
+| **2. [Script `deploy.sh`](./DEPLOY.md)**           | 1 commande | Instances multiples manuelles |
+| **3. [Auto-Provisioning](./AUTO_PROVISIONING.md)** | API REST   | SaaS multi-tenant automatique |
 
 ➡️ **[Voir le QUICKSTART pour choisir](./QUICKSTART.md)**
 
@@ -147,19 +164,20 @@ node api-server.js
 ```
 
 **Parfait pour :**
-- Sites web SaaS avec inscription client
-- Plateformes de partenaires
-- Démonstrations automatiques
-- Gestion de centaines de clients isolés
+
+-   Sites web SaaS avec inscription client
+-   Plateformes de partenaires
+-   Démonstrations automatiques
+-   Gestion de centaines de clients isolés
 
 ➡️ **[Guide complet Auto-Provisioning](./AUTO_PROVISIONING.md)**
 
 ### Autres Plateformes
 
-- **Heroku** - Compatible via Dockerfile
-- **AWS ECS/EKS** - Déploiement containerisé
-- **Google Cloud Run** - Déploiement serverless
-- **Serveur VPS** - Via Docker ou installation manuelle
+-   **Heroku** - Compatible via Dockerfile
+-   **AWS ECS/EKS** - Déploiement containerisé
+-   **Google Cloud Run** - Déploiement serverless
+-   **Serveur VPS** - Via Docker ou installation manuelle
 
 Consultez [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) pour plus de détails.
 
@@ -167,11 +185,11 @@ Consultez [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) pour plus de détails.
 
 ## 🔒 Sécurité
 
-- Authentification par reconnaissance faciale (optionnelle)
-- HTTPS obligatoire en production (géré par Railway)
-- Mots de passe sécurisés (générés automatiquement)
-- Conformité RGPD pour les données biométriques
-- Logs d'audit complets
+-   Authentification par reconnaissance faciale (optionnelle)
+-   HTTPS obligatoire en production (géré par Railway)
+-   Mots de passe sécurisés (générés automatiquement)
+-   Conformité RGPD pour les données biométriques
+-   Logs d'audit complets
 
 ---
 
@@ -226,17 +244,17 @@ Ce projet est sous licence propriétaire. Tous droits réservés à MASITH Déve
 
 ## 📞 Support
 
-- **Email** : contact@masith.fr
-- **GitHub Issues** : [Créer une issue](https://github.com/MASITH-developpement/EAZYNOVA/issues)
-- **Documentation** : [Wiki du projet](https://github.com/MASITH-developpement/EAZYNOVA/wiki)
+-   **Email** : contact@masith.fr
+-   **GitHub Issues** : [Créer une issue](https://github.com/MASITH-developpement/EAZYNOVA/issues)
+-   **Documentation** : [Wiki du projet](https://github.com/MASITH-developpement/EAZYNOVA/wiki)
 
 ---
 
 ## 🙏 Remerciements
 
-- [Odoo](https://www.odoo.com/) - Plateforme ERP open source
-- [Railway](https://railway.app/) - Hébergement et déploiement
-- [Face Recognition](https://github.com/ageitgey/face_recognition) - Bibliothèque de reconnaissance faciale
+-   [Odoo](https://www.odoo.com/) - Plateforme ERP open source
+-   [Railway](https://railway.app/) - Hébergement et déploiement
+-   [Face Recognition](https://github.com/ageitgey/face_recognition) - Bibliothèque de reconnaissance faciale
 
 ---
 
