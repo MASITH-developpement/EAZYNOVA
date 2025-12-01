@@ -1,0 +1,68 @@
+
+# ==========================================
+# Configuration Odoo pour Développement Local
+# ==========================================
+
+[options]
+# === BASE DE DONNÉES ===
+db_host = db
+db_port = 5432
+db_user = odoo
+db_password = odoo_password_2024
+db_name = eazynova_test
+db_template = template0
+db_maxconn = 64
+
+# Permettre de créer/supprimer des bases
+db_filter = .*
+list_db = True
+
+# === CHEMINS ===
+addons_path = /opt/odoo/odoo/addons,/opt/odoo/addons,/opt/odoo/custom_addons
+data_dir = /var/lib/odoo
+
+# === SERVEUR ===
+http_interface = 0.0.0.0
+http_port = 8069
+proxy_mode = False
+
+# Longpolling pour le mode dev
+longpolling_port = 8072
+
+# === MODE DÉVELOPPEMENT ===
+# Pas de workers en dev (rechargement auto)
+workers = 0
+max_cron_threads = 2
+
+# === LIMITES (Relaxées pour dev) ===
+limit_memory_hard = 4294967296
+limit_memory_soft = 3435973836
+limit_request = 8192
+limit_time_cpu = 600
+limit_time_real = 1200
+limit_time_real_cron = 3600
+
+# === LOGS ===
+log_level = debug
+logfile = False
+log_handler = :DEBUG
+log_db = False
+
+# === DÉVELOPPEMENT ===
+# Rechargement auto des modules
+dev_mode = reload,qweb,werkzeug,xml
+
+# === EMAIL (MailHog) ===
+smtp_server = mailhog
+smtp_port = 1025
+smtp_ssl = False
+smtp_user = False
+smtp_password = False
+email_from = noreply@eazynova.local
+
+# === SÉCURITÉ (Dev mode - relaxé) ===
+admin_passwd = admin
+
+# === MODULES À INSTALLER AUTO (Optionnel) ===
+# Décommentez pour installer automatiquement au démarrage
+# init = website,eazynova,eazynova_website
