@@ -157,6 +157,25 @@ class BusinessPlan(models.Model):
     monthly_indicator_ids = fields.One2many('business.plan.monthly.indicator', 'business_plan_id', string='Indicateurs Mensuels')
     monthly_indicator_count = fields.Integer(compute='_compute_monthly_indicator_count')
 
+    # ========== TABLEAUX FINANCIERS PRÉVISIONNELS ==========
+    # Plan de Trésorerie
+    cash_flow_ids = fields.One2many('business.plan.cash.flow', 'business_plan_id', string='Plan de Trésorerie')
+    cash_flow_count = fields.Integer(compute='_compute_cash_flow_count')
+
+    # Plan de Financement
+    financing_ids = fields.One2many('business.plan.financing', 'business_plan_id', string='Plan de Financement')
+    financing_count = fields.Integer(compute='_compute_financing_count')
+    financing_balance = fields.Monetary(compute='_compute_financing_summary', string='Équilibre Financement', currency_field='currency_id')
+    financing_is_balanced = fields.Boolean(compute='_compute_financing_summary', string='Financement équilibré')
+
+    # Bilan Prévisionnel
+    balance_sheet_ids = fields.One2many('business.plan.balance.sheet', 'business_plan_id', string='Bilans Prévisionnels')
+    balance_sheet_count = fields.Integer(compute='_compute_balance_sheet_count')
+
+    # Compte de Résultat Prévisionnel
+    income_statement_ids = fields.One2many('business.plan.income.statement', 'business_plan_id', string='Comptes de Résultat')
+    income_statement_count = fields.Integer(compute='_compute_income_statement_count')
+
     # ========== CALCULS ==========
     @api.depends('revenue_year1', 'costs_year1')
     def _compute_profit_year1(self):
@@ -196,6 +215,37 @@ class BusinessPlan(models.Model):
         for plan in self:
             plan.monthly_indicator_count = len(plan.monthly_indicator_ids)
 
+    @api.depends('cash_flow_ids')
+    def _compute_cash_flow_count(self):
+        for plan in self:
+            plan.cash_flow_count = len(plan.cash_flow_ids)
+
+    @api.depends('financing_ids')
+    def _compute_financing_count(self):
+        for plan in self:
+            plan.financing_count = len(plan.financing_ids)
+
+    @api.depends('financing_ids', 'financing_ids.line_type', 'financing_ids.amount')
+    def _compute_financing_summary(self):
+        for plan in self:
+            if plan.financing_ids:
+                summary = self.env['business.plan.financing'].get_financing_summary(plan.id)
+                plan.financing_balance = summary['balance']
+                plan.financing_is_balanced = summary['is_balanced']
+            else:
+                plan.financing_balance = 0.0
+                plan.financing_is_balanced = False
+
+    @api.depends('balance_sheet_ids')
+    def _compute_balance_sheet_count(self):
+        for plan in self:
+            plan.balance_sheet_count = len(plan.balance_sheet_ids)
+
+    @api.depends('income_statement_ids')
+    def _compute_income_statement_count(self):
+        for plan in self:
+            plan.income_statement_count = len(plan.income_statement_ids)
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -219,6 +269,24 @@ class BusinessPlan(models.Model):
     def action_done(self):
         """Terminer le business plan"""
         self.state = 'done'
+
+    def has_active_subscription(self):
+        """
+        Vérifie si l'utilisateur a un abonnement actif EAZYNOVA
+        Retourne True si abonnement actif, False sinon
+        À connecter avec le module eazynova_website (SaaS subscriptions)
+        """
+        self.ensure_one()
+        # TODO: Intégrer avec le module eazynova_website pour vérifier l'abonnement
+        # Pour l'instant, retourne False (filigrane toujours affiché)
+        # Exemple future implémentation:
+        # subscription = self.env['saas.subscription'].search([
+        #     ('partner_id', '=', self.user_id.partner_id.id),
+        #     ('state', '=', 'active'),
+        # ], limit=1)
+        # return bool(subscription)
+        return False
+
 
     def _generate_indicators(self):
         """Génère des indicateurs basés sur les prévisions"""
@@ -275,6 +343,146 @@ class BusinessPlan(models.Model):
             'view_mode': 'tree,form',
             'domain': [('business_plan_id', '=', self.id)],
             'context': {'default_business_plan_id': self.id},
+        }
+
+    # ========== TABLEAUX FINANCIERS - ACTIONS ==========
+
+    def action_view_cash_flow(self):
+        """Voir le plan de trésorerie"""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'💰 Plan de Trésorerie - {self.reference}',
+            'res_model': 'business.plan.cash.flow',
+            'view_mode': 'list,form,graph,pivot',
+            'domain': [('business_plan_id', '=', self.id)],
+            'context': {'default_business_plan_id': self.id},
+        }
+
+    def action_generate_cash_flow(self):
+        """Générer le plan de trésorerie"""
+        self.ensure_one()
+        if not self.date_start:
+            raise ValidationError(_('Veuillez définir la date de début du business plan.'))
+
+        # Générer 36 mois de trésorerie
+        self.env['business.plan.cash.flow'].generate_cash_flow_plan(
+            self.id,
+            self.date_start,
+            months=36,
+            initial_balance=self.own_contribution or 0
+        )
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Plan de trésorerie généré'),
+                'message': _('36 mois de trésorerie créés avec succès'),
+                'type': 'success',
+            }
+        }
+
+    def action_view_financing(self):
+        """Voir le plan de financement"""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'💼 Plan de Financement - {self.reference}',
+            'res_model': 'business.plan.financing',
+            'view_mode': 'list,form',
+            'domain': [('business_plan_id', '=', self.id)],
+            'context': {'default_business_plan_id': self.id},
+        }
+
+    def action_financing_wizard(self):
+        """Assistant de création du plan de financement"""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Assistant Plan de Financement',
+            'res_model': 'business.plan.financing.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_business_plan_id': self.id},
+        }
+
+    def action_view_balance_sheet(self):
+        """Voir les bilans prévisionnels"""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'📊 Bilan Prévisionnel - {self.reference}',
+            'res_model': 'business.plan.balance.sheet',
+            'view_mode': 'list,form,graph',
+            'domain': [('business_plan_id', '=', self.id)],
+            'context': {'default_business_plan_id': self.id},
+        }
+
+    def action_generate_balance_sheets(self):
+        """Générer les bilans prévisionnels (3 ans)"""
+        self.ensure_one()
+        self.env['business.plan.balance.sheet'].generate_balance_sheets(self.id, years=3)
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Bilans générés'),
+                'message': _('3 bilans prévisionnels créés'),
+                'type': 'success',
+            }
+        }
+
+    def action_view_income_statement(self):
+        """Voir les comptes de résultat"""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'📈 Compte de Résultat - {self.reference}',
+            'res_model': 'business.plan.income.statement',
+            'view_mode': 'list,form,graph,pivot',
+            'domain': [('business_plan_id', '=', self.id)],
+            'context': {'default_business_plan_id': self.id},
+        }
+
+    def action_generate_income_statements(self):
+        """Générer les comptes de résultat (3 ans)"""
+        self.ensure_one()
+        self.env['business.plan.income.statement'].generate_income_statements(self.id, years=3)
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Comptes de résultat générés'),
+                'message': _('3 comptes de résultat créés'),
+                'type': 'success',
+            }
+        }
+
+    def action_generate_all_financial_tables(self):
+        """Générer tous les tableaux financiers d'un coup"""
+        self.ensure_one()
+
+        # Plan de trésorerie
+        self.action_generate_cash_flow()
+
+        # Bilans
+        self.action_generate_balance_sheets()
+
+        # Comptes de résultat
+        self.action_generate_income_statements()
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Tableaux financiers générés'),
+                'message': _('Tous les tableaux financiers ont été créés avec succès !'),
+                'type': 'success',
+                'sticky': False,
+            }
         }
 
     # ========== INDICATEURS MENSUELS ==========
