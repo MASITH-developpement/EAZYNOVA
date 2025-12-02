@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================== ARTICLES DE VENTE EAZYNOVA ==================== -->
+
+    <!-- Catégorie de produits SaaS -->
+    <record id="product_category_saas" model="product.category">
+        <field name="name">Abonnements SaaS EAZYNOVA</field>
+        <field name="parent_id" ref="product.product_category_all"/>
+    </record>
+
+    <!-- Article: Abonnement Standard (5 utilisateurs) -->
+    <record id="product_eazynova_standard" model="product.product">
+        <field name="name">EAZYNOVA - Abonnement Standard</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_saas"/>
+        <field name="list_price">250.00</field>
+        <field name="standard_price">0.00</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="invoice_policy">order</field>
+        <field name="recurring_invoice">True</field>
+        <field name="recurring_rule_type">monthly</field>
+        <field name="recurring_interval">1</field>
+        <field name="description">
+Abonnement mensuel EAZYNOVA incluant :
+- 5 utilisateurs inclus
+- Accès complet à tous les modules
+- Support technique par email
+- Mises à jour automatiques
+- Stockage 10 GB
+
+Facturation mensuelle automatique.
+        </field>
+        <field name="description_sale">
+Abonnement EAZYNOVA Standard - 5 utilisateurs
+
+✅ Accès complet plateforme EAZYNOVA
+✅ 5 licences utilisateurs incluses
+✅ Support technique email
+✅ Mises à jour automatiques
+✅ Stockage 10 GB cloud
+
+Renouvellement automatique mensuel.
+        </field>
+    </record>
+
+    <!-- Article: Utilisateur supplémentaire -->
+    <record id="product_eazynova_extra_user" model="product.product">
+        <field name="name">EAZYNOVA - Utilisateur supplémentaire</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_saas"/>
+        <field name="list_price">20.00</field>
+        <field name="standard_price">0.00</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="invoice_policy">order</field>
+        <field name="recurring_invoice">True</field>
+        <field name="recurring_rule_type">monthly</field>
+        <field name="recurring_interval">1</field>
+        <field name="description">
+Licence utilisateur supplémentaire au-delà des 5 utilisateurs inclus.
+
+Tarif : 20€ HT/mois par utilisateur additionnel.
+Facturation mensuelle automatique.
+        </field>
+        <field name="description_sale">
+Utilisateur supplémentaire EAZYNOVA
+
+✅ Licence utilisateur additionnel
+✅ Accès complet à la plateforme
+✅ Support technique inclus
+
+Prix unitaire : 20€ HT/mois
+        </field>
+    </record>
+
+    <!-- Article: Configuration initiale (one-time) -->
+    <record id="product_eazynova_setup" model="product.product">
+        <field name="name">EAZYNOVA - Configuration Complète</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_saas"/>
+        <field name="list_price">1800.00</field>
+        <field name="standard_price">0.00</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="invoice_policy">order</field>
+        <field name="recurring_invoice">False</field>
+        <field name="description">
+Configuration initiale complète de votre instance EAZYNOVA :
+
+✅ Paramétrage complet des modules
+✅ Import données existantes
+✅ Formation utilisateurs (4h)
+✅ Personnalisation interface
+✅ Configuration workflows
+✅ Intégration outils externes
+
+Service one-time, facturation unique.
+        </field>
+        <field name="description_sale">
+Configuration Complète EAZYNOVA
+
+✅ Paramétrage personnalisé
+✅ Import de vos données
+✅ Formation 4 heures
+✅ Support dédié 30 jours
+
+Prestation unique : 1 800€ HT
+        </field>
+    </record>
+
+</odoo>

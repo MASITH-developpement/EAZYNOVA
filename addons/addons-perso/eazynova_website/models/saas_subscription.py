@@ -133,6 +133,59 @@ class SaasSubscription(models.Model):
         compute='_compute_invoice_count',
     )
 
+    # Devis et Commandes
+    sale_order_ids = fields.One2many(
+        'sale.order',
+        'saas_subscription_id',
+        string='Devis/Commandes',
+        readonly=True,
+    )
+    sale_order_count = fields.Integer(
+        string='Nombre de devis',
+        compute='_compute_sale_order_count',
+    )
+    quotation_sent = fields.Boolean(
+        string='Devis envoyé',
+        default=False,
+        tracking=True,
+        help='Indique si le devis a été envoyé au client après la période d\'essai',
+    )
+    quotation_id = fields.Many2one(
+        'sale.order',
+        string='Devis principal',
+        readonly=True,
+        help='Devis généré automatiquement après la période d\'essai',
+    )
+
+    # Paiements récurrents
+    recurring_payment_active = fields.Boolean(
+        string='Paiement récurrent actif',
+        default=False,
+        tracking=True,
+    )
+    unpaid_months = fields.Integer(
+        string='Mois impayés',
+        default=0,
+        tracking=True,
+        help='Nombre de mois impayés (accumulation en cas de défaut)',
+    )
+    amount_due = fields.Monetary(
+        string='Montant dû',
+        compute='_compute_amount_due',
+        store=True,
+        currency_field='currency_id',
+        help='Total des mensualités impayées',
+    )
+    payment_failed_count = fields.Integer(
+        string='Échecs de paiement',
+        default=0,
+        tracking=True,
+    )
+    last_payment_attempt = fields.Datetime(
+        string='Dernière tentative de paiement',
+        readonly=True,
+    )
+
     # Configuration payée
     setup_paid = fields.Boolean(
         string='Configuration payée',
@@ -180,6 +233,18 @@ class SaasSubscription(models.Model):
         """Compter les factures"""
         for subscription in self:
             subscription.invoice_count = len(subscription.invoice_ids)
+
+    @api.depends('sale_order_ids')
+    def _compute_sale_order_count(self):
+        """Compter les devis/commandes"""
+        for subscription in self:
+            subscription.sale_order_count = len(subscription.sale_order_ids)
+
+    @api.depends('unpaid_months', 'monthly_price')
+    def _compute_amount_due(self):
+        """Calculer le montant total dû (mois impayés × prix mensuel)"""
+        for subscription in self:
+            subscription.amount_due = subscription.unpaid_months * subscription.monthly_price
 
     def action_start_trial(self):
         """Démarrer la période d'essai"""
@@ -287,6 +352,288 @@ class SaasSubscription(models.Model):
 
         return invoice
 
+    def _create_quotation_after_trial(self):
+        """
+        Créer un devis automatiquement après la période d'essai
+        Ce devis explique que l'abonnement est nécessaire pour continuer
+        """
+        self.ensure_one()
+
+        if self.quotation_sent or self.quotation_id:
+            _logger.warning(f'Devis déjà généré pour {self.name}')
+            return self.quotation_id
+
+        # Récupérer les articles de produit
+        product_standard = self.env.ref('eazynova_website.product_eazynova_standard', raise_if_not_found=False)
+        product_extra_user = self.env.ref('eazynova_website.product_eazynova_extra_user', raise_if_not_found=False)
+
+        if not product_standard:
+            raise UserError(_('Article EAZYNOVA Standard non trouvé. Vérifiez les données.'))
+
+        # Calculer utilisateurs supplémentaires
+        extra_users = max(0, self.nb_users - self.plan_id.included_users)
+
+        # Lignes du devis
+        order_lines = [(0, 0, {
+            'product_id': product_standard.id,
+            'product_uom_qty': 1,
+            'price_unit': self.plan_id.monthly_price,
+            'name': f"""EAZYNOVA - Abonnement Mensuel Standard
+
+✅ Inclus : {self.plan_id.included_users} utilisateurs
+✅ Accès complet à tous les modules
+✅ Support technique par email
+✅ Mises à jour automatiques
+✅ Stockage cloud sécurisé
+
+⚠️ IMPORTANT : Votre période d'essai gratuite de 30 jours arrive à terme.
+Pour continuer à utiliser EAZYNOVA sans interruption, validez ce devis.
+
+Le paiement sera automatiquement renouvelé chaque mois.
+En cas de défaut de paiement, votre accès sera suspendu et les mensualités
+continueront à courir jusqu'au règlement complet du solde dû.""",
+        })]
+
+        # Ajouter utilisateurs supplémentaires si nécessaire
+        if extra_users > 0 and product_extra_user:
+            order_lines.append((0, 0, {
+                'product_id': product_extra_user.id,
+                'product_uom_qty': extra_users,
+                'price_unit': self.plan_id.extra_user_price,
+                'name': f'Utilisateurs supplémentaires (×{extra_users})',
+            }))
+
+        # Créer le devis
+        quotation = self.env['sale.order'].create({
+            'partner_id': self.partner_id.id,
+            'saas_subscription_id': self.id,
+            'date_order': fields.Datetime.now(),
+            'validity_date': fields.Date.today() + timedelta(days=15),
+            'note': f"""
+CONDITIONS D'ABONNEMENT EAZYNOVA
+
+1. PÉRIODE D'ESSAI
+Votre période d'essai gratuite de 30 jours prend fin le {self.trial_end_date.strftime('%d/%m/%Y')}.
+
+2. ABONNEMENT
+En validant ce devis, vous activez un abonnement mensuel récurrent à {self.monthly_price}€ HT/mois.
+Le premier prélèvement aura lieu dès validation.
+Les prélèvements suivants seront effectués automatiquement chaque mois.
+
+3. DÉFAUT DE PAIEMENT
+En cas d'échec de paiement :
+- Votre accès sera immédiatement SUSPENDU
+- Les mensualités continueront à COURIR (même si accès suspendu)
+- La reconnexion nécessitera le paiement du SOLDE TOTAL DÛ
+
+Exemple : 3 mois d'impayés = 3 × {self.monthly_price}€ = {self.monthly_price * 3}€ à régler
+
+4. RÉSILIATION
+Vous pouvez résilier à tout moment depuis votre espace client.
+Les données seront supprimées 30 jours après résiliation.
+
+Questions ? Contactez-nous : support@eazynova.com
+            """,
+            'order_line': order_lines,
+        })
+
+        # Mettre à jour l'abonnement
+        self.write({
+            'quotation_id': quotation.id,
+            'quotation_sent': True,
+        })
+
+        return quotation
+
+    def action_confirm_quotation(self):
+        """
+        Confirmer le devis et activer le paiement récurrent
+        Appelée automatiquement quand le client valide le devis
+        """
+        self.ensure_one()
+
+        if not self.quotation_id:
+            raise UserError(_('Aucun devis associé à cet abonnement.'))
+
+        if self.quotation_id.state not in ['sale', 'done']:
+            raise UserError(_('Le devis doit être confirmé avant d\'activer l\'abonnement.'))
+
+        # Activer l'abonnement et le paiement récurrent
+        self.write({
+            'state': 'active',
+            'recurring_payment_active': True,
+            'next_billing_date': fields.Date.today() + timedelta(days=30),
+            'unpaid_months': 0,
+        })
+
+        _logger.info(f'Abonnement {self.name} activé avec paiement récurrent')
+
+        # Envoyer email de confirmation
+        template = self.env.ref('eazynova_website.email_template_subscription_active', raise_if_not_found=False)
+        if template:
+            template.send_mail(self.id, force_send=True)
+
+    def _process_recurring_payment(self):
+        """
+        Traiter un paiement mensuel récurrent
+        Retourne True si succès, False si échec
+        """
+        self.ensure_one()
+
+        try:
+            # Créer la facture mensuelle
+            invoice = self._create_monthly_invoice()
+
+            # Tenter le paiement automatique (à implémenter avec gateway de paiement)
+            # Pour l'instant, on suppose que la facture est créée et en attente de paiement
+
+            self.write({
+                'last_payment_attempt': fields.Datetime.now(),
+            })
+
+            _logger.info(f'Paiement récurrent traité pour {self.name}')
+            return True
+
+        except Exception as e:
+            _logger.error(f'Échec paiement récurrent pour {self.name}: {str(e)}')
+            self._handle_payment_failure()
+            return False
+
+    def _handle_payment_failure(self):
+        """
+        Gérer un échec de paiement
+        - Incrémenter compteurs
+        - Suspendre si nécessaire
+        - Notifier client
+        """
+        self.ensure_one()
+
+        self.write({
+            'payment_failed_count': self.payment_failed_count + 1,
+            'unpaid_months': self.unpaid_months + 1,
+            'last_payment_attempt': fields.Datetime.now(),
+        })
+
+        _logger.warning(f'Échec paiement #{self.payment_failed_count} pour {self.name} - {self.unpaid_months} mois impayé(s)')
+
+        # Suspendre immédiatement en cas d'impayé
+        if self.state == 'active':
+            self.action_suspend_for_nonpayment()
+
+        # Envoyer notification
+        template = self.env.ref('eazynova_website.email_template_payment_failed', raise_if_not_found=False)
+        if template:
+            template.send_mail(self.id, force_send=True)
+
+    def action_suspend_for_nonpayment(self):
+        """
+        Suspendre l'abonnement pour défaut de paiement
+        Les mois continuent à courir même suspendu !
+        """
+        self.ensure_one()
+
+        if self.state != 'active':
+            return
+
+        self.write({'state': 'suspended'})
+
+        # Suspendre l'instance (couper l'accès)
+        if self.instance_id and self.instance_id.state == 'active':
+            self.instance_id.write({'state': 'suspended'})
+            _logger.warning(f'Instance suspendue pour {self.name} - Impayé: {self.amount_due}€')
+
+        # Notification client
+        self.message_post(
+            body=f"""⚠️ ABONNEMENT SUSPENDU POUR DÉFAUT DE PAIEMENT
+
+Mois impayés : {self.unpaid_months}
+Montant dû : {self.amount_due}€ HT
+
+IMPORTANT : Les mensualités continuent à courir pendant la suspension.
+Pour réactiver votre accès, réglez le solde total via votre espace client.
+
+Solde actuel : {self.amount_due}€
+(Ce montant augmente de {self.monthly_price}€ chaque mois)
+            """,
+            subject='⚠️ Suspension pour impayé',
+        )
+
+    def action_pay_outstanding(self):
+        """
+        Payer le solde dû et réactiver l'abonnement
+        À appeler après paiement manuel du solde
+        """
+        self.ensure_one()
+
+        if self.amount_due <= 0:
+            raise UserError(_('Aucun montant dû.'))
+
+        # Créer une facture pour le solde
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_id.id,
+            'saas_subscription_id': self.id,
+            'invoice_date': fields.Date.today(),
+            'invoice_line_ids': [(0, 0, {
+                'name': f'Régularisation - {self.unpaid_months} mois impayé(s) EAZYNOVA',
+                'quantity': 1,
+                'price_unit': self.amount_due,
+            })],
+        })
+
+        # Réinitialiser les compteurs après paiement confirmé
+        # (à faire automatiquement via webhook paiement)
+        self.write({
+            'unpaid_months': 0,
+            'payment_failed_count': 0,
+        })
+
+        # Réactiver
+        if self.state == 'suspended':
+            self.action_activate()
+
+        _logger.info(f'Solde payé et abonnement réactivé pour {self.name}')
+
+        return {
+            'name': _('Facture de régularisation'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move',
+            'res_id': invoice.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
+
+    @api.model
+    def _cron_send_trial_end_quotations(self):
+        """
+        Cron quotidien : Envoyer les devis aux abonnements en fin d'essai
+        Exécuté 3 jours avant la fin de la période d'essai
+        """
+        today = fields.Date.today()
+        warning_date = today + timedelta(days=3)
+
+        trials = self.search([
+            ('state', '=', 'trial'),
+            ('trial_end_date', '=', warning_date),
+            ('quotation_sent', '=', False),
+        ])
+
+        for trial in trials:
+            try:
+                # Générer le devis
+                quotation = trial._create_quotation_after_trial()
+
+                # Envoyer par email
+                template = self.env.ref('eazynova_website.email_template_quotation_trial_end', raise_if_not_found=False)
+                if template:
+                    # Envoyer en contexte avec le devis
+                    template.with_context(quotation_id=quotation.id).send_mail(trial.id, force_send=True)
+
+                _logger.info(f'Devis envoyé pour {trial.name} (fin essai: {trial.trial_end_date})')
+
+            except Exception as e:
+                _logger.error(f'Erreur envoi devis pour {trial.name}: {str(e)}')
+
     @api.model
     def _cron_check_trial_expiration(self):
         """Vérifier les périodes d'essai expirées (cron quotidien)"""
@@ -347,6 +694,34 @@ class SaasSubscription(models.Model):
             'domain': [('saas_subscription_id', '=', self.id)],
             'context': {'default_saas_subscription_id': self.id},
         }
+
+
+# Extension du modèle de commande/devis
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
+
+    saas_subscription_id = fields.Many2one(
+        'saas.subscription',
+        string='Abonnement SaaS',
+        readonly=True,
+        help='Abonnement SaaS associé à ce devis/commande',
+    )
+
+    def action_confirm(self):
+        """Override pour activer automatiquement l'abonnement à la confirmation"""
+        res = super().action_confirm()
+
+        # Si c'est une commande liée à un abonnement SaaS
+        for order in self:
+            if order.saas_subscription_id:
+                # Activer le paiement récurrent
+                try:
+                    order.saas_subscription_id.action_confirm_quotation()
+                    _logger.info(f'Abonnement {order.saas_subscription_id.name} activé via devis {order.name}')
+                except Exception as e:
+                    _logger.error(f'Erreur activation abonnement via devis {order.name}: {str(e)}')
+
+        return res
 
 
 # Extension du modèle de facture

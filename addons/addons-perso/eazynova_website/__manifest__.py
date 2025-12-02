@@ -29,7 +29,7 @@
     """,
     'author': 'EAZYNOVA - S. MOREAU',
     'website': 'https://eazynova.fr',
-    'license': 'Other proprietary',
+    'license': 'OPL-1',
     'maintainer': 'S. MOREAU',
     'depends': [
         'base',
@@ -48,6 +48,7 @@
 
         # Données
         'data/saas_plan_data.xml',
+        'data/product_data.xml',
         'data/email_template_data.xml',
         'data/ir_cron_data.xml',
         'data/website_menu_data.xml',

@@ -23,7 +23,7 @@
     """,
     'author': 'EAZYNOVA - S. MOREAU',
     'website': 'https://eazynova-production.up.railway.app/',
-    'license': 'Other proprietary',
+    'license': 'OPL-1',
     'maintainer': 'S. MOREAU',
     'depends': ['base', 'mail'],
     'data': [
