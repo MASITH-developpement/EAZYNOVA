@@ -9,6 +9,14 @@ _logger = logging.getLogger(__name__)
 
 
 class EazynovaWebsiteController(http.Controller):
+
+    @http.route('/saas/signup/submit', type='http', auth='public', website=True, csrf=False)
+    def signup_submit_any(self, **post):
+        import logging
+        _logger = logging.getLogger(__name__)
+        _logger.warning(f"[DEBUG SIGNUP] >>> Entrée dans signup_submit_any | method={request.httprequest.method} | post={post} | params={dict(request.params)} | form={dict(request.httprequest.form)}")
+        return request.render('eazynova_website.signup_error', {'error': 'Debug: route catch-all atteinte.'})
+
     """Contrôleur principal du site web EAZYNOVA SaaS"""
 
     @http.route('/', type='http', auth='public', website=True)
@@ -46,38 +54,105 @@ class EazynovaWebsiteController(http.Controller):
 
     @http.route('/saas/signup/submit', type='http', auth='public', website=True, methods=['POST'], csrf=True)
     def signup_submit(self, **post):
-        """Traitement du formulaire d'inscription"""
+        """Traitement ultra-robuste du formulaire d'inscription (Odoo 19 CE)"""
+        import logging
+        _logger = logging.getLogger(__name__)
         try:
-            # Validation des données
+            # LOGGING ULTRA-PRECOS
+            _logger.warning(f"[DEBUG SIGNUP] ENTRY: post={post} | type(post)={type(post)} | request.params={request.params} | type(request.params)={type(request.params)} | form={getattr(request.httprequest, 'form', None)} | type(form)={type(getattr(request.httprequest, 'form', None))}")
+
+            # Si post ou request.params est une liste, on prend le premier élément dict
+            def ensure_dict(obj):
+                if isinstance(obj, dict):
+                    return obj
+                if isinstance(obj, (list, tuple)) and obj and isinstance(obj[0], dict):
+                    return obj[0]
+                return {}
+
+            post_dict = ensure_dict(post)
+            params_dict = ensure_dict(request.params)
+            # request.httprequest.form est un MultiDict, on le convertit en dict de listes
+            form_dict = {}
+            if hasattr(request.httprequest, 'form'):
+                try:
+                    for k in request.httprequest.form:
+                        form_dict[k] = request.httprequest.form.getlist(k)
+                except Exception as e:
+                    _logger.warning(f"[DEBUG SIGNUP] form parse error: {e}")
+
+            # Fusionne tout (form > post > params)
+            all_data = {}
+            for d in (params_dict, post_dict):
+                for k, v in d.items():
+                    all_data.setdefault(k, []).extend(v if isinstance(v, list) else [v])
+            for k, v in form_dict.items():
+                all_data.setdefault(k, []).extend(v if isinstance(v, list) else [v])
+
+            _logger.warning(f"[DEBUG SIGNUP] all_data (fusionné): {all_data}")
+
+            def flatten_value(val):
+                if isinstance(val, (list, tuple)):
+                    if not val:
+                        return ''
+                    return flatten_value(val[0])
+                return str(val) if val is not None else ''
+
             required_fields = ['company_name', 'contact_name', 'email', 'phone', 'plan_id', 'nb_users']
+            cleaned = {}
             for field in required_fields:
-                if not post.get(field):
+                val = all_data.get(field, [''])
+                val_flat = flatten_value(val)
+                _logger.warning(f"[DEBUG SIGNUP] FLAT field {field}: type={type(val_flat)} value={val_flat}")
+                cleaned[field] = val_flat
+                if not val_flat:
                     return request.render('eazynova_website.signup_error', {
                         'error': f'Le champ {field} est requis.',
                     })
 
-            # Vérifier que l'email n'existe pas déjà
+
+            # Champs optionnels
+            for opt in ['street', 'zip', 'city', 'country_id']:
+                val = all_data.get(opt, [''])
+                cleaned[opt] = flatten_value(val)
+
+            email = cleaned['email']
+            company_name = cleaned['company_name']
+
+            # Recherche d'une instance active ou trial pour ce partenaire/société
             existing_partner = request.env['res.partner'].sudo().search([
-                ('email', '=', post.get('email'))
+                ('email', '=', email)
             ], limit=1)
 
-            if existing_partner and existing_partner.saas_subscription_ids:
+
+            # Recherche d'une instance active/trial liée à ce partenaire OU au nom de société
+            domain_instance = ['&',
+                ('state', 'in', ['active', 'trial']),
+                '|',
+                    ('partner_id', '=', existing_partner.id if existing_partner else 0),
+                    ('name', 'ilike', company_name)
+            ]
+            existing_instance = request.env['saas.instance'].sudo().search(domain_instance, limit=1)
+
+            if existing_instance:
+                # Renvoi des credentials par email
+                existing_instance._send_credentials_email()
                 return request.render('eazynova_website.signup_error', {
-                    'error': 'Un compte existe déjà avec cette adresse email.',
+                    'error': _(u"Une base de données existe déjà pour cette société. Les codes d'accès viennent de vous être renvoyés par email. Si vous n'avez rien reçu, vérifiez vos spams ou contactez le support."),
                 })
 
-            # Créer ou mettre à jour le partenaire
+            # Sinon, création/MAJ du partenaire et provisioning normal
             partner_values = {
-                'name': post.get('company_name'),
-                'contact_name': post.get('contact_name'),
-                'email': post.get('email'),
-                'phone': post.get('phone'),
-                'street': post.get('street'),
-                'zip': post.get('zip'),
-                'city': post.get('city'),
-                'country_id': int(post.get('country_id')) if post.get('country_id') else False,
+                'name': company_name,
+                'contact_name': cleaned['contact_name'],
+                'email': email,
+                'phone': cleaned['phone'],
+                'street': cleaned['street'],
+                'zip': cleaned['zip'],
+                'city': cleaned['city'],
+                'country_id': int(cleaned['country_id']) if cleaned['country_id'].isdigit() else False,
                 'is_company': True,
             }
+            _logger.warning(f"[DEBUG SIGNUP] partner_values: {partner_values}")
 
             if existing_partner:
                 partner = existing_partner
@@ -85,9 +160,10 @@ class EazynovaWebsiteController(http.Controller):
             else:
                 partner = request.env['res.partner'].sudo().create(partner_values)
 
-            # Créer l'abonnement
-            plan = request.env['saas.plan'].sudo().browse(int(post.get('plan_id')))
-            nb_users = int(post.get('nb_users', 5))
+            plan_id = int(cleaned['plan_id']) if cleaned['plan_id'].isdigit() else 0
+            nb_users = int(cleaned['nb_users']) if cleaned['nb_users'].isdigit() else 5
+            plan = request.env['saas.plan'].sudo().browse(plan_id)
+            _logger.warning(f"[DEBUG SIGNUP] plan_id: {plan.id} nb_users: {nb_users}")
 
             subscription = request.env['saas.subscription'].sudo().create({
                 'partner_id': partner.id,
@@ -95,14 +171,12 @@ class EazynovaWebsiteController(http.Controller):
                 'nb_users': nb_users,
             })
 
-            # Démarrer la période d'essai
             subscription.action_start_trial()
-
-            # Rediriger vers la page de succès
+            _logger.warning(f"[DEBUG SIGNUP] redirect to success {subscription.id}")
             return request.redirect(f'/saas/signup/success/{subscription.id}')
 
         except Exception as e:
-            _logger.error(f'Erreur lors de l\'inscription: {str(e)}')
+            _logger.error(f'[DEBUG SIGNUP] Erreur lors de l\'inscription: {str(e)}', exc_info=True)
             return request.render('eazynova_website.signup_error', {
                 'error': 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer ou nous contacter.',
             })
